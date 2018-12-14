@@ -1,3 +1,2 @@
-# blog-react
-Laya's blog project
-use: react react-router redux antd
+# laya's blog project
+Use: react react-router redux antd
