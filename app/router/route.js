@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Swich, Link } from 'react-router-dom';
 
 import Page1 from '../components/page1';
 import Page2 from '../components/page2';
-import App from '../components/App'
+import App from '../components/App';
 
 const getRouter = () => (
     <Router >

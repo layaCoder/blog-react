@@ -3,6 +3,7 @@ import imgUrl from '../assets/img/32.png'
 import { BrowserRouter as Router, Route, Swich, Link } from 'react-router-dom';
 import Page2 from './page2'
 import Page1 from './page1'
+
 require('../styles/index.css')
 
 export default class App extends Component {

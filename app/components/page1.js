@@ -1,14 +1,32 @@
 import React, { Component } from 'react'
-import imgUrl from '../assets/img/32.png'
-require('../styles/index.css')
+import { connect } from 'react-redux'
+import { addBlog } from '../store/actions'
 
-export default class App extends Component {
+class page1 extends Component {
+    constructor(props) {
+        super(props);
+    }
+    componentDidUpdate() {
+        console.log('did update', this.props)
+    }
     render() {
+
         let myStyle = {
             textAlign: 'center'
         }
         return (
-           <div>this is page 1</div>
+            <div>
+                <div>this is page 1</div>
+                <button onClick={e => { this.props.dispatch(addBlog('hi hi laya')); console.log(this.props.blogs) }}>add-blog</button>
+            </div>
         )
     }
 }
+
+let mapStateToProps = (state) => {
+    let blogs = state;
+    return blogs;
+};
+
+export default connect(mapStateToProps)(page1)
+
