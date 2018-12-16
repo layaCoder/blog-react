@@ -1,7 +1,7 @@
 import { ADD_BLOG, DEL_BLOG, SET_FILTER } from './actions';
 import { combineReducers } from 'redux';
 
-function blog(state=[1,2,3], action) {
+function blogs(state = [1, 2, 3], action) {
     switch (action.type) {
         case ADD_BLOG:
             return [...state, {
@@ -14,7 +14,7 @@ function blog(state=[1,2,3], action) {
     }
 }
 
-function setFilter(state = 'init', action) {
+function filter(state = 'init', action) {
     switch (action.type) {
         case SET_FILTER:
             return action.filter
@@ -24,8 +24,8 @@ function setFilter(state = 'init', action) {
 }
 
 const blogApp = combineReducers({
-    setFilter,
-    blog
+    filter,
+    blogs
 })
 
 export default blogApp;

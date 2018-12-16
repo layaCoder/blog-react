@@ -17,7 +17,7 @@ class page1 extends Component {
         return (
             <div>
                 <div>this is page 1</div>
-                <button onClick={e => { this.props.dispatch(addBlog('hi hi laya')); console.log(this.props.blogs) }}>add-blog</button>
+                <button onClick={e => { this.props.dispatch(addBlog('hi hi laya')); console.log(this.props) }}>add-blog</button>
             </div>
         )
     }
