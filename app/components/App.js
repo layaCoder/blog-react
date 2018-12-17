@@ -13,6 +13,7 @@ export default class App extends Component {
         }
         return (
             <div style={myStyle}>
+                <h2>text css</h2>
                 <div>hi hi laya</div>
                 <img src={imgUrl} className="img"></img>
                 <div>
