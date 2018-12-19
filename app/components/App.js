@@ -1,27 +1,20 @@
-import React, { Component } from 'react'
-import imgUrl from '../assets/img/32.png'
-import { BrowserRouter as Router, Route, Swich, Link } from 'react-router-dom';
-import Page2 from './page2'
-import Page1 from './page1'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ReduxTest from './ReduxTest';
+import Layout from './Layout'
 
-require('../styles/index.css')
-
-export default class App extends Component {
+export default class CRouter extends Component {
     render() {
-        let myStyle = {
-            textAlign: 'center'
-        }
         return (
-            <div style={myStyle}>
-                <h2>text css</h2>
-                <div>hi hi laya</div>
-                <img src={imgUrl} className="img"></img>
-                <div>
-                    <li><Link to="/">Page1</Link></li>
-                    <li><Link to="/page2">Page2</Link></li>
-                </div>
+            <div style={{ height: '100%' }}>
+                <Router>
+                    <Switch>
+                        <Route path='/' component={Layout} />
+                        <Route exact path='/app' component={Layout} />
+                        <Route path='/ReduxTest' component={ReduxTest} />
+                    </Switch>
+                </Router>
             </div>
-
         )
     }
 }

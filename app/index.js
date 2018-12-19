@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDom from "react-dom";
-// import App from "./components/App";
-import Root from './router/route.js';
+import App from "./components/App";
 
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -14,6 +13,6 @@ console.log('store', store.getState())
 
 ReactDom.render(
     <Provider store={store}>
-        <Root /></Provider>,
+        <App /></Provider>,
     document.getElementById("root")
 );

@@ -11,10 +11,12 @@ module.exports = {
         filename: 'js/bundle.js',
         path: DIST_PATH
     },
+
     module: {
         rules: [
+            { test: /\.js|jsx$/, use: 'babel-loader', exclude: /node_modules/ },
             {
-                test: /\.js?$/,
+                 test: /\.js?$/,
                 use: "babel-loader",
                 include: APP_PATH
             },
