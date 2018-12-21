@@ -1,7 +1,8 @@
 import { ADD_BLOG, DEL_BLOG, SET_FILTER } from './actions';
 import { combineReducers } from 'redux';
 
-function blogs(state = [1, 2, 3], action) {
+//blogs列表
+function blogs(state = [], action) {
     switch (action.type) {
         case ADD_BLOG:
             return [...state, {
@@ -14,7 +15,8 @@ function blogs(state = [1, 2, 3], action) {
     }
 }
 
-function filter(state = 'init', action) {
+//blog列表过滤器，分为 all , frontend ,lifeStyle
+function filter(state = 'all', action) {
     switch (action.type) {
         case SET_FILTER:
             return action.filter

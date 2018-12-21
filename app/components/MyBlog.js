@@ -6,7 +6,10 @@ export default class page2 extends Component {
             textAlign: 'center'
         }
         return (
-            <div>this is page 2</div>
+            <div>
+                <h2>my blog</h2>
+            </div>
+
         )
     }
 }
