@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from '../store/actions'
-import { Row, Input, Button } from 'antd';
+import { Row, Input, Alert, message, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -17,7 +17,6 @@ class WriteBlog extends Component {
         super();
         this.state = {
             editorState: EditorState.createEmpty(),
-            num: 1
         }
     }
 
@@ -29,14 +28,17 @@ class WriteBlog extends Component {
         });
     };
 
+    //提交博客
     handleSubmit() {
         let markDownText = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
-        //todo:修改redux state结构，指定blog数据格式
+        //todo:修改redux state结构 ，确定blog数据格式
+        this.props.dispatch(addBlog(markDownText));
+        this.setState({
+            editorState: EditorState.createEmpty()
+        })
+        message.success('blog saved', 3);
+    };
 
-        //this.props.dispatch(addBlog(markDownText));
-        this.props.dispatch(addBlog('111'));
-        console.log(this.props)
-    }
 
     render() {
         const { editorState } = this.state;
