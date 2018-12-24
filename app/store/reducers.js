@@ -7,10 +7,10 @@ function blogs(state = [], action) {
     switch (action.type) {
         case ADD_BLOG:
             return [...state, {
-                // id: action.id,
                 text: action.text,
                 id: get_uuid(),
                 user: 'laya',
+                avatarUrl: 'xxx.xxx.xxx',
 
             }]
         case DEL_BLOG:

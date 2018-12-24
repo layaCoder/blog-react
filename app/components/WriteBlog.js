@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from '../store/actions'
-import { Row, Input, Alert, message, Button } from 'antd';
+import { Row, Input, message, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
