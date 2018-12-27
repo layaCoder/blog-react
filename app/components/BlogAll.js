@@ -31,13 +31,11 @@ class BlogAll extends Component {
                 <Row>
                     <h2>All Blog</h2>
                 </Row>
-
                 <Row>
-
                     {this.props.store.blogs.map(item => {
                         return <Comment key={item.id}
-                            author={item.name}
-                            avatar={(<Avatar src={item.avatarUrl} alt={item.name} />)}
+                            author={item.user}
+                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
                             content={(<div key={item.id} dangerouslySetInnerHTML={{ __html: item.text }}></div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>

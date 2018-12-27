@@ -14,13 +14,14 @@ class NormalLoginForm extends React.Component {
                 console.log('Received values of form: ', values);
                 if (values.userName === 'laya' && values.password === '111') {
                     //登录后将 user 存放到 localStorage
-                    let user = JSON.stringify({ isLogin: true, name: values.name })
+                    let user = JSON.stringify({ isLogin: true, name: values.userName })
                     storage.setLocalStorage("user", user)
                     this.props.history.push('/app/blogall')
 
                     //调用父辈方法关闭模态框
                     this.handleCancel()
-
+                    //改变父组件state，显示登陆后内容
+                    this.showLoginRoot()
                 }
             }
         });
@@ -28,6 +29,10 @@ class NormalLoginForm extends React.Component {
 
     handleCancel = () => {
         this.props.handleCancel()
+    }
+
+    showLoginRoot = () => {
+        this.props.showLoginRoot()
     }
 
     render() {
@@ -57,7 +62,7 @@ class NormalLoginForm extends React.Component {
                     )} */}
                     {/* <a className="login-form-forgot" href="">Forgot password</a> */}
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Log in
+                        Login
             </Button>
                     {/* Or <a href="">register now!</a> */}
                 </Form.Item>

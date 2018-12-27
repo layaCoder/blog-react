@@ -5,11 +5,13 @@ import WriteBlog from './WriteBlog';
 import BlogAll from './BlogAll';
 import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
 import Login from './parts/LoginComponent'
+import { withRouter } from 'react-router-dom';
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
+require('../assets/styles/Layout.css')
 
 
-export default class page3 extends Component {
+class Page3 extends Component {
     constructor() {
         super();
         this.state = {
@@ -38,10 +40,35 @@ export default class page3 extends Component {
         });
     }
 
+    handleLogOut = () => {
+        //将Layout组件通过thisComp变量绑定，在confirm中使用
+        const thisComp = this
+        Modal.confirm({
+            title: 'Log out!!!',
+            content: 'Do you want to log out?',
+            onOk() {
+                //在onOk函数中无法使用this.setState,使用之间绑定的thisComp变量来调用setState方法
+                thisComp.setState({ isLogin: false })
+                localStorage.removeItem('user')
+                thisComp.props.history.push('/app/blogall')
+            },
+            onCancel() { },
+        });
+    }
+
+    //loginComp调用，子组件模态框中确认登录后改变父组件state
+    showLoginRoot = () => {
+        this.setState({ isLogin: true })
+    }
+
     componentDidMount() {
-        if (getLocalStorage('user', 1000 * 60) !== null) {
-            console.log(getLocalStorage('user', 1000 * 10))
+        // * 登录持续时间
+        if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
+            console.log(getLocalStorage('user', 1000 * 60 * 60 * 24))
             this.setState({ isLogin: true })
+        }
+        else {
+            this.setState({ isLogin: false })
         }
     }
 
@@ -51,13 +78,15 @@ export default class page3 extends Component {
 
     render() {
         const { Header, Content, Footer } = Layout;
+        const confirm = Modal.confirm;
+
         return (
 
             <Layout className="layout">
 
                 <Header>
                     <Row>
-                        <Col span={21}>
+                        <Col span={18}>
                             <Menu
                                 theme="dark"
                                 mode="horizontal"
@@ -70,13 +99,19 @@ export default class page3 extends Component {
                                 <Menu.Item key="2" style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/myblog'}  >My Blog</Link>
                                 </Menu.Item>
-                                <Menu.Item key="3">
+                                <Menu.Item key="3" style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/writeblog'}>Write Blog</Link>
                                 </Menu.Item>
                             </Menu>
                         </Col>
-                        <Col span={3}>
+                        <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
                             <Button type="primary" onClick={this.showModal}>Login</Button>
+                        </Col>
+                        <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                            <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
+                        </Col>
+                        <Col span={3} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                            <Button type="primary" onClick={this.handleLogOut}>Log out</Button>
                         </Col>
                     </Row>
                 </Header>
@@ -107,10 +142,12 @@ export default class page3 extends Component {
                         // footer = null 取消模态框的【确认】【取消】button
                         footer={null}
                     >
-                        <Login handleCancel={this.handleCancel} />
+                        <Login handleCancel={this.handleCancel} showLoginRoot={this.showLoginRoot} />
                     </Modal>
                 </div>
             </Layout>
         )
     }
 }
+
+export default withRouter(Page3);
