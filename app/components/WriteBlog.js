@@ -9,8 +9,9 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
-
+import * as untils from '../utils/commUtils.js'
 require('../assets/styles/WriteBlog.css')
+
 
 class WriteBlog extends Component {
     constructor() {
@@ -31,6 +32,8 @@ class WriteBlog extends Component {
     //提交博客
     handleSubmit() {
         let markDownText = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
+        //记录下原始文本，在blogAll列表中显示
+        console.log('del', untils.delHtmlTag(markDownText))
         //todo:修改redux state结构 ，确定blog数据格式
         this.props.dispatch(addBlog(markDownText));
         this.setState({
@@ -65,7 +68,8 @@ class WriteBlog extends Component {
                         <TextArea
                             className="showHtmlDom"
                             disabled
-                            value={draftToHtml(convertToRaw(editorState.getCurrentContent()))} />
+                            value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+                        />
                     </Row>
                 </div>
             </div>

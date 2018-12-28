@@ -8,6 +8,7 @@ import { DatePicker, Row, Col } from 'antd'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
+require('../assets/styles/BlogAll.css')
 
 class BlogAll extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class BlogAll extends Component {
         console.log('Updated', this.props.store)
     }
 
+
     render() {
 
         return (
@@ -36,7 +38,7 @@ class BlogAll extends Component {
                         return <Comment key={item.id}
                             author={item.user}
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                            content={(<div key={item.id} dangerouslySetInnerHTML={{ __html: item.text }}></div>)}
+                            content={(<div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.text }} onClick={this.handleClick}></div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                                     <span>{moment().fromNow()}</span>

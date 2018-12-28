@@ -80,3 +80,7 @@ export function getLocalStorage(key, exp) {
         return null;
     }
 }
+//stirng 过滤 html 标签
+export function delHtmlTag(str) {
+    return str.replace(/<[^>]+>/g, "");//去掉所有的html标记
+}
