@@ -18,6 +18,7 @@ class WriteBlog extends Component {
         super();
         this.state = {
             editorState: EditorState.createEmpty(),
+            title: 'plz write your blog title'
         }
     }
 
@@ -29,18 +30,27 @@ class WriteBlog extends Component {
         });
     };
 
+    titleChanged = (e) => {
+        e.persist(); //解决 antd input 组件 value与state绑定取不到值的问题 ###important###
+        this.setState({
+            title: e.target.value
+        })
+    }
+
     //提交博客
     handleSubmit() {
         let markDownText = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
         //记录下原始文本，在blogAll列表中显示
         console.log('del', untils.delHtmlTag(markDownText))
         //todo:修改redux state结构 ，确定blog数据格式
-        this.props.dispatch(addBlog(markDownText));
+        this.props.dispatch(addBlog(this.state.title, untils.delHtmlTag(markDownText), markDownText));
         this.setState({
-            editorState: EditorState.createEmpty()
+            editorState: EditorState.createEmpty(),
+            title: ''
         })
         message.success('blog saved', 3);
     };
+
 
 
     render() {
@@ -53,6 +63,9 @@ class WriteBlog extends Component {
                     <h2>Write Blog</h2>
                 </Row>
                 <div>
+                    <Row className="row">
+                        <Input addonBefore="Title:" value={this.state.title} onChange={this.titleChanged} />
+                    </Row>
                     <Row className="row">
                         <Editor
                             editorState={editorState}

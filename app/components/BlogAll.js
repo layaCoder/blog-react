@@ -19,7 +19,6 @@ class BlogAll extends Component {
     }
     componentDidMount() {
 
-
     }
     componentDidUpdate() {
         console.log('Updated', this.props.store)
@@ -38,7 +37,13 @@ class BlogAll extends Component {
                         return <Comment key={item.id}
                             author={item.user}
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                            content={(<div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.text }} onClick={this.handleClick}></div>)}
+                            content={(
+                                <div>
+                                    <div>{item.title}</div>
+                                    <div>{item.text}</div>
+                                    <div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.htmlDom }} onClick={this.handleClick}>
+                                    </div>
+                                </div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                                     <span>{moment().fromNow()}</span>

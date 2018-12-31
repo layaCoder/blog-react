@@ -11,10 +11,12 @@ export const filterTypes = {
 
 
 //添加个人博客
-export const addBlog = (text) => {
+export const addBlog = (title, text, htmlDom) => {
     return {
         type: ADD_BLOG,
-        text
+        title,
+        text,
+        htmlDom
     }
 }
 
