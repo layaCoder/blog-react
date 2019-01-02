@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Comment, Icon, Tooltip, Avatar,
+    Comment, Icon, Tooltip, Avatar, Modal, Button
 } from 'antd';
 import moment from 'moment';
 import { DatePicker, Row, Col } from 'antd'
@@ -14,7 +14,8 @@ class BlogAll extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            visible: false,
+            blogObj: ''
         }
     }
     componentDidMount() {
@@ -22,6 +23,30 @@ class BlogAll extends Component {
     }
     componentDidUpdate() {
         console.log('Updated', this.props.store)
+    }
+
+    showBlogDetail = (item) => {
+        console.log('blogObj', item)
+        this.setState({
+            blogObj: item
+        })
+        this.setState({
+            visible: true
+        })
+    }
+
+    handleOk = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    }
+
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
     }
 
 
@@ -39,10 +64,10 @@ class BlogAll extends Component {
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
                             content={(
                                 <div>
-                                    <div>{item.title}</div>
-                                    <div>{item.text}</div>
-                                    <div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.htmlDom }} onClick={this.handleClick}>
-                                    </div>
+                                    <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div>
+                                    <div className="blogText">{item.text}</div>
+                                    {/* <div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.htmlDom }} >
+                                    </div> */}
                                 </div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
@@ -52,6 +77,15 @@ class BlogAll extends Component {
                         />
                     })}
                 </Row>
+                {/* 模态框中显示具体blog内容 */}
+                <Modal
+                    title={this.state.blogObj.title}
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={null}
+                >
+                    <div dangerouslySetInnerHTML={{ __html: this.state.blogObj.htmlDom }}></div>
+                </Modal>
             </div>
 
         )

@@ -51,8 +51,6 @@ class WriteBlog extends Component {
         message.success('blog saved', 3);
     };
 
-
-
     render() {
         const { editorState } = this.state;
         const { TextArea } = Input;

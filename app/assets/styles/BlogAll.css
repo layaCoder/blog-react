@@ -1,5 +1,14 @@
 .blogText{
-    /* width:500px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis; */
-    height: 50px;
-    overflow:hidden; text-overflow:ellipsis;white-space:nowrap;
+/* 单行省略   */
+/* height: 50px;
+overflow:hidden; text-overflow:ellipsis;white-space:nowrap; */
+
+/* 多行省略 */
+/* css控制显示行数，超出省略 */
+text-overflow: -o-ellipsis-lastline;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
 }
