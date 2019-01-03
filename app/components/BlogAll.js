@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-    Comment, Icon, Tooltip, Avatar, Modal, Button
-} from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
-import { DatePicker, Row, Col } from 'antd'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
@@ -26,6 +25,7 @@ class BlogAll extends Component {
     }
 
     showBlogDetail = (item) => {
+        //【对话框显示 blogDetail】
         console.log('blogObj', item)
         this.setState({
             blogObj: item
@@ -33,6 +33,10 @@ class BlogAll extends Component {
         this.setState({
             visible: true
         })
+        //【跳转页面显示blogDetail】
+
+        const thisComp = this//将Layout组件通过thisComp变量绑定，在confirm中使用
+        thisComp.props.history.push('/app/blogdetail')
     }
 
     handleOk = (e) => {
@@ -64,10 +68,10 @@ class BlogAll extends Component {
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
                             content={(
                                 <div>
-                                    <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div>
+                                    {/* 【用于对话框形式显示blogDetail】 
+                                    <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div> */}
+                                    <Link to={{ pathname: '/app/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
                                     <div className="blogText">{item.text}</div>
-                                    {/* <div className="blogText" key={item.id} dangerouslySetInnerHTML={{ __html: item.htmlDom }} >
-                                    </div> */}
                                 </div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
@@ -98,7 +102,9 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(BlogAll)
+export default withRouter(connect(mapStateToProps)(BlogAll));
+
+// export default connect(mapStateToProps)(BlogAll)
 
 
 

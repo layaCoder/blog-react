@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch } from 'react-router-dom';
+import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
+import { withRouter } from 'react-router-dom';
+
+
 import MyBlog from './MyBlog';
 import WriteBlog from './WriteBlog';
 import BlogAll from './BlogAll';
-import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
 import Login from './parts/LoginComponent'
-import { withRouter } from 'react-router-dom';
+import BlogDetail from './BlogDetail'
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 require('../assets/styles/Layout.css')
@@ -102,6 +105,9 @@ class Page3 extends Component {
                                 <Menu.Item key="3" style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/writeblog'}>Write Blog</Link>
                                 </Menu.Item>
+                                <Menu.Item key="4" style={{ display: 'none' }}>
+                                    <Link to={'/app/blogdetail'}>Blog Detail</Link>
+                                </Menu.Item>
                             </Menu>
                         </Col>
                         <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
@@ -127,6 +133,7 @@ class Page3 extends Component {
                             <Route exact path="/app/myblog" component={MyBlog} />
                             <Route exact path="/app/writeblog" component={WriteBlog} />
                             <Route exact path="/app/blogall" component={BlogAll}></Route>
+                            <Route exact patch="/app/blogdetail" component={BlogDetail}></Route>
                         </Switch></div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
