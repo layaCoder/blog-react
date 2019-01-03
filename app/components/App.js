@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BlogAll from './BlogAll';
-import Layout from './Layout'
+import Layout from './Layout';
+import Home from './Home';
 
 export default class CRouter extends Component {
     render() {

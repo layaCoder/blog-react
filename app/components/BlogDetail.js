@@ -4,25 +4,39 @@ export default class BlogDetail extends Component {
     constructor() {
         super();
         this.state = {
-            blogId: ''
+            blogId: '',
+            // blogItem: {
+            //     title: '1',
+            //     htmlDom: '2',
+            //     user: '4',
+            //     id: 5
+            // },
+            id: '',
+            title: '',
+            htmlDom: '',
+            user: '',
+
+
         }
     }
 
-    // componentDidUpdate() {
-    //     console.log('!!!!', this.props.location.blogId)
-    //     this.setState({
-    //         blogId: this.props.location.blogId
-    //     })
-    // }
-
-
-
     componentDidMount() {
-        this.setState({
-            blogId: this.props.location.blogId
-        })
 
+        // this.setState({
+        //     blogItem: this.props.location.state
+        // })
         console.log(this.props.location.state)
+        if (!this.props.location.state !== undefined) {
+            this.setState({
+                id: this.props.location.state.id,
+                title: this.props.location.state.title,
+                htmlDom: this.props.location.state.htmlDom,
+                user: this.props.location.state.user
+            })
+
+        }
+
+
     }
 
 
@@ -32,11 +46,11 @@ export default class BlogDetail extends Component {
         }
         return (
             <div>
-                <h2>{this.props.location.state.title}</h2>
-                <div dangerouslySetInnerHTML={{ __html: this.props.location.state.htmlDom }}></div>
-                <p>author : {this.props.location.state.user}</p>
+                <h2>{this.state.title}</h2>
+                <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
+                <p>author : {this.state.user}</p>
                 <p>state:blogId</p>
-                <p>{this.props.location.state.id}</p>
+                <p>{this.state.id}</p>
             </div>
 
         )

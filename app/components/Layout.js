@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
-import { withRouter } from 'react-router-dom';
+
 
 
 import MyBlog from './MyBlog';
@@ -9,6 +9,9 @@ import WriteBlog from './WriteBlog';
 import BlogAll from './BlogAll';
 import Login from './parts/LoginComponent'
 import BlogDetail from './BlogDetail'
+import Home from './Home'
+
+import BreadcrumbCusstom from './BreadcrumbCustom '
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 require('../assets/styles/Layout.css')
@@ -47,8 +50,8 @@ class Page3 extends Component {
         //将Layout组件通过thisComp变量绑定，在confirm中使用
         const thisComp = this
         Modal.confirm({
-            title: 'Log out!!!',
-            content: 'Do you want to log out?',
+            title: 'Logout!!!',
+            content: 'Do you want to logout?',
             onOk() {
                 //在onOk函数中无法使用this.setState,使用之间绑定的thisComp变量来调用setState方法
                 thisComp.setState({ isLogin: false })
@@ -81,12 +84,8 @@ class Page3 extends Component {
 
     render() {
         const { Header, Content, Footer } = Layout;
-        const confirm = Modal.confirm;
-
         return (
-
             <Layout className="layout">
-
                 <Header>
                     <Row>
                         <Col span={18}>
@@ -106,7 +105,7 @@ class Page3 extends Component {
                                     <Link to={'/app/writeblog'}>Write Blog</Link>
                                 </Menu.Item>
                                 <Menu.Item key="4" style={{ display: 'none' }}>
-                                    <Link to={'/app/blogdetail'}>Blog Detail</Link>
+                                    <Link to={'/app/blogall/blogdetail'}>Blog Detail</Link>
                                 </Menu.Item>
                             </Menu>
                         </Col>
@@ -123,18 +122,20 @@ class Page3 extends Component {
                 </Header>
 
                 <Content style={{ padding: '0 50px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <BreadcrumbCusstom />
                     <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+                        {/* 用switch方式来显示路由组件 */}
                         <Switch>
+                            <Route exact path='/app' component={Home} />
                             <Route exact path="/app/myblog" component={MyBlog} />
                             <Route exact path="/app/writeblog" component={WriteBlog} />
                             <Route exact path="/app/blogall" component={BlogAll}></Route>
-                            <Route exact patch="/app/blogdetail" component={BlogDetail}></Route>
-                        </Switch></div>
+                            <Route exact patch="/app/blogall/blogdetail" component={BlogDetail}></Route>
+                        </Switch>
+
+                        {/* 用this.props.children方式来显示路由组件 */}
+                        {/* <div style={{ marginTop: '1.5em' }}>{this.props.children}</div> */}
+                    </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     ©2018 Created by laya Studio

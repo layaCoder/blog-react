@@ -70,7 +70,7 @@ class BlogAll extends Component {
                                 <div>
                                     {/* 【用于对话框形式显示blogDetail】 
                                     <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div> */}
-                                    <Link to={{ pathname: '/app/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
+                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
                                     <div className="blogText">{item.text}</div>
                                 </div>)}
                             datetime={(

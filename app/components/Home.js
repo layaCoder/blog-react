@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class page2 extends Component {
+export default class Home extends Component {
     componentDidMount() {
 
     }
@@ -11,7 +11,7 @@ export default class page2 extends Component {
         }
         return (
             <div>
-                <h2>My Blog</h2>
+                <h2>welcome home!!!!</h2>
             </div>
         )
     }
