@@ -28,8 +28,8 @@ class BreadcrumbCustom extends Component {
         //将切分的路径读出来，形成面包屑，存放到this.state.extraBreadcrumbItems
         this.state.extraBreadcrumbItems = this.state.pathSnippets.map((_, index) => {
             const url = `/${this.state.pathSnippets.slice(0, index + 1).join('/')}`;
-            console.log('url')
-            console.log(url)
+            // console.log('url')
+            // console.log(url)
             return (
                 <Breadcrumb.Item key={url}>
                     <Link to={url}>

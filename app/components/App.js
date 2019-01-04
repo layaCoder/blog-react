@@ -2,9 +2,23 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BlogAll from './BlogAll';
 import Layout from './Layout';
-import Home from './Home';
+import { connect } from 'react-redux'
+import { initBlogs } from '../store/actions';
+import axios from 'axios'
+import APIS from '../api/index'
 
-export default class CRouter extends Component {
+
+class CRouter extends Component {
+
+    componentDidMount() {
+        //初始化 store 中 blogs数组
+        let url = APIS.textApi.devUrl
+        axios.get(url).then(res => {
+            console.log(res)
+            this.props.dispatch(initBlogs(res.data))
+        })
+
+    }
     render() {
         return (
             <div style={{ height: '100%' }}>
@@ -25,3 +39,11 @@ export default class CRouter extends Component {
         )
     }
 }
+
+let mapStateToProps = (state) => {
+    return {
+        store: state
+    }
+};
+
+export default connect(mapStateToProps)(CRouter);

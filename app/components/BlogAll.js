@@ -8,6 +8,7 @@ import axios from 'axios'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
+import { initBlogs } from '../store/actions';
 require('../assets/styles/BlogAll.css')
 
 class BlogAll extends Component {
@@ -15,12 +16,12 @@ class BlogAll extends Component {
         super(props);
         this.state = {
             visible: false,
-            blogObj: ''
+            blogObj: '',
+            blogs:[]
         }
     }
     componentDidMount() {
-        let url = 'api/Handler/AjaxTestHandler.ashx?mod=40&&PCS_AreaID=3'
-        axios.get(url).then(res => { console.log(res) })
+       
     }
     componentDidUpdate() {
         console.log('Updated', this.props.store)
@@ -55,7 +56,6 @@ class BlogAll extends Component {
         });
     }
 
-
     render() {
 
         return (
@@ -64,7 +64,7 @@ class BlogAll extends Component {
                     <h2>All Blog</h2>
                 </Row>
                 <Row>
-                    {this.props.store.blogs.map(item => {
+                     {this.props.store.blogs.map(item => {
                         return <Comment key={item.id}
                             author={item.user}
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
@@ -81,7 +81,24 @@ class BlogAll extends Component {
                                 </Tooltip>
                             )}
                         />
-                    })}
+                    })} 
+                    {/* {this.state.blogs.map(item => {
+                        return <Comment key={item.id}
+                            author={item.user}
+                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
+                            content={(
+                                <div>
+                                    
+                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
+                                    <div className="blogText">{item.text}</div>
+                                </div>)}
+                            datetime={(
+                                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                                    <span>{moment().fromNow()}</span>
+                                </Tooltip>
+                            )}
+                        />
+                    })} */}
                 </Row>
                 {/* 模态框中显示具体blog内容 */}
                 <Modal
