@@ -11,7 +11,7 @@ import Login from './parts/LoginComponent'
 import BlogDetail from './BlogDetail'
 import Home from './Home'
 
-import BreadcrumbCusstom from './BreadcrumbCustom '
+import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 require('../assets/styles/Layout.css')

@@ -4,6 +4,7 @@ import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col } f
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
@@ -18,7 +19,8 @@ class BlogAll extends Component {
         }
     }
     componentDidMount() {
-
+        let url = 'api/Handler/AjaxTestHandler.ashx?mod=40&&PCS_AreaID=3'
+        axios.get(url).then(res => { console.log(res) })
     }
     componentDidUpdate() {
         console.log('Updated', this.props.store)

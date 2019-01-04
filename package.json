@@ -40,6 +40,7 @@
     "webpack-merge": "^4.1.5"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -50,5 +51,12 @@
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:53754",
+      "changeOrigin": true
+    }
   }
+
 }
