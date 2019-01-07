@@ -10,6 +10,7 @@ import BlogAll from './BlogAll';
 import Login from './parts/LoginComponent'
 import BlogDetail from './BlogDetail'
 import Home from './Home'
+import UploadAvatarComponent from './parts/UploadAvatarComponent'
 
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 
@@ -107,7 +108,7 @@ class Page3 extends Component {
 
         const menu = (
             <Menu onClick={dropdownClick}>
-                <Menu.Item key="1">Upload avator</Menu.Item>
+                <Menu.Item key="1">Upload avatar</Menu.Item>
                 <Menu.Item key="2">Change password</Menu.Item>
                 <Menu.Divider />
                 <Menu.Item key="3">Logout</Menu.Item>
@@ -159,6 +160,9 @@ class Page3 extends Component {
 
                 <Content style={{ padding: '0 50px' }}>
                     <BreadcrumbCusstom />
+                    <Row>
+                        <UploadAvatarComponent />
+                    </Row>
                     <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                         {/* 用switch方式来显示路由组件 */}
                         <Switch>
@@ -174,6 +178,7 @@ class Page3 extends Component {
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
+
                     ©2018 Created by laya Studio
     </Footer>
                 {/* 模态框 */}
@@ -189,6 +194,7 @@ class Page3 extends Component {
                         <Login handleCancel={this.handleCancel} showLoginRoot={this.showLoginRoot} />
                     </Modal>
                 </div>
+
             </Layout>
         )
     }

@@ -13,6 +13,23 @@ export function get_uuid() {
     return uuid;
 }
 
+//img通过canvas转成base64编码
+export function getBase64Image(img) {
+    var canvas = img
+    // var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+
+    var dataURL = canvas.toDataURL("image/png");
+    return dataURL
+    // return dataURL.replace("data:image/png;base64,", "");
+}
+
+
+
 //set localStorage
 export function setLocalStorage(key, value) {
     var curtime = new Date().getTime(); // 获取当前时间 ，转换成JSON字符串序列 

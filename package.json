@@ -46,6 +46,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-to-draftjs": "^1.4.0",
     "react": "^16.6.3",
+    "react-avatar-editor": "^11.0.4",
     "react-dom": "^16.6.3",
     "react-draft-wysiwyg": "^1.12.13",
     "react-redux": "^6.0.0",
