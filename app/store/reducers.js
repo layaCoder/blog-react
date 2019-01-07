@@ -23,7 +23,7 @@ function blogs(state = [], action) {
                     id: item.ID,
                     title: 'some title',
                     text: 'some text',
-                    htmlDom: '<p>some htmlDom</p>',
+                    htmlDom: '<strong>some htmlDom</strong>',
                     user: 'some user',
                     avatarUrl: ' some avatarUrl'
                 })

@@ -82,11 +82,42 @@ class Page3 extends Component {
 
     }
 
+
+
+
     render() {
         const { Header, Content, Footer } = Layout;
+
+        const dropdownClick = ({ key }) => {
+            console.log(typeof key)
+            switch (key) {
+                case '1':
+                    console.log('case 1')
+                    break;
+                case '2':
+                    console.log('case 2')
+                    break;
+                case '3':
+                    this.handleLogOut()
+                    break;
+                default:
+                    return
+            }
+        };
+
+        const menu = (
+            <Menu onClick={dropdownClick}>
+                <Menu.Item key="1">Upload avator</Menu.Item>
+                <Menu.Item key="2">Change password</Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="3">Logout</Menu.Item>
+            </Menu>
+        );
+
         return (
             <Layout className="layout">
                 <Header>
+
                     <Row>
                         <Col span={18}>
                             <Menu
@@ -112,11 +143,16 @@ class Page3 extends Component {
                         <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
                             <Button type="primary" onClick={this.showModal}>Login</Button>
                         </Col>
-                        <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                        {/* <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                             <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
-                        </Col>
+                        </Col> */}
                         <Col span={3} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
-                            <Button type="primary" onClick={this.handleLogOut}>Log out</Button>
+                            {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
+                            <Dropdown overlay={menu}>
+                                <a className="ant-dropdown-link" href="#">
+                                    <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
+                                </a>
+                            </Dropdown>
                         </Col>
                     </Row>
                 </Header>

@@ -17,11 +17,11 @@ class BlogAll extends Component {
         this.state = {
             visible: false,
             blogObj: '',
-            blogs:[]
+            blogs: []
         }
     }
     componentDidMount() {
-       
+
     }
     componentDidUpdate() {
         console.log('Updated', this.props.store)
@@ -64,7 +64,7 @@ class BlogAll extends Component {
                     <h2>All Blog</h2>
                 </Row>
                 <Row>
-                     {this.props.store.blogs.map(item => {
+                    {this.props.store.blogs.map(item => {
                         return <Comment key={item.id}
                             author={item.user}
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
@@ -81,7 +81,7 @@ class BlogAll extends Component {
                                 </Tooltip>
                             )}
                         />
-                    })} 
+                    })}
                     {/* {this.state.blogs.map(item => {
                         return <Comment key={item.id}
                             author={item.user}
