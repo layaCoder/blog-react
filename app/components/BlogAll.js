@@ -4,7 +4,6 @@ import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col } f
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
-import axios from 'axios'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
@@ -109,6 +108,7 @@ class BlogAll extends Component {
                 >
                     <div dangerouslySetInnerHTML={{ __html: this.state.blogObj.htmlDom }}></div>
                 </Modal>
+                {/* 上传头像dialog  */}
             </div>
 
         )

@@ -85,7 +85,8 @@ export default class Avatar extends React.Component {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
+                    // action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
+                    action="#"
                     beforeUpload={beforeUpload}
                     onChange={this.handleChange}
                 >

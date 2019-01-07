@@ -22,6 +22,7 @@ class Page3 extends Component {
     constructor() {
         super();
         this.state = {
+            uploadAvatarVisible: false,
             modalVisible: false,
             isLogin: false
         }
@@ -45,6 +46,13 @@ class Page3 extends Component {
         this.setState({
             modalVisible: false,
         });
+    }
+
+    handleCancelUploadAvatar = (e) => {
+        console.log(e);
+        this.setState({
+            uploadAvatarVisible: false
+        })
     }
 
     handleLogOut = () => {
@@ -94,6 +102,8 @@ class Page3 extends Component {
             switch (key) {
                 case '1':
                     console.log('case 1')
+                    this.setState({ uploadAvatarVisible: true })
+
                     break;
                 case '2':
                     console.log('case 2')
@@ -192,6 +202,17 @@ class Page3 extends Component {
                         footer={null}
                     >
                         <Login handleCancel={this.handleCancel} showLoginRoot={this.showLoginRoot} />
+                    </Modal>
+                </div>
+                <div>
+                    <Modal
+                        title="Upload Avatar"
+                        visible={this.state.uploadAvatarVisible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancelUploadAvatar}
+                        footer={null}
+                    >
+                        <UploadAvatarComponent />
                     </Modal>
                 </div>
 
