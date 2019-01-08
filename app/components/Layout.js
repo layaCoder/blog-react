@@ -11,6 +11,7 @@ import Login from './parts/LoginComponent'
 import BlogDetail from './BlogDetail'
 import Home from './Home'
 import UploadAvatarComponent from './parts/UploadAvatarComponent'
+import ChangePass from './parts/ChangePassComponent'
 
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 
@@ -24,7 +25,8 @@ class Page3 extends Component {
         this.state = {
             uploadAvatarVisible: false,
             modalVisible: false,
-            isLogin: false
+            isLogin: false,
+            changePassVisible: false
         }
     }
 
@@ -49,7 +51,6 @@ class Page3 extends Component {
     }
 
     handleCloseUploadAvatar = (e) => {
-        console.log(e);
         this.setState({
             uploadAvatarVisible: false
         })
@@ -69,6 +70,9 @@ class Page3 extends Component {
             },
             onCancel() { },
         });
+    }
+    handleChangePassClose = () => {
+        this.setState({ changePassVisible: false })
     }
 
     //loginComp调用，子组件模态框中确认登录后改变父组件state
@@ -101,12 +105,11 @@ class Page3 extends Component {
             console.log(typeof key)
             switch (key) {
                 case '1':
-                    console.log('case 1')
                     this.setState({ uploadAvatarVisible: true })
 
                     break;
                 case '2':
-                    console.log('case 2')
+                    this.setState({ changePassVisible: true })
                     break;
                 case '3':
                     this.handleLogOut()
@@ -190,6 +193,7 @@ class Page3 extends Component {
     </Footer>
                 {/* 模态框 */}
                 <div>
+                    {/* 用户登录模态框 */}
                     <Modal
                         title="User login"
                         visible={this.state.modalVisible}
@@ -202,6 +206,7 @@ class Page3 extends Component {
                     </Modal>
                 </div>
                 <div>
+                    {/* 上传头像模态框 */}
                     <Modal
                         title="Upload Avatar"
                         visible={this.state.uploadAvatarVisible}
@@ -211,6 +216,19 @@ class Page3 extends Component {
                         closable={false}
                     >
                         <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} />
+                    </Modal>
+                </div>
+                <div>
+                    {/* 修改密码模态框 */}
+                    <Modal
+                        title="Change Password"
+                        visible={this.state.changePassVisible}
+                        onOk={this.handleOk}
+                        // footer={null}
+                        closable={false}
+                        onCancel={this.handleChangePassClose}
+                    >
+                        <ChangePass />
                     </Modal>
                 </div>
 
