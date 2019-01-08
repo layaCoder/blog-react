@@ -1,4 +1,4 @@
-import { Upload, Icon, message, Slider, Button } from 'antd';
+import { Upload, Icon, message, Slider, Button, Alert } from 'antd';
 import React, { Component } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import * as Utils from '../../utils/commUtils'
@@ -26,8 +26,15 @@ function beforeUpload(file) {
 export default class Avatar extends React.Component {
     state = {
         loading: false,
-        scale: 1.2
+        scale: 1.2,
+        imageUrl: '',
+        resultBase64Img: '',
+        alertVisible: false
     };
+
+    handleClose = () => {
+        this.setState({ alertVisible: false });
+    }
 
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -56,7 +63,12 @@ export default class Avatar extends React.Component {
     //todo: img保存，以base64格式post给后台
     //头像保存
     onClickSave = () => {
-        if (this.editor) {
+        //如果antd upload控件没有绑定图片值
+        if (!this.state.imageUrl) {
+            message.error('Avatar img can not be null');
+            return
+        }
+        else if (this.editor) {
             // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
             // drawn on another canvas, or added to the DOM.
             const canvas = this.editor.getImage()
@@ -65,7 +77,21 @@ export default class Avatar extends React.Component {
             this.setState({ resultBase64Img: Utils.getBase64Image(canvas) })
             console.log('result img base64', Utils.getBase64Image(canvas)) //[question] 直接调用state，第一次数据为 undefined 第二次成功 
         }
+        //调用父组件方法关闭dialog
+        this.setState({
+            imageUrl: '',
+            resultBase64Img: ''
+        })
+        this.props.handleClose()
     }
+    handleCancel = () => {
+        this.setState({
+            imageUrl: '',
+            resultBase64Img: ''
+        })
+        this.props.handleClose()
+    }
+
 
     setEditorRef = (editor) => this.editor = editor
 
@@ -80,6 +106,14 @@ export default class Avatar extends React.Component {
 
         return (
             <div>
+                {
+                    this.state.alertVisible ? (<Alert
+                        message="Avatar can not be null"
+                        type="error"
+                        closable
+                        afterClose={this.handleClose}
+                    />) : null
+                }
                 <Upload
                     name="avatar"
                     listType="picture-card"
@@ -116,9 +150,10 @@ export default class Avatar extends React.Component {
                         max={2}
                     />
                 </div>
-                <Button type="primary" onClick={this.onClickSave}>save</Button>
+                <Button type="primary" onClick={this.onClickSave}>&nbsp;Save&nbsp;</Button>
+                <Button onClick={this.handleCancel}>Cancel</Button>
 
-            </div>
+            </div >
         );
     }
 }

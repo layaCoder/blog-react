@@ -48,7 +48,7 @@ class Page3 extends Component {
         });
     }
 
-    handleCancelUploadAvatar = (e) => {
+    handleCloseUploadAvatar = (e) => {
         console.log(e);
         this.setState({
             uploadAvatarVisible: false
@@ -170,9 +170,6 @@ class Page3 extends Component {
 
                 <Content style={{ padding: '0 50px' }}>
                     <BreadcrumbCusstom />
-                    <Row>
-                        <UploadAvatarComponent />
-                    </Row>
                     <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                         {/* 用switch方式来显示路由组件 */}
                         <Switch>
@@ -209,10 +206,11 @@ class Page3 extends Component {
                         title="Upload Avatar"
                         visible={this.state.uploadAvatarVisible}
                         onOk={this.handleOk}
-                        onCancel={this.handleCancelUploadAvatar}
+                        onCancel={this.handleCloseUploadAvatar}
                         footer={null}
+                        closable={false}
                     >
-                        <UploadAvatarComponent />
+                        <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} />
                     </Modal>
                 </div>
 

@@ -108,7 +108,6 @@ class BlogAll extends Component {
                 >
                     <div dangerouslySetInnerHTML={{ __html: this.state.blogObj.htmlDom }}></div>
                 </Modal>
-                {/* 上传头像dialog  */}
             </div>
 
         )
