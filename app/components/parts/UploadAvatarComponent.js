@@ -150,9 +150,8 @@ export default class Avatar extends React.Component {
                         max={2}
                     />
                 </div>
-                <Button type="primary" onClick={this.onClickSave}>&nbsp;Save&nbsp;</Button>
                 <Button onClick={this.handleCancel}>Cancel</Button>
-
+                <Button type="primary" onClick={this.onClickSave}>&nbsp;Save&nbsp;</Button>
             </div >
         );
     }

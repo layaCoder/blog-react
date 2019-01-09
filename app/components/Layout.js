@@ -30,31 +30,8 @@ class Page3 extends Component {
         }
     }
 
-    showModal = () => {
-        this.setState({
-            modalVisible: true,
-        });
-    }
 
-    handleOk = (e) => {
-        console.log(e);
-        this.setState({
-            modalVisible: false,
-        });
-    }
 
-    handleCancel = (e) => {
-        console.log(e);
-        this.setState({
-            modalVisible: false,
-        });
-    }
-
-    handleCloseUploadAvatar = (e) => {
-        this.setState({
-            uploadAvatarVisible: false
-        })
-    }
 
     handleLogOut = () => {
         //将Layout组件通过thisComp变量绑定，在confirm中使用
@@ -71,9 +48,7 @@ class Page3 extends Component {
             onCancel() { },
         });
     }
-    handleChangePassClose = () => {
-        this.setState({ changePassVisible: false })
-    }
+
 
     //loginComp调用，子组件模态框中确认登录后改变父组件state
     showLoginRoot = () => {
@@ -95,8 +70,37 @@ class Page3 extends Component {
 
     }
 
+    showModal = () => {
+        this.setState({
+            modalVisible: true,
+        });
+    }
+
+    handleOk = (e) => {
+        console.log(e);
+        this.setState({
+            modalVisible: false,
+        });
+    }
+
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            modalVisible: false,
+        });
+    }
 
 
+
+    handleChangePassClose = () => {
+        this.setState({ changePassVisible: false })
+    }
+
+    handleCloseUploadAvatar = (e) => {
+        this.setState({
+            uploadAvatarVisible: false
+        })
+    }
 
     render() {
         const { Header, Content, Footer } = Layout;
@@ -215,20 +219,21 @@ class Page3 extends Component {
                         footer={null}
                         closable={false}
                     >
-                        <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} />
+                        {this.state.uploadAvatarVisible === true ? <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} /> : null}
                     </Modal>
                 </div>
                 <div>
                     {/* 修改密码模态框 */}
                     <Modal
+                        width={"60%"}
                         title="Change Password"
                         visible={this.state.changePassVisible}
                         onOk={this.handleOk}
-                        // footer={null}
+                        footer={null}
                         closable={false}
                         onCancel={this.handleChangePassClose}
                     >
-                        <ChangePass />
+                        {this.state.changePassVisible === true ? <ChangePass handleCloseChangePass={this.handleChangePassClose} /> : null}
                     </Modal>
                 </div>
 
