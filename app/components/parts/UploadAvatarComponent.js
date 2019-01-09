@@ -1,7 +1,8 @@
-import { Upload, Icon, message, Slider, Button, Alert } from 'antd';
+import { Upload, Icon, message, Slider, Button, Alert, Divider, Row, Col } from 'antd';
 import React, { Component } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import * as Utils from '../../utils/commUtils'
+require('../../assets/styles/DialogForm.css')
 
 
 
@@ -96,6 +97,8 @@ export default class Avatar extends React.Component {
     setEditorRef = (editor) => this.editor = editor
 
     render() {
+
+
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -114,44 +117,52 @@ export default class Avatar extends React.Component {
                         afterClose={this.handleClose}
                     />) : null
                 }
-                <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    // action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
-                    action="#"
-                    beforeUpload={beforeUpload}
-                    onChange={this.handleChange}
-                >
-                    {/* {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton} */}
-                    {imageUrl ? '' : uploadButton}
+                <Row>
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        // action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
+                        action="#"
+                        beforeUpload={beforeUpload}
+                        onChange={this.handleChange}
+                    >
+                        {/* {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton} */}
+                        {imageUrl ? '' : uploadButton}
 
-                </Upload>
-                <div style={{ "display": this.state.imageUrl ? '' : 'none' }}>
-                    <AvatarEditor
-                        ref={this.setEditorRef}
-                        image={this.state.imageUrl}
-                        width={250}
-                        height={250}
-                        border={50}
-                        color={[255, 255, 255, 0.6]} // RGBA
-                        // scale={1.2}
-                        scale={parseFloat(this.state.scale)}
-                        borderRadius={200}
-                        rotate={0}
-                    />
-                    <Slider
-                        step={0.01}
-                        value={this.state.scale}
-                        disabled={false}
-                        onChange={this.handleSliderChange}
-                        mini={1}
-                        max={2}
-                    />
-                </div>
-                <Button onClick={this.handleCancel}>Cancel</Button>
-                <Button type="primary" onClick={this.onClickSave}>&nbsp;Save&nbsp;</Button>
+                    </Upload>
+                </Row>
+                <Row>
+                    <div style={{ "display": this.state.imageUrl ? '' : 'none' }}>
+                        <AvatarEditor
+                            ref={this.setEditorRef}
+                            image={this.state.imageUrl}
+                            width={250}
+                            height={250}
+                            border={50}
+                            color={[255, 255, 255, 0.6]} // RGBA
+                            // scale={1.2}
+                            scale={parseFloat(this.state.scale)}
+                            borderRadius={200}
+                            rotate={0}
+                        />
+                        <Slider
+                            step={0.01}
+                            value={this.state.scale}
+                            disabled={false}
+                            onChange={this.handleSliderChange}
+                            mini={1}
+                            max={2}
+                        />
+                    </div>
+                </Row>
+                <Divider />
+                <Row>
+                    <Button type="primary" onClick={this.onClickSave} className="formBtn">&nbsp;Save&nbsp;</Button>
+                    <Button onClick={this.handleCancel} className="formBtn">Cancel</Button>
+                </Row>
+
             </div >
         );
     }

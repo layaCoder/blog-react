@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message, Divider } from 'antd';
+require('../../assets/styles/DialogForm.css')
 
 class ChangePasswordComponent extends Component {
     componentDidMount() {
@@ -38,18 +39,7 @@ class ChangePasswordComponent extends Component {
                 sm: { span: 16 },
             },
         };
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
-            },
-        };
+
 
         return (
             <div>
@@ -91,9 +81,10 @@ class ChangePasswordComponent extends Component {
                         )}
                     </Form.Item>
                     {/* <Form.Item {...tailFormItemLayout}> */}
+                    <Divider />
                     <Form.Item>
-                        <Button type="default" onClick={this.handleCancel}>Cancel</Button>
-                        <Button type="primary" htmlType="submit">Save</Button>
+                        <Button type="primary" htmlType="submit" className="formBtn">Save</Button>
+                        <Button type="default" onClick={this.handleCancel} className="formBtn">Cancel</Button>
                     </Form.Item>
                 </Form>
             </div>

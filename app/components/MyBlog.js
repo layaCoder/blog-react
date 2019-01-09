@@ -11,7 +11,7 @@ export default class page2 extends Component {
         }
         return (
             <div>
-                <h2>My Blog</h2>
+                <h2 style={myStyle}>My Blog</h2>
             </div>
         )
     }

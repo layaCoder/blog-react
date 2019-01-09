@@ -15,8 +15,6 @@ export default class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
-
-
         }
     }
 
@@ -26,7 +24,7 @@ export default class BlogDetail extends Component {
         //     blogItem: this.props.location.state
         // })
         console.log(this.props.location.state)
-        if (!this.props.location.state !== undefined) {
+        if (this.props.location.state) {
             this.setState({
                 id: this.props.location.state.id,
                 title: this.props.location.state.title,

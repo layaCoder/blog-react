@@ -147,10 +147,10 @@ class Page3 extends Component {
                                 style={{ lineHeight: '64px' }}
                             >
                                 <Menu.Item key={['/app/blogall']}>
-                                    <Link to='/app/blogall' >All Blog</Link>
+                                    <Link to='/app/blogall' >All Blogs</Link>
                                 </Menu.Item>
                                 <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
-                                    <Link to={'/app/myblog'}  >My Blog</Link>
+                                    <Link to={'/app/myblog'}  >My Blogs</Link>
                                 </Menu.Item>
                                 <Menu.Item key={['/app/writeblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/writeblog'}>Write Blog</Link>
@@ -227,7 +227,7 @@ class Page3 extends Component {
                 <div>
                     {/* 修改密码模态框 */}
                     <Modal
-                        width={"60%"}
+                        width={"40%"}
                         title="Change Password"
                         visible={this.state.changePassVisible}
                         onOk={this.handleOk}
