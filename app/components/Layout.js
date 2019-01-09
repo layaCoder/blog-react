@@ -110,6 +110,7 @@ class Page3 extends Component {
             switch (key) {
                 case '1':
                     this.setState({ uploadAvatarVisible: true })
+                    console.log('111', this.props.history.location.pathname)
 
                     break;
                 case '2':
@@ -141,19 +142,20 @@ class Page3 extends Component {
                             <Menu
                                 theme="dark"
                                 mode="horizontal"
-                                defaultSelectedKeys={['1']}
+                                defaultSelectedKeys={['/app/blogall']}
+                                selectedKeys={[this.props.history.location.pathname]}
                                 style={{ lineHeight: '64px' }}
                             >
-                                <Menu.Item key="1">
+                                <Menu.Item key={['/app/blogall']}>
                                     <Link to='/app/blogall' >All Blog</Link>
                                 </Menu.Item>
-                                <Menu.Item key="2" style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                                <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/myblog'}  >My Blog</Link>
                                 </Menu.Item>
-                                <Menu.Item key="3" style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                                <Menu.Item key={['/app/writeblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/writeblog'}>Write Blog</Link>
                                 </Menu.Item>
-                                <Menu.Item key="4" style={{ display: 'none' }}>
+                                <Menu.Item key={['4']} style={{ display: 'none' }}>
                                     <Link to={'/app/blogall/blogdetail'}>Blog Detail</Link>
                                 </Menu.Item>
                             </Menu>
