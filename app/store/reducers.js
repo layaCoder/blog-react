@@ -20,7 +20,7 @@ function blogs(state = [], action) {
             state = []
             action.blogArray.map(item => {
                 state.push({
-                    id: item.ID,
+                    id: item.id,
                     title: 'some title',
                     text: 'some text',
                     htmlDom: '<strong>some htmlDom</strong>',

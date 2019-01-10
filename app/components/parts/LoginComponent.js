@@ -1,8 +1,10 @@
-import { Form, Icon, Input, Button, Checkbox, } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import React, { Component } from 'react'
 import { Route, Link, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import APIS from '../../api/index';
 
 import * as storage from '../../utils/commUtils'
 
@@ -12,17 +14,36 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                if (values.userName === 'laya' && values.password === '111') {
-                    //登录后将 user 存放到 localStorage
-                    let user = JSON.stringify({ isLogin: true, name: values.userName })
-                    storage.setLocalStorage("user", user)
-                    this.props.history.push('/app/blogall')
+                let loginApi = APIS.userLogin.devUrl + "?name=" + values.userName + "&pass=" + values.password
+                axios.get(loginApi).then(res => {
+                    console.log(res)
+                    if (res.data.length > 0) {
+                        //登录后将 user 存放到 localStorage
+                        let user = JSON.stringify({ isLogin: true, name: values.userName })
+                        storage.setLocalStorage("user", user)
+                        this.props.history.push('/app/blogall')
 
-                    //调用父辈方法关闭模态框
-                    this.handleCancel()
-                    //改变父组件state，显示登陆后内容
-                    this.showLoginRoot()
-                }
+                        //调用父辈方法关闭模态框
+                        this.handleCancel()
+                        //改变父组件state，显示登陆后内容
+                        this.showLoginRoot()
+                    }
+                    else {
+                        message.error('name or password is wrong!!!');
+                    }
+                })
+
+                // if (values.userName === 'laya' && values.password === '111') {
+                //     //登录后将 user 存放到 localStorage
+                //     let user = JSON.stringify({ isLogin: true, name: values.userName })
+                //     storage.setLocalStorage("user", user)
+                //     this.props.history.push('/app/blogall')
+
+                //     //调用父辈方法关闭模态框
+                //     this.handleCancel()
+                //     //改变父组件state，显示登陆后内容
+                //     this.showLoginRoot()
+                // }
             }
         });
     }

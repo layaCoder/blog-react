@@ -84,7 +84,6 @@ class Page3 extends Component {
     }
 
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             modalVisible: false,
         });
@@ -170,7 +169,7 @@ class Page3 extends Component {
                             {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
                             <Dropdown overlay={menu}>
                                 <a className="ant-dropdown-link" href="#">
-                                    <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
+                                    <h3 className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</h3>
                                 </a>
                             </Dropdown>
                         </Col>
@@ -227,7 +226,7 @@ class Page3 extends Component {
                 <div>
                     {/* 修改密码模态框 */}
                     <Modal
-                        width={"40%"}
+                        width={"30%"}
                         title="Change Password"
                         visible={this.state.changePassVisible}
                         onOk={this.handleOk}
