@@ -16,6 +16,10 @@ export default {
         name: 'login',
         devUrl: 'api/get/userLogin'
     },
+    saveAvatar: {
+        name: 'saveAvatar',
+        devUrl: 'api/post/saveAvatar'
+    },
 
     getAllBlogs: {
         name: 'getAllBlogs',

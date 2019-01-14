@@ -2,6 +2,9 @@ import { Upload, Icon, message, Slider, Button, Alert, Divider, Row, Col } from 
 import React, { Component } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import * as Utils from '../../utils/commUtils'
+import axios from 'axios';
+import APIS from '../../api/index';
+import * as storage from '../../utils/commUtils'
 require('../../assets/styles/DialogForm.css')
 
 
@@ -46,6 +49,7 @@ export default class Avatar extends React.Component {
                 imageUrl,
                 loading: false,
             }));
+            console.log(this.state)
         }
         // if (info.file.status === 'done') {
         //     // Get this url from response in real world.
@@ -77,13 +81,40 @@ export default class Avatar extends React.Component {
             const canvasScaled = this.editor.getImageScaledToCanvas()
             this.setState({ resultBase64Img: Utils.getBase64Image(canvas) })
             console.log('result img base64', Utils.getBase64Image(canvas)) //[question] 直接调用state，第一次数据为 undefined 第二次成功 
+            let url = APIS.saveAvatar.devUrl
+            // axios.post(url, {
+            //     user: storage.setLocalStorage("user", user),
+            //     base64: Utils.getBase64Image(canvas)
+            // }).then(res => { console.log(res) }).catch(err => { console.log(err) })
+            axios({
+                method: "post",
+                url: url,
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    user: storage.getLocalStorage('user', 1000 * 60 * 60 * 24),
+                    base64: Utils.getBase64Image(canvas)
+                },
+                transformRequest: [function (data) {
+                    let ret = ''
+                    for (let it in data) {
+                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                }],
+            }).then((res) => {
+                console.log(res.data);
+            })
+
+
         }
         //调用父组件方法关闭dialog
-        this.setState({
-            imageUrl: '',
-            resultBase64Img: ''
-        })
-        this.props.handleClose()
+        // this.setState({
+        //     imageUrl: '',
+        //     resultBase64Img: ''
+        // })
+        // this.props.handleClose()
     }
     handleCancel = () => {
         this.setState({
@@ -162,7 +193,10 @@ export default class Avatar extends React.Component {
                     <Button type="primary" onClick={this.onClickSave} className="formBtn">&nbsp;Save&nbsp;</Button>
                     <Button onClick={this.handleCancel} className="formBtn">Cancel</Button>
                 </Row>
-
+                <Row>
+                    <i className='i' >click here</i>
+                    <input id='img' type='file' multiple accept='image/*' />
+                </Row>
             </div >
         );
     }

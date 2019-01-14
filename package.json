@@ -55,8 +55,9 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://localhost:53754",
+      "target": "http://localhost:2000",
       "changeOrigin": true
     }
+    
   }
 }
