@@ -11,8 +11,8 @@ function blogs(state = [], action) {
                 title: action.title,//博客标题
                 text: action.text,//记录无html标签的纯文本，在blogList中显示
                 htmlDom: action.htmlDom,//记录带html标签的文本，展示具体blog
-                user: 'laya',
-                avatarUrl: 'xxx.xxx.xxx',//用户头像url
+                user: action.user,
+                avatarUrl: action.avatarUrl,//用户头像url
             }]
         case DEL_BLOG:
             return state.filter(blog => blog.index !== action.index) //遍历blog id，id不相等则保留，相等责备过滤掉

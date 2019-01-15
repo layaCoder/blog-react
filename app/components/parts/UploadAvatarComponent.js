@@ -201,10 +201,7 @@ export default class Avatar extends React.Component {
                     <Button type="primary" onClick={this.onClickSave} className="formBtn">&nbsp;Save&nbsp;</Button>
                     <Button onClick={this.handleCancel} className="formBtn">Cancel</Button>
                 </Row>
-                <Row>
-                    <i className='i' >click here</i>
-                    <input id='img' type='file' multiple accept='image/*' />
-                </Row>
+
             </div >
         );
     }

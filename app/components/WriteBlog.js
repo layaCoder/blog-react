@@ -12,6 +12,9 @@ import htmlToDraft from 'html-to-draftjs';
 import * as untils from '../utils/commUtils.js'
 require('../assets/styles/WriteBlog.css')
 
+import axios from 'axios';
+import APIS from '../api/index';
+
 
 class WriteBlog extends Component {
     constructor() {
@@ -43,12 +46,45 @@ class WriteBlog extends Component {
         //记录下原始文本，在blogAll列表中显示
         console.log('del', untils.delHtmlTag(markDownText))
         //todo:修改redux state结构 ，确定blog数据格式
-        this.props.dispatch(addBlog(this.state.title, untils.delHtmlTag(markDownText), markDownText));
-        this.setState({
-            editorState: EditorState.createEmpty(),
-            title: ''
-        })
-        message.success('blog saved', 3);
+        let user = JSON.parse(untils.getLocalStorage('user', 1000 * 60 * 60 * 24));
+        console.log('2222', user.name, user.avatar)
+
+        let postUrl = APIS.saveBlog.devUrl
+        axios({
+            method: "post",
+            url: postUrl,
+            headers: {
+                // 'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/json'
+            },
+            data: {
+                title: this.state.title,
+                text: untils.delHtmlTag(markDownText),
+                htmlDom: markDownText,
+                user: user.name,
+                avatarUrl: user.avatar
+            },
+        }
+        ).then(res => {
+            console.log(res)
+            ////////////////////
+            this.props.dispatch(addBlog(
+                this.state.title,
+                untils.delHtmlTag(markDownText),
+                markDownText,
+                user.name,
+                user.avatar
+            ))
+            this.setState({
+                editorState: EditorState.createEmpty(),
+                title: ''
+            })
+            message.success('blog saved', 3);
+            //////////////////////////
+        }
+        ).catch(err => { console.log(err) })
+
+
     };
 
     render() {

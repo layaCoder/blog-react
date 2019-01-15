@@ -19,7 +19,7 @@ class NormalLoginForm extends React.Component {
                     console.log(res)
                     if (res.data.length > 0) {
                         //登录后将 user 存放到 localStorage
-                        let user = JSON.stringify({ isLogin: true, name: values.userName })
+                        let user = JSON.stringify({ isLogin: true, name: values.userName, avatar: res.data[0].avatarUrl })
                         storage.setLocalStorage("user", user)
                         this.props.history.push('/app/blogall')
 
