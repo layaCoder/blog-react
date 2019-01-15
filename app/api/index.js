@@ -20,7 +20,10 @@ export default {
         name: 'saveAvatar',
         devUrl: 'api/post/saveAvatar'
     },
-
+    saveAvatarOrigin: {
+        name: 'saveAvatarOrigin',
+        devUrl: 'api/post/saveAvatarOrigin'
+    },
     getAllBlogs: {
         name: 'getAllBlogs',
         devUrl: ''

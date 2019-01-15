@@ -10,6 +10,7 @@ require('../../assets/styles/DialogForm.css')
 
 
 function getBase64(img, callback) {
+    console.log('img', img)
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
@@ -28,6 +29,12 @@ function beforeUpload(file) {
     return isJPG && isLt2M;
 }
 
+function uploadTest(file) {
+    console.log(file.file)
+    var reader = new FileReader();
+    let result = reader.readAsDataURL(file.file)
+    console.log('result', result)
+}
 
 export default class Avatar extends React.Component {
     state = {
@@ -45,12 +52,6 @@ export default class Avatar extends React.Component {
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
             // 不使用 antd 组件的自动请求
-
-            getBase64(info.file.originFileObj, imageUrl => this.setState({
-                imageUrl,
-                loading: false,
-            }));
-
             this.setState({ loading: true });
             return;
             // getBase64(info.file.originFileObj, imageUrl => this.setState({
@@ -65,6 +66,7 @@ export default class Avatar extends React.Component {
                 imageUrl,
                 loading: false,
             }));
+            console.log('oringi img base64', this.state)
         }
     }
 
@@ -81,35 +83,32 @@ export default class Avatar extends React.Component {
             return
         }
         else if (this.editor) {
-            console.log('this.state.imgUrl', this.state.imageUrl)
             // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
             // drawn on another canvas, or added to the DOM.
             const canvas = this.editor.getImage()
-            console.log('canvas', canvas)
             // If you want the image resized to the canvas size (also a HTMLCanvasElement)
             const canvasScaled = this.editor.getImageScaledToCanvas()
-            this.setState({ resultBase64Img: Utils.getBase64Image2(canvas) })
-            console.log('result img base64', Utils.getBase64Image2(canvas)) //[question] 直接调用state，第一次数据为 undefined 第二次成功 
+            this.setState({ resultBase64Img: Utils.getBase64Image(canvas) })
+            console.log('result img base64', Utils.getBase64Image(canvas)) //[question] 直接调用state，第一次数据为 undefined 第二次成功 
             let url = APIS.saveAvatar.devUrl
 
             axios({
                 method: "post",
                 url: url,
                 headers: {
-                    // 'Content-type': 'application/x-www-form-urlencoded'
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/x-www-form-urlencoded'
                 },
                 data: {
                     user: storage.getLocalStorage('user', 1000 * 60 * 60 * 24),
-                    base64: Utils.getBase64Image2(canvas)
+                    base64: Utils.getBase64Image(canvas)
                 },
-                // transformRequest: [function (data) {
-                //     let ret = ''
-                //     for (let it in data) {
-                //         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                //     }
-                //     return ret
-                // }],
+                transformRequest: [function (data) {
+                    let ret = ''
+                    for (let it in data) {
+                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                }],
             }).then((res) => {
                 console.log(res.data);
             })
@@ -131,6 +130,10 @@ export default class Avatar extends React.Component {
         this.props.handleClose()
     }
 
+
+    uploadTest = () => {
+        alert('upload')
+    }
 
     setEditorRef = (editor) => this.editor = editor
 
@@ -163,7 +166,7 @@ export default class Avatar extends React.Component {
                         showUploadList={false}
                         // action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
                         action='#'
-                        // customRequest={uploadTest}
+                        customRequest={uploadTest}
                         beforeUpload={this.beforeUpload}
                         onChange={this.handleChange}
                     >
