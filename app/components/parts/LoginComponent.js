@@ -21,8 +21,8 @@ class NormalLoginForm extends React.Component {
                         //登录后将 user 存放到 localStorage
                         let user = JSON.stringify({ isLogin: true, name: values.userName, avatar: res.data[0].avatarUrl })
                         storage.setLocalStorage("user", user)
+                        console.log('localStoreage', storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
                         this.props.history.push('/app/blogall')
-
                         //调用父辈方法关闭模态框
                         this.handleCancel()
                         //改变父组件state，显示登陆后内容

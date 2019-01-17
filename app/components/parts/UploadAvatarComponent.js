@@ -7,7 +7,10 @@ import APIS from '../../api/index';
 import * as storage from '../../utils/commUtils'
 require('../../assets/styles/DialogForm.css')
 
-
+/* 
+  头像上传，使用控件   1、antd upload控件  2、react-avatar-editor  github:https://github.com/mosch/react-avatar-editor
+  参考文档 https://blog.csdn.net/song279811799/article/details/79055651
+*/
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -44,8 +47,9 @@ export default class Avatar extends React.Component {
 
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
+            //用beforeUpload方法验证图片
+            if (!beforeUpload(info.file.originFileObj)) return
             // 不使用 antd 组件的自动请求
-
             getBase64(info.file.originFileObj, imageUrl => this.setState({
                 imageUrl,
                 loading: false,
@@ -72,12 +76,16 @@ export default class Avatar extends React.Component {
         this.setState({ scale: value })
     }
 
-    //todo: img保存，以base64格式post给后台
+    /*
+    issue:上传头像此方法会调用两次
+    第一次在upload组件里的 customRequest 方法里调用，因为 !this.state.imageUrl 判断原图片为空，所以直接return
+    第二次在 saveButton 调用，因为 通过 handleChange方法将base64的图片赋值给了 state.imge，所以跳过第一个 if判断，执行后续动作
+    */
     //头像保存
     onClickSave = () => {
         //如果antd upload控件没有绑定图片值
         if (!this.state.imageUrl) {
-            message.error('Avatar img can not be null');
+            //message.error('Avatar img can not be null');
             return
         }
         else if (this.editor) {
@@ -91,7 +99,6 @@ export default class Avatar extends React.Component {
             this.setState({ resultBase64Img: Utils.getBase64Image2(canvas) })
             console.log('result img base64', Utils.getBase64Image2(canvas)) //[question] 直接调用state，第一次数据为 undefined 第二次成功 
             let url = APIS.saveAvatar.devUrl
-
             axios({
                 method: "post",
                 url: url,
@@ -113,16 +120,18 @@ export default class Avatar extends React.Component {
             }).then((res) => {
                 console.log(res.data);
             })
-
-
         }
         //调用父组件方法关闭dialog
-        // this.setState({
-        //     imageUrl: '',
-        //     resultBase64Img: ''
-        // })
-        // this.props.handleClose()
+        this.setState({
+            imageUrl: '',
+            resultBase64Img: ''
+        })
+        this.props.handleClose()
     }
+
+
+
+
     handleCancel = () => {
         this.setState({
             imageUrl: '',
@@ -163,7 +172,7 @@ export default class Avatar extends React.Component {
                         showUploadList={false}
                         // action="//jsonplaceholder.typicode.com/posts/" //antd 测试用请求地址
                         action='#'
-                        // customRequest={uploadTest}
+                        customRequest={this.onClickSave} //屏蔽upload组件封装的自动上传
                         beforeUpload={this.beforeUpload}
                         onChange={this.handleChange}
                     >

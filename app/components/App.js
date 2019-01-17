@@ -12,13 +12,12 @@ class CRouter extends Component {
 
     componentDidMount() {
         //初始化 store 中 blogs数组
-        let url = APIS.textApigetJson.devUrl
-        console.log(url)
-        axios.get(url).then(res => {
-            console.log(res)
-            this.props.dispatch(initBlogs(res.data))
-        })
-
+        // let url = APIS.textApigetJson.devUrl
+        // console.log(url)
+        // axios.get(url).then(res => {
+        //     console.log(res)
+        //     this.props.dispatch(initBlogs(res.data))
+        // })
     }
     render() {
         return (
