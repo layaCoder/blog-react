@@ -8,9 +8,9 @@ export default {
     //     name: 'textApi',
     //     devUrl: 'api/Handler/AjaxTestHandler.ashx?mod=40&&PCS_AreaID=3'
     // },
-    textApigetJson: {
-        name: 'nodejs',
-        devUrl: 'api/index'
+    blogList: {
+        name: 'blogList',
+        devUrl: 'api/get/blogList'
     },
     userLogin: {
         name: 'login',
@@ -24,8 +24,5 @@ export default {
         name: 'saveBlog',
         devUrl: 'api/post/saveBlog'
     },
-    getAllBlogs: {
-        name: 'getAllBlogs',
-        devUrl: ''
-    }
+
 }

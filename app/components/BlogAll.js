@@ -76,7 +76,8 @@ class BlogAll extends Component {
                                 </div>)}
                             datetime={(
                                 <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                    <span>{moment().fromNow()}</span>
+                                    {/* <span>{moment().fromNow()}</span> */}
+                                    <span>{item.date}</span>
                                 </Tooltip>
                             )}
                         />

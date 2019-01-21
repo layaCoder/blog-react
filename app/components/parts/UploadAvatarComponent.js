@@ -8,7 +8,7 @@ import * as storage from '../../utils/commUtils'
 require('../../assets/styles/DialogForm.css')
 
 /* 
-  头像上传，使用控件   1、antd upload控件  2、react-avatar-editor  github:https://github.com/mosch/react-avatar-editor
+  头像上传，使用控件   1、antd upload控件  2、react-avatar-editor  github:https://github.com/layaCoder/react-avatar-editor
   参考文档 https://blog.csdn.net/song279811799/article/details/79055651
 */
 

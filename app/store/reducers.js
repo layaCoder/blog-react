@@ -20,12 +20,13 @@ function blogs(state = [], action) {
             state = []
             action.blogArray.map(item => {
                 state.push({
-                    id: item.id,
-                    title: 'some title',
-                    text: 'some text',
-                    htmlDom: '<strong>some htmlDom</strong>',
-                    user: 'some user',
-                    avatarUrl: ' some avatarUrl'
+                    id: item._id,
+                    title: item.title,
+                    text: item.text,
+                    htmlDom: item.htmlDom,
+                    user: item.user,
+                    avatarUrl: item.avatarUrl,
+                    date: item.date
                 })
             })
             return state

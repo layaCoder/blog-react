@@ -13,7 +13,6 @@ export function get_uuid() {
     return uuid;
 }
 
-//img通过canvas转成base64编码
 export function getBase64Image(img) {
     var canvas = img
     // var canvas = document.createElement("canvas");
@@ -28,7 +27,7 @@ export function getBase64Image(img) {
     // return dataURL.replace("data:image/png;base64,", "");
 }
 
-
+//img通过canvas转成base64编码
 export function getBase64Image2(img) {
     var canvas = document.createElement("canvas");
     var width = img.width;
