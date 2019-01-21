@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -16,14 +16,16 @@ class BlogAll extends Component {
         this.state = {
             visible: false,
             blogObj: '',
-            blogs: []
+            blogs: [],
         }
     }
-    componentDidMount() {
 
-    }
     componentDidUpdate() {
-        console.log('Updated', this.props.store)
+        // console.log('Updated', this.props.store)
+        // //先判断当前 isLoading 状态，避免进入死循环
+        // if (this.state.isLoading !== false) {
+        //     this.setState({ isLoading: false })
+        // }
     }
 
     showBlogDetail = (item) => {
@@ -59,30 +61,38 @@ class BlogAll extends Component {
 
         return (
             <div>
-                <Row>
-                    <h2>All Blog</h2>
-                </Row>
-                <Row>
-                    {this.props.store.blogs.map(item => {
-                        return <Comment key={item.id}
-                            author={item.user}
-                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                            content={(
-                                <div>
-                                    {/* 【用于对话框形式显示blogDetail】 
+                <div>
+                    {this.props.store.blogs.length === 0 ?
+                        < Skeleton avatar paragraph={{ rows: 4 }} />
+                        : null}
+                </div>
+                {this.props.store.blogs.length > 0 ?
+                    <div>
+
+                        <Row>
+                            <h2>All Blog</h2>
+                        </Row>
+                        <Row>
+                            {this.props.store.blogs.map(item => {
+                                return <Comment key={item.id}
+                                    author={item.user}
+                                    avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
+                                    content={(
+                                        <div>
+                                            {/* 【用于对话框形式显示blogDetail】 
                                     <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div> */}
-                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
-                                    <div className="blogText">{item.text}</div>
-                                </div>)}
-                            datetime={(
-                                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                    {/* <span>{moment().fromNow()}</span> */}
-                                    <span>{item.date}</span>
-                                </Tooltip>
-                            )}
-                        />
-                    })}
-                    {/* {this.state.blogs.map(item => {
+                                            <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
+                                            <div className="blogText">{item.text}</div>
+                                        </div>)}
+                                    datetime={(
+                                        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                                            {/* <span>{moment().fromNow()}</span> */}
+                                            <span>{item.date}</span>
+                                        </Tooltip>
+                                    )}
+                                />
+                            })}
+                            {/* {this.state.blogs.map(item => {
                         return <Comment key={item.id}
                             author={item.user}
                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
@@ -99,16 +109,19 @@ class BlogAll extends Component {
                             )}
                         />
                     })} */}
-                </Row>
-                {/* 模态框中显示具体blog内容 */}
-                <Modal
-                    title={this.state.blogObj.title}
-                    visible={this.state.visible}
-                    onCancel={this.handleCancel}
-                    footer={null}
-                >
-                    <div dangerouslySetInnerHTML={{ __html: this.state.blogObj.htmlDom }}></div>
-                </Modal>
+                        </Row>
+                        {/* 模态框中显示具体blog内容 */}
+                        <Modal
+                            title={this.state.blogObj.title}
+                            visible={this.state.visible}
+                            onCancel={this.handleCancel}
+                            footer={null}
+                        >
+                            <div dangerouslySetInnerHTML={{ __html: this.state.blogObj.htmlDom }}></div>
+                        </Modal>
+                    </div>
+                    : null}
+
             </div>
 
         )

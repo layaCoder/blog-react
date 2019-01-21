@@ -7,8 +7,16 @@ import { initBlogs } from '../store/actions';
 import axios from 'axios'
 import APIS from '../api/index'
 
+import { Progress } from 'antd';
+
 
 class CRouter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        }
+    }
 
     componentDidMount() {
         //初始化 store 中 blogs数组
@@ -21,7 +29,11 @@ class CRouter extends Component {
     }
     render() {
         return (
+
             <div style={{ height: '100%' }}>
+                <div>
+                    <Progress percent={this.state.percent} />
+                </div>
                 <Router>
                     <Route render={({ location }) => {
                         return (
