@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 //具体导航的名称
 const breadcrumbNameMap = {
     '/app': 'Home',
-    '/app/myblog': 'My Blog',
+    '/app/myblog': 'My Blogs',
     '/app/writeblog': 'Write Blog',
-    '/app/blogall': 'Blog All',
+    '/app/blogall': 'All Blogs',
     '/app/blogall/blogdetail': 'Blog Detail'
 };
 class BreadcrumbCustom extends Component {

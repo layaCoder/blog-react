@@ -119,6 +119,8 @@ export default class Avatar extends React.Component {
                 // }],
             }).then((res) => {
                 console.log(res.data);
+                //保存图片url未变，服务器同名头像图片已经更改，所以需要刷新页面来加载新头像
+                window.location.reload();
             })
         }
         //调用父组件方法关闭dialog
@@ -128,9 +130,6 @@ export default class Avatar extends React.Component {
         })
         this.props.handleClose()
     }
-
-
-
 
     handleCancel = () => {
         this.setState({
@@ -215,3 +214,4 @@ export default class Avatar extends React.Component {
         );
     }
 }
+

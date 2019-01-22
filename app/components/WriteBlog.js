@@ -94,7 +94,7 @@ class WriteBlog extends Component {
         return (
             <div>
                 <Row className="row">
-                    <h2>Write Blog</h2>
+                    <h2 style={{ textAlign: 'center' }}>Write Blog</h2>
                 </Row>
                 <div>
                     <Row className="row">
@@ -119,7 +119,7 @@ class WriteBlog extends Component {
                         />
                     </Row>
                 </div>
-            </div>
+            </div >
         )
     }
 }

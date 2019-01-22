@@ -58,6 +58,9 @@ class BlogAll extends Component {
     }
 
     render() {
+        let myStyle = {
+            textAlign: 'center'
+        }
 
         return (
             <div>
@@ -70,7 +73,7 @@ class BlogAll extends Component {
                     <div>
 
                         <Row>
-                            <h2>All Blog</h2>
+                            <h2 style={myStyle}>All Blogs</h2>
                         </Row>
                         <Row>
                             {this.props.store.blogs.map(item => {

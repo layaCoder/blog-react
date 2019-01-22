@@ -11,13 +11,6 @@ export const initBlogs = (blogArray) => {
     }
 }
 
-
-export const initBlogs2 = (blogArray, isLoading) => {
-    type: 'INIT_BLOGS2',
-        blogArray,
-        isLoading
-}
-
 //博客列表的filter类型
 export const filterTypes = {
     SHOW_ALL: 'SHOW_ALL',

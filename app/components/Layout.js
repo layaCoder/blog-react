@@ -176,9 +176,9 @@ class Page3 extends Component {
                     </Row>
                 </Header>
 
-                <Content style={{ padding: '0 50px' }}>
+                <Content style={{ padding: '10px 200px' }}>
                     <BreadcrumbCusstom />
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+                    <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>
                         {/* 用switch方式来显示路由组件 */}
                         <Switch>
                             <Route exact path='/app' component={Home} />

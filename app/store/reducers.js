@@ -34,6 +34,8 @@ function blogs(state = [], action) {
     }
 }
 
+
+
 //blog列表过滤器，分为 all , frontend ,lifeStyle
 function filter(state = 'all', action) {
     switch (action.type) {

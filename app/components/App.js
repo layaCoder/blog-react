@@ -14,7 +14,7 @@ class CRouter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         }
     }
 
@@ -32,7 +32,7 @@ class CRouter extends Component {
 
             <div style={{ height: '100%' }}>
                 <div>
-                    <Progress percent={this.state.percent} />
+                    {/* <Progress percent={this.state.percent} /> */}
                 </div>
                 <Router>
                     <Route render={({ location }) => {
