@@ -21,7 +21,7 @@ class WriteBlog extends Component {
         super();
         this.state = {
             editorState: EditorState.createEmpty(),
-            title: 'plz write your blog title'
+            title: null
         }
     }
 
@@ -44,11 +44,13 @@ class WriteBlog extends Component {
     handleSubmit() {
         let markDownText = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
         //记录下原始文本，在blogAll列表中显示
-        console.log('del', untils.delHtmlTag(markDownText))
         //todo:修改redux state结构 ，确定blog数据格式
         let user = JSON.parse(untils.getLocalStorage('user', 1000 * 60 * 60 * 24));
-        console.log('2222', user.name, user.avatar)
-
+        console.log('userInfo', user.name, user.avatar)
+        if (untils.delHtmlTag(markDownText).length < 2 || !this.state.title) { // 博客内容部分用长度判断，issue：为什么 !untils.deHtmlTag(markDownText)无法实现
+            message.warning('title or content can not be null')
+            return
+        }
         let postUrl = APIS.saveBlog.devUrl
         axios({
             method: "post",
@@ -98,7 +100,7 @@ class WriteBlog extends Component {
                 </Row>
                 <div>
                     <Row className="row">
-                        <Input addonBefore="Title:" value={this.state.title} onChange={this.titleChanged} />
+                        <Input addonBefore="Title:" value={this.state.title} onChange={this.titleChanged} placeholder='plz write your blog title' />
                     </Row>
                     <Row className="row">
                         <Editor

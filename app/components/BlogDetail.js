@@ -19,7 +19,6 @@ export default class BlogDetail extends Component {
     }
 
     componentDidMount() {
-
         // this.setState({
         //     blogItem: this.props.location.state
         // })
@@ -33,8 +32,6 @@ export default class BlogDetail extends Component {
             })
 
         }
-
-
     }
 
 
@@ -44,7 +41,7 @@ export default class BlogDetail extends Component {
         }
         return (
             <div>
-                <h2>{this.state.title}</h2>
+                <h2 style={myStyle}>{this.state.title}</h2>
                 <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
                 <p>author : {this.state.user}</p>
                 <p>state:blogId</p>

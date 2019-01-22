@@ -42,6 +42,7 @@ class MyBlog extends Component {
                         <div>
                             <Row>
                                 {
+                                    //用username过滤store中的blogs
                                     this.props.store.blogs.filter(item => item.user === this.state.userName).map(item => {
                                         return <Comment key={item.id}
                                             author={item.user}

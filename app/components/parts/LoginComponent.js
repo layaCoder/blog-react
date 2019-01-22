@@ -9,7 +9,17 @@ import APIS from '../../api/index';
 import * as storage from '../../utils/commUtils'
 
 class NormalLoginForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            isLoading: false
+        }
+    }
+
+
+
     handleSubmit = (e) => {
+        this.setState({ isLoading: true })
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -31,8 +41,8 @@ class NormalLoginForm extends React.Component {
                     else {
                         message.error('name or password is wrong!!!');
                     }
+                    this.setState({ isLoading: false })
                 })
-
                 // if (values.userName === 'laya' && values.password === '111') {
                 //     //登录后将 user 存放到 localStorage
                 //     let user = JSON.stringify({ isLogin: true, name: values.userName })
@@ -82,7 +92,7 @@ class NormalLoginForm extends React.Component {
                         <Checkbox>Remember me</Checkbox>
                     )} */}
                     {/* <a className="login-form-forgot" href="">Forgot password</a> */}
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    <Button type="primary" htmlType="submit" className="login-form-button" loading={this.state.isLoading}>
                         Login
             </Button>
                     {/* Or <a href="">register now!</a> */}
