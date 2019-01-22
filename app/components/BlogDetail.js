@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button, Row, Col, Icon, Divider } from 'antd';
 
 export default class BlogDetail extends Component {
     constructor() {
@@ -28,24 +29,42 @@ export default class BlogDetail extends Component {
                 id: this.props.location.state.id,
                 title: this.props.location.state.title,
                 htmlDom: this.props.location.state.htmlDom,
-                user: this.props.location.state.user
+                user: this.props.location.state.user,
+                date: this.props.location.state.date
             })
-
         }
     }
 
+    goBack = () => {
+        console.log(this.props.history)
+        this.props.history.goBack()
+    }
 
     render() {
         let myStyle = {
             textAlign: 'center'
         }
+
+
         return (
             <div>
-                <h2 style={myStyle}>{this.state.title}</h2>
-                <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
-                <p>author : {this.state.user}</p>
-                <p>state:blogId</p>
-                <p>{this.state.id}</p>
+                <Row>
+                    <Divider> <h2 style={myStyle}>{this.state.title}</h2></Divider>
+                </Row>
+                <Row>
+                    <Col span={5} offset={8}><p>Author:&nbsp;{this.state.user}</p></Col>
+                    <Col span={8}><p>Date:&nbsp;{this.state.date}</p></Col>
+                    <Divider dashed />
+                </Row>
+                <Row>
+                    <Col span={20} offset={2}>
+                        <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
+                    </Col>
+                </Row>
+                <Row className="footer" style={{ marginTop: '50px' }}>
+                    <Divider />
+                    <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                </Row>
             </div>
 
         )
