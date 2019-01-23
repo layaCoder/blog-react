@@ -1,3 +1,11 @@
+/*
+@使用React Draft Wysiwyg  markdown控件
+参考文档：https://blog.csdn.net/genius_yym/article/details/82776430
+控件网站：https://jpuri.github.io/react-draft-wysiwyg/#/docs
+控件github：https://github.com/jpuri/react-draft-wysiwyg
+*/
+
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from '../store/actions'
@@ -88,6 +96,7 @@ class WriteBlog extends Component {
 
 
     };
+
 
     render() {
         const { editorState } = this.state;

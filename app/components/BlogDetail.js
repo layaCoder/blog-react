@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Row, Col, Icon, Divider } from 'antd';
+import moment from 'moment';
 
 export default class BlogDetail extends Component {
     constructor() {
@@ -53,7 +54,7 @@ export default class BlogDetail extends Component {
                 </Row>
                 <Row>
                     <Col span={5} offset={8}><p>Author:&nbsp;{this.state.user}</p></Col>
-                    <Col span={8}><p>Date:&nbsp;{this.state.date}</p></Col>
+                    <Col span={8}><p>Date:&nbsp;{moment(this.state.date).format('LLLL')}</p></Col>
                     <Divider dashed />
                 </Row>
                 <Row>

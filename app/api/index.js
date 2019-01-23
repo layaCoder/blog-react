@@ -24,5 +24,8 @@ export default {
         name: 'saveBlog',
         devUrl: 'api/post/saveBlog'
     },
-
+    blogInfoOnMongoose: {
+        name: 'blogInfoOnMongoose',
+        devUrl: 'api/get/blogInfoOnMongoose'
+    }
 }

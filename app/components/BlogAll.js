@@ -88,9 +88,8 @@ class BlogAll extends Component {
                                             <div className="blogText">{item.text}</div>
                                         </div>)}
                                     datetime={(
-                                        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                            {/* <span>{moment().fromNow()}</span> */}
-                                            <span>{item.date}</span>
+                                        <Tooltip title={moment(item.date).format('LLLL')}>
+                                            <span>{moment(item.date).fromNow()}</span>
                                         </Tooltip>
                                     )}
                                 />
@@ -139,7 +138,7 @@ let mapStateToProps = (state) => {
 
 export default withRouter(connect(mapStateToProps)(BlogAll));
 
-// export default connect(mapStateToProps)(BlogAll)
+        // export default connect(mapStateToProps)(BlogAll)
 
 
 

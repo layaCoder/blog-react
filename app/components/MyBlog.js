@@ -49,14 +49,12 @@ class MyBlog extends Component {
                                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
                                             content={(
                                                 <div>
-
                                                     <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
                                                     <div className="blogText">{item.text}</div>
                                                 </div>)}
                                             datetime={(
-                                                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                                    {/* <span>{moment().fromNow()}</span> */}
-                                                    <span>{item.date}</span>
+                                                <Tooltip title={moment(item.date).format('LLLL')}>
+                                                    <span>{moment(item.date).fromNow()}</span>
                                                 </Tooltip>
                                             )}
                                         />
