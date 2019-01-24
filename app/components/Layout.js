@@ -226,7 +226,7 @@ class Page3 extends Component {
                 <div>
                     {/* 修改密码模态框 */}
                     <Modal
-                        width={"30%"}
+                        width={"50%"}
                         title="Change Password"
                         visible={this.state.changePassVisible}
                         onOk={this.handleOk}

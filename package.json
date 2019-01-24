@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-runtime": "^6.26.0",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -58,6 +59,5 @@
       "target": "http://localhost:2000",
       "changeOrigin": true
     }
-    
   }
 }

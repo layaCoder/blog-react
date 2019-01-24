@@ -27,5 +27,9 @@ export default {
     blogInfoOnMongoose: {
         name: 'blogInfoOnMongoose',
         devUrl: 'api/get/blogInfoOnMongoose'
+    },
+    changePassword: {
+        name: 'changePassword',
+        devUrl: 'api/post/changePassword'
     }
 }
