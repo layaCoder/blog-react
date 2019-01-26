@@ -1,4 +1,4 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT } from './actions';
 import { combineReducers } from 'redux';
 import { get_uuid } from '../utils/commUtils'
 
@@ -46,9 +46,19 @@ function filter(state = 'all', action) {
     }
 }
 
+function blogsPageCount(state = 0, action) {
+    switch (action.type) {
+        case GET_BLOGS_PAGE_COUNT:
+            return parseInt(action.blogArray.length / 10) + 1
+        default:
+            return state
+    }
+}
+
 const blogApp = combineReducers({
     filter,
-    blogs
+    blogs,
+    blogsPageCount
 })
 
 export default blogApp;

@@ -2,11 +2,19 @@ export const ADD_BLOG = 'ADD_BLOG'
 export const DEL_BLOG = 'DEL_BLOG'
 export const SET_FILTER = 'SET_FILTER'
 export const INIT_BLOGS = 'INIT_BLOGS'
+export const GET_BLOGS_PAGE_COUNT = 'GET_BLOGS_PAGE_COUNT'
 
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
     return {
         type: INIT_BLOGS,
+        blogArray
+    }
+}
+
+export const getBlogsPageCount = (blogArray) => {
+    return {
+        type: GET_BLOGS_PAGE_COUNT,
         blogArray
     }
 }

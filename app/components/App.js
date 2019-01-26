@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import BlogAll from './BlogAll';
 import Layout from './Layout';
 import { connect } from 'react-redux'
-import { initBlogs } from '../store/actions';
+import { initBlogs, getBlogsPageCount } from '../store/actions';
 import axios from 'axios'
 import APIS from '../api/index'
 
@@ -25,6 +25,7 @@ class CRouter extends Component {
         axios.get(url).then(res => {
             console.log('blog list', res)
             this.props.dispatch(initBlogs(res.data))
+            this.props.dispatch(getBlogsPageCount(this.props.store.blogs))//获取分页总页数
         })
     }
     render() {
@@ -40,7 +41,7 @@ class CRouter extends Component {
                             <Switch>
                                 <Route path='/app' component={Layout} />
                                 {/* <Route path='/' component={Layout}  /> */}
-                                < Route exact path="/" render={() => <Redirect to="/app/blogall" />} />
+                                < Route exact path="/" render={() => <Redirect to={{ pathname: "/app/blogall" }} />} />
                                 <Route path='/BlogAll' component={BlogAll} />
                             </Switch>
                         )

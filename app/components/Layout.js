@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
+import { connect } from 'react-redux'
 
 
 
@@ -19,7 +20,7 @@ import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 require('../assets/styles/Layout.css')
 
 
-class Page3 extends Component {
+class LayoutComponent extends Component {
     constructor() {
         super();
         this.state = {
@@ -64,6 +65,7 @@ class Page3 extends Component {
         else {
             this.setState({ isLogin: false })
         }
+
     }
 
     componentDidlUpdate() {
@@ -146,7 +148,7 @@ class Page3 extends Component {
                                 style={{ lineHeight: '64px' }}
                             >
                                 <Menu.Item key={['/app/blogall']}>
-                                    <Link to='/app/blogall' >All Blogs</Link>
+                                    <Link to={{ pathname: '/app/blogall', state: this.props.store.blogs }}>All Blogs</Link>
                                 </Menu.Item>
                                 <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                                     <Link to={'/app/myblog'}  >My Blogs</Link>
@@ -238,9 +240,14 @@ class Page3 extends Component {
                     </Modal>
                 </div>
 
-            </Layout>
+            </Layout >
         )
     }
 }
+let mapStateToProps = (state) => {
+    return {
+        store: state
+    }
+};
 
-export default withRouter(Page3);
+export default withRouter(connect(mapStateToProps)(LayoutComponent));
