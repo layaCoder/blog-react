@@ -2,7 +2,6 @@ export const ADD_BLOG = 'ADD_BLOG'
 export const DEL_BLOG = 'DEL_BLOG'
 export const SET_FILTER = 'SET_FILTER'
 export const INIT_BLOGS = 'INIT_BLOGS'
-export const GET_BLOGS_PAGE_COUNT = 'GET_BLOGS_PAGE_COUNT'
 
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
@@ -12,12 +11,6 @@ export const initBlogs = (blogArray) => {
     }
 }
 
-export const getBlogsPageCount = (blogArray) => {
-    return {
-        type: GET_BLOGS_PAGE_COUNT,
-        blogArray
-    }
-}
 
 //博客列表的filter类型
 export const filterTypes = {

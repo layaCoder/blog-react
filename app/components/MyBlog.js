@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -13,7 +13,9 @@ class MyBlog extends Component {
             visible: false,
             blogObj: '',
             blogs: [],
-            userName: ''
+            userName: '',
+            pageSize: 10,
+            pageNum: 1
         }
     }
 
@@ -23,9 +25,23 @@ class MyBlog extends Component {
         this.setState({ userName: user.name })
     }
 
+    changeNum = (page, pageSize) => {
+        console.log(page, pageSize)
+        this.setState({ pageNum: page })
+    }
+
+    changePageSize = (current, size) => {
+        //设置pageSize后返回第一页（pageNum:1)，避免选择Size后当前页显示错误
+        this.setState({ pageSize: size, pageNum: 1 })
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
+        }
+        let paginationStyle = {
+            textAlign: 'center',
+            marginTop: '20px'
         }
         return (
             <div>
@@ -43,7 +59,7 @@ class MyBlog extends Component {
                             <Row>
                                 {
                                     //用username过滤store中的blogs
-                                    this.props.store.blogs.filter(item => item.user === this.state.userName).map(item => {
+                                    this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
                                         return <Comment key={item.id}
                                             author={item.user}
                                             avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
@@ -60,6 +76,19 @@ class MyBlog extends Component {
                                         />
                                     })}
 
+                            </Row>
+                            <Row>
+                                <Pagination style={paginationStyle}
+                                    defaultCurrent={1}
+                                    current={this.state.pageNum}
+                                    pageSize={this.state.pageSize}
+                                    total={this.props.store.blogs.filter(item => item.user === this.state.userName).length}
+                                    onChange={this.changeNum}
+                                    onShowSizeChange={this.changePageSize}
+                                    pageSizeOptions={["5", "10", "15", "20"]}
+                                    showSizeChanger
+                                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                                />
                             </Row>
                         </div>
                         : null}

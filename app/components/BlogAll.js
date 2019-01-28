@@ -68,9 +68,19 @@ class BlogAll extends Component {
         this.setState({ pageNum: page })
     }
 
+    changePageSize = (current, size) => {
+        //设置pageSize后返回第一页（pageNum:1)，避免选择Size后当前页显示错误
+        this.setState({ pageSize: size, pageNum: 1 })
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
+        }
+
+        let pagination = {
+            textAlign: 'center',
+            marginTop: '20px'
         }
         return (
             <div>
@@ -124,11 +134,16 @@ class BlogAll extends Component {
                     })} */}
                         </Row>
                         <Row>
-                            <Pagination defaultCurrent={1}
+                            <Pagination style={pagination}
+                                defaultCurrent={1}
                                 current={this.state.pageNum}
                                 pageSize={this.state.pageSize}
                                 total={this.props.store.blogs.length}
                                 onChange={this.changeNum}
+                                onShowSizeChange={this.changePageSize}
+                                pageSizeOptions={["5", "10", "15", "20"]}
+                                showSizeChanger
+                                showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
                             />
                         </Row>
                         {/* 模态框中显示具体blog内容 */}

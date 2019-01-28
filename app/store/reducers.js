@@ -46,19 +46,10 @@ function filter(state = 'all', action) {
     }
 }
 
-function blogsPageCount(state = 0, action) {
-    switch (action.type) {
-        case GET_BLOGS_PAGE_COUNT:
-            return parseInt(action.blogArray.length / 10) + 1
-        default:
-            return state
-    }
-}
 
 const blogApp = combineReducers({
     filter,
     blogs,
-    blogsPageCount
 })
 
 export default blogApp;

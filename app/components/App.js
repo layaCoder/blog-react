@@ -25,7 +25,7 @@ class CRouter extends Component {
         axios.get(url).then(res => {
             console.log('blog list', res)
             this.props.dispatch(initBlogs(res.data))
-            this.props.dispatch(getBlogsPageCount(this.props.store.blogs))//获取分页总页数
+            // this.props.dispatch(getBlogsPageCount(this.props.store.blogs))//获取分页总页数
         })
     }
     render() {
