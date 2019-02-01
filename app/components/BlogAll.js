@@ -17,7 +17,7 @@ class BlogAll extends Component {
             visible: false,
             blogObj: '',
             blogs: [],
-            pageSize: 10, //现阶段pageSize不能更改，因为关联到store中的 blogsPageCount，后续讨论如何更新
+            pageSize: 10,
             pageNum: 1
         }
     }
@@ -78,7 +78,7 @@ class BlogAll extends Component {
             textAlign: 'center'
         }
 
-        let pagination = {
+        let paginationStyle = {
             textAlign: 'center',
             marginTop: '20px'
         }
@@ -134,7 +134,7 @@ class BlogAll extends Component {
                     })} */}
                         </Row>
                         <Row>
-                            <Pagination style={pagination}
+                            <Pagination style={paginationStyle}
                                 defaultCurrent={1}
                                 current={this.state.pageNum}
                                 pageSize={this.state.pageSize}

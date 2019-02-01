@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
 import * as storage from '../utils/commUtils'
+require('../assets/styles/MyBlog.css')
 
 class MyBlog extends Component {
     constructor(props) {
@@ -35,6 +36,10 @@ class MyBlog extends Component {
         this.setState({ pageSize: size, pageNum: 1 })
     }
 
+    handleDel = (id) => {
+        console.log('itemId:', id)
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -60,20 +65,26 @@ class MyBlog extends Component {
                                 {
                                     //用username过滤store中的blogs
                                     this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                        return <Comment key={item.id}
-                                            author={item.user}
-                                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                                            content={(
-                                                <div>
-                                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
-                                                    <div className="blogText">{item.text}</div>
-                                                </div>)}
-                                            datetime={(
-                                                <Tooltip title={moment(item.date).format('LLLL')}>
-                                                    <span>{moment(item.date).fromNow()}</span>
-                                                </Tooltip>
-                                            )}
-                                        />
+                                        return <div key={item.id}>
+                                            {/* <div style={{ float: 'right', marginTop: '20px' }}>&times;</div> */}
+                                            <Comment
+                                                key={item.id}
+                                                author={item.user}
+                                                avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
+                                                content={(
+                                                    <div className="commentItem">
+                                                        <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
+                                                        <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
+                                                        <div className="blogText">{item.text}</div>
+                                                    </div>)}
+                                                datetime={(
+                                                    <Tooltip title={moment(item.date).format('LLLL')}>
+                                                        <span>{moment(item.date).fromNow()}</span>
+                                                    </Tooltip>
+                                                )}
+                                            />
+                                        </div>
+
                                     })}
 
                             </Row>
