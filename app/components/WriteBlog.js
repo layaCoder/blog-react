@@ -76,9 +76,10 @@ class WriteBlog extends Component {
             },
         }
         ).then(res => {
-            console.log(res)
+            console.log('return data==>', res)
             ////////////////////
             this.props.dispatch(addBlog(
+                res.data.insertedId,
                 this.state.title,
                 untils.delHtmlTag(markDownText),
                 markDownText,

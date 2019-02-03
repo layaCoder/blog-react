@@ -21,9 +21,10 @@ export const filterTypes = {
 
 
 //添加个人博客
-export const addBlog = (title, text, htmlDom, user, avatarUrl) => {
+export const addBlog = (id, title, text, htmlDom, user, avatarUrl) => {
     return {
         type: ADD_BLOG,
+        id,
         title,
         text,
         htmlDom,
@@ -33,10 +34,10 @@ export const addBlog = (title, text, htmlDom, user, avatarUrl) => {
 }
 
 //
-export const delBlog = (index) => {
+export const delBlog = (id) => {
     return {
         type: DEL_BLOG,
-        index
+        id
     }
 }
 

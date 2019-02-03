@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, Popconfirm, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
 import * as storage from '../utils/commUtils'
+import axios from 'axios';
+import APIS from '../api/index';
+import { delBlog } from '../store/actions'
+
+
+
 require('../assets/styles/MyBlog.css')
+
 
 class MyBlog extends Component {
     constructor(props) {
@@ -16,7 +23,8 @@ class MyBlog extends Component {
             blogs: [],
             userName: '',
             pageSize: 10,
-            pageNum: 1
+            pageNum: 1,
+            delCurrentId: null
         }
     }
 
@@ -38,6 +46,15 @@ class MyBlog extends Component {
 
     handleDel = (id) => {
         console.log('itemId:', id)
+        this.setState({ delCurrentId: id })
+    }
+
+    confirmDel = () => {
+        //todo : post Id to backend 
+        this.props.dispatch(delBlog(this.state.delCurrentId))
+    }
+    cancelDel = () => {
+        message.error('Cancel delete');
     }
 
     render() {
@@ -73,7 +90,9 @@ class MyBlog extends Component {
                                                 avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
                                                 content={(
                                                     <div className="commentItem">
-                                                        <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
+                                                        <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
+                                                            <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
+                                                        </Popconfirm>
                                                         <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
                                                         <div className="blogText">{item.text}</div>
                                                     </div>)}

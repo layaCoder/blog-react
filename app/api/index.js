@@ -31,5 +31,9 @@ export default {
     changePassword: {
         name: 'changePassword',
         devUrl: 'api/post/changePassword'
+    },
+    deleteBlog: {
+        name: 'deleteBlog',
+        devUrl: 'api/post/deleteBlog'
     }
 }
