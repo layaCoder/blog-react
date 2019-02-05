@@ -44,14 +44,31 @@ class MyBlog extends Component {
         this.setState({ pageSize: size, pageNum: 1 })
     }
 
+    //删除btn点击事件，将id绑定到state
     handleDel = (id) => {
         console.log('itemId:', id)
         this.setState({ delCurrentId: id })
     }
 
+    //确认删除 ==> 将id post 到 backend
     confirmDel = () => {
-        //todo : post Id to backend 
-        this.props.dispatch(delBlog(this.state.delCurrentId))
+        let delUrl = APIS.deleteBlog.devUrl
+        axios({
+            method: 'post',
+            url: delUrl,
+            headers: {
+                // 'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/json'
+            },
+            data: {
+                blogId: this.state.delCurrentId
+            }
+        }).then(res => {
+            console.log('server res==>', res)
+            this.props.dispatch(delBlog(this.state.delCurrentId))
+        }).catch(error => {
+            console.log(error)
+        })
     }
     cancelDel = () => {
         message.error('Cancel delete');
