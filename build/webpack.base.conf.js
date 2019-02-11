@@ -3,6 +3,13 @@ const path = require('path');
 const APP_PATH = path.resolve(__dirname, '../app');
 const DIST_PATH = path.resolve(__dirname, '../dist');
 module.exports = {
+    //////////////////////////////////////////
+    //更改devServer配置，使开发版本使用 Serveo 内网穿透
+    //参考文档:https://blog.csdn.net/qq_39705237/article/details/80926684
+    //serveo说明:https://www.jianshu.com/p/d0b3991a9ce1
+
+    devServer: { disableHostCheck: true, },
+    //////////////////////////////////////////
     entry: {
         app: './app/index.js',
         framework: ['react', 'react-dom'],
@@ -16,7 +23,7 @@ module.exports = {
         rules: [
             { test: /\.js|jsx$/, use: 'babel-loader', exclude: /node_modules/ },
             {
-                 test: /\.js?$/,
+                test: /\.js?$/,
                 use: "babel-loader",
                 include: APP_PATH
             },
