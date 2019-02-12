@@ -18,7 +18,12 @@ class BlogAll extends Component {
             blogObj: '',
             blogs: [],
             pageSize: 10,
-            pageNum: 1
+            pageNum: 1,
+            ///////////
+            likes: 0,
+            dislikes: 0,
+            action: null
+            ////////
         }
     }
 
@@ -73,6 +78,15 @@ class BlogAll extends Component {
         this.setState({ pageSize: size, pageNum: 1 })
     }
 
+
+    like = (blogId) => {
+        alert(blogId)
+    }
+
+    dislike = (blogId) => {
+        alert(blogId)
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -82,6 +96,13 @@ class BlogAll extends Component {
             textAlign: 'center',
             marginTop: '20px'
         }
+
+        const { likes, dislikes, action } = this.state;
+        const actions = [
+
+        ];
+
+
         return (
             <div>
                 <div>
@@ -98,22 +119,53 @@ class BlogAll extends Component {
                             {
                                 // this.props.store.blogs.map(item => {
                                 this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    return <Comment key={item.id}
-                                        author={item.user}
-                                        avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                                        content={(
-                                            <div>
-                                                {/* 【用于对话框形式显示blogDetail】 
+                                    return <div key={item.id}>
+                                        <Comment key={item.id}
+                                            author={item.user}
+                                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
+                                            content={(
+                                                <div>
+                                                    {/* 【用于对话框形式显示blogDetail】 
                                     <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div> */}
-                                                <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
-                                                <div className="blogText">{item.text}</div>
-                                            </div>)}
-                                        datetime={(
-                                            <Tooltip title={moment(item.date).format('LLLL')}>
-                                                <span>{moment(item.date).fromNow()}</span>
-                                            </Tooltip>
-                                        )}
-                                    />
+                                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
+                                                    <div className="blogText">{item.text}</div>
+                                                </div>)}
+                                            datetime={(
+                                                <Tooltip title={moment(item.date).format('LLLL')}>
+                                                    <span>{moment(item.date).fromNow()}</span>
+                                                </Tooltip>
+                                            )}
+                                        />
+                                        {/* ---点赞控件 ---*/}
+                                        <div style={{ paddingLeft: '45px', marginTop: '-10px' }}>
+                                            <span>
+                                                <Tooltip title="Like">
+                                                    <Icon
+                                                        type="like"
+                                                        theme={action === 'liked' ? 'filled' : 'outlined'}
+                                                        onClick={this.like.bind(this, item.id)}
+                                                    />
+                                                </Tooltip>
+                                                <span style={{ paddingLeft: 8, cursor: 'auto' }}>
+                                                    {likes}
+                                                </span>
+                                            </span>
+                                            <span style={{ paddingLeft: '20px' }}>
+                                                <Tooltip title="Dislike">
+                                                    <Icon
+                                                        type="dislike"
+                                                        theme={action === 'disliked' ? 'filled' : 'outlined'}
+                                                        onClick={this.dislike.bind(this, item.id)}
+                                                    />
+                                                </Tooltip>
+                                                <span style={{ paddingLeft: 8, cursor: 'auto' }}>
+                                                    {dislikes}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        {/* ----------- */}
+                                    </div>
+
                                 })}
                             {/* {this.state.blogs.map(item => {
                         return <Comment key={item.id}
