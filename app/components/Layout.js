@@ -64,7 +64,7 @@ class LayoutComponent extends Component {
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
             console.log(getLocalStorage('user', 1000 * 60 * 60 * 24))
             this.setState({ isLogin: true })
-            this.props.dispatch(userLogin(true))
+            this.props.dispatch(userLogin(true, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name))
         }
         else {
             this.setState({ isLogin: false })

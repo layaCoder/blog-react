@@ -13,6 +13,7 @@ function blogs(state = [], action) {
                 htmlDom: action.htmlDom,//记录带html标签的文本，展示具体blog
                 user: action.user, //用户名
                 avatarUrl: action.avatarUrl,//用户头像url
+                likes: [] //likes 字段添加空数组
             }, ...state]
         case DEL_BLOG:
             console.log('reducer id ->', action.id)
@@ -27,7 +28,8 @@ function blogs(state = [], action) {
                     htmlDom: item.htmlDom,
                     user: item.user,
                     avatarUrl: item.avatarUrl,
-                    date: item.date
+                    date: item.date,
+                    likes: item.likes
                 })
             })
             return state
@@ -48,12 +50,12 @@ function filter(state = 'all', action) {
 }
 
 //记录用户是否登录
-function isLogin(state = false, action) {
+function isLogin(state = { login: false, userName: null }, action) {
     switch (action.type) {
         case USER_LOGIN:
-            return action.flag
+            return { login: action.flag, userName: action.userName }
         case USER_LOGOUT:
-            return action.flag
+            return { login: action.flag, userName: null }
         default:
             return state
     }

@@ -52,10 +52,11 @@ export const setFilter = (filter) => {
     }
 }
 
-export const userLogin = (flag) => {
+export const userLogin = (flag, userName) => {
     return {
         type: USER_LOGIN,
-        flag
+        flag,
+        userName
     }
 }
 export const userLogout = (flag) => {

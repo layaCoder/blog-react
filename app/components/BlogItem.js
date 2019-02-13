@@ -4,30 +4,74 @@ import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Sk
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
+import { connect } from 'react-redux'
+
+import axios from 'axios';
+import APIS from '../api/index';
+
 require('../assets/styles/BlogItem.css')
 
-export default class BlogItem extends Component {
+class BlogItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
             likes: 0,
-            dislikes: 0,
-            action: null,
+            // dislikes: 0,
+            action: '',
             item: props.item //将父组件props传给子组件state
         }
     }
 
     componentDidMount() {
+        console.log('blog item ==>', this.state.item)
+        if (this.state.item.likes) {
+            this.setState({ likes: this.state.item.likes.length })
+            //在 icon表达式中判断，登录登出后会动态切换，不仅仅在didMoout中来确定状态,但是点击 like btn样式不会变
+            // if (this.state.item.likes.includes(this.props.store.isLogin.userName)) {
+            //     this.setState({ action: 'liked' })
+            // }
+        }
     }
+
 
 
     like = () => {
-        alert(this.state.item.id)
+        if (this.props.store.isLogin.login === true) {
+            //如果已经点赞
+            if ((this.state.item.likes.includes(this.props.store.isLogin.userName) === true || this.state.action === 'liked' === true)) {
+                alert('you have liked this blog')
+                return
+            }
+            //如果没有点赞
+            else {
+                this.setState({ action: 'liked', likes: this.state.likes + 1 })
+                axios({
+                    method: 'post',
+                    url: APIS.likeBlogItem.devUrl,
+                    headers: {
+                        // 'Content-type': 'application/x-www-form-urlencoded'
+                        'Content-type': 'application/json'
+                    },
+                    data: {
+                        blogId: this.state.item.id,
+                        name: this.props.store.isLogin.userName
+                    }
+                }).then((res) => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+
+        }
+        else {
+            alert('pleaz login first')
+        }
     }
 
-    dislike = (blogId) => {
-        alert(this.state.item.id)
-    }
+    // dislike = () => {
+    //     alert(this.state.item.id)
+    // }
 
     render() {
         let myStyle = {
@@ -40,7 +84,8 @@ export default class BlogItem extends Component {
                 <Tooltip title="Like">
                     <Icon
                         type="like"
-                        theme={action === 'liked' ? 'filled' : 'outlined'}
+                        //如果 用户曾经点过赞(历史点赞记录)   或者  用户这一次点赞（本次行为，调用 like() 方法 中的 setState({action:'liked'})     
+                        theme={(this.state.item.likes.includes(this.props.store.isLogin.userName) === true || action === 'liked' === true) === true ? 'filled' : 'outlined'}
                         onClick={this.like}
                     />
                 </Tooltip>
@@ -48,18 +93,18 @@ export default class BlogItem extends Component {
                     {likes}
                 </span>
             </span>,
-            <span>
-                <Tooltip title="Dislike">
-                    <Icon
-                        type="dislike"
-                        theme={action === 'disliked' ? 'filled' : 'outlined'}
-                        onClick={this.dislike}
-                    />
-                </Tooltip>
-                <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-                    {dislikes}
-                </span>
-            </span>,
+            // <span>
+            //     <Tooltip title="Dislike">
+            //         <Icon
+            //             type="dislike"
+            //             theme={action === 'disliked' ? 'filled' : 'outlined'}
+            //             onClick={this.dislike}
+            //         />
+            //     </Tooltip>
+            //     <span style={{ paddingLeft: 8, cursor: 'auto' }}>
+            //         {dislikes}
+            //     </span>
+            // </span>,
             // <span>Reply to</span>,
         ];
         return (
@@ -82,35 +127,15 @@ export default class BlogItem extends Component {
                         </Tooltip>
                     )}
                 />
-                {/* ---点赞控件 ---*/}
-                {/* <div style={{ paddingLeft: '45px', marginTop: '-10px' }}>
-                    <span>
-                        <Tooltip title="Like">
-                            <Icon
-                                type="like"
-                                theme={action === 'liked' ? 'filled' : 'outlined'}
-                                onClick={this.like}
-                            />
-                        </Tooltip>
-                        <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-                            {likes}
-                        </span>
-                    </span>
-                    <span style={{ paddingLeft: '20px' }}>
-                        <Tooltip title="Dislike">
-                            <Icon
-                                type="dislike"
-                                theme={action === 'disliked' ? 'filled' : 'outlined'}
-                                onClick={this.dislike}
-                            />
-                        </Tooltip>
-                        <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-                            {dislikes}
-                        </span>
-                    </span>
-                </div> */}
-                {/* ----------- */}
+
             </div>
         )
     }
 }
+let mapStateToProps = (state) => {
+    return {
+        store: state
+    }
+};
+
+export default connect(mapStateToProps)(BlogItem)

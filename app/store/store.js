@@ -10,6 +10,10 @@ export const testState = {
         name: '',
         avatarUrl: ''
     },
-    isLogin: false
+    //isLogin: false
+    isLogin: {
+        login: false,
+        userName: null
+    }
 
 }

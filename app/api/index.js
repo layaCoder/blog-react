@@ -42,5 +42,9 @@ export default {
         name: 'deleteBlog',
         devUrl: 'api/post/deleteBlog',
         // devUrl: 'https://blogsev.serveo.net/post/deleteBlog'
+    },
+    likeBlogItem: {
+        name: 'likeBlogItem',
+        devUrl: 'api/post/likeBlogItem'
     }
 }
