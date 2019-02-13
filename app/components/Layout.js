@@ -17,6 +17,7 @@ import ChangePass from './parts/ChangePassComponent'
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
+import { userLogin, userLogout } from '../store/actions';
 require('../assets/styles/Layout.css')
 
 
@@ -43,6 +44,8 @@ class LayoutComponent extends Component {
             onOk() {
                 //在onOk函数中无法使用this.setState,使用之间绑定的thisComp变量来调用setState方法
                 thisComp.setState({ isLogin: false })
+                //改变redux store中的isLogin属性
+                thisComp.props.dispatch(userLogout(false))
                 localStorage.removeItem('user')
                 thisComp.props.history.push('/app/blogall')
             },
@@ -61,9 +64,11 @@ class LayoutComponent extends Component {
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
             console.log(getLocalStorage('user', 1000 * 60 * 60 * 24))
             this.setState({ isLogin: true })
+            this.props.dispatch(userLogin(true))
         }
         else {
             this.setState({ isLogin: false })
+            this.props.dispatch(userLogout(false))
         }
 
     }

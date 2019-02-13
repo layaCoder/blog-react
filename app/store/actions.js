@@ -3,6 +3,9 @@ export const DEL_BLOG = 'DEL_BLOG'
 export const SET_FILTER = 'SET_FILTER'
 export const INIT_BLOGS = 'INIT_BLOGS'
 
+export const USER_LOGIN = 'USER_LOGIN'
+export const USER_LOGOUT = 'USER_LOGOUT'
+
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
     return {
@@ -49,4 +52,15 @@ export const setFilter = (filter) => {
     }
 }
 
-
+export const userLogin = (flag) => {
+    return {
+        type: USER_LOGIN,
+        flag
+    }
+}
+export const userLogout = (flag) => {
+    return {
+        type: USER_LOGOUT,
+        flag
+    }
+}

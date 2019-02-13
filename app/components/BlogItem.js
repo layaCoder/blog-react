@@ -4,6 +4,7 @@ import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Sk
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
+require('../assets/styles/BlogItem.css')
 
 export default class BlogItem extends Component {
     constructor(props) {
@@ -35,12 +36,37 @@ export default class BlogItem extends Component {
 
         const { likes, dislikes, action } = this.state;
         const actions = [
-
+            <span>
+                <Tooltip title="Like">
+                    <Icon
+                        type="like"
+                        theme={action === 'liked' ? 'filled' : 'outlined'}
+                        onClick={this.like}
+                    />
+                </Tooltip>
+                <span style={{ paddingLeft: 8, cursor: 'auto' }}>
+                    {likes}
+                </span>
+            </span>,
+            <span>
+                <Tooltip title="Dislike">
+                    <Icon
+                        type="dislike"
+                        theme={action === 'disliked' ? 'filled' : 'outlined'}
+                        onClick={this.dislike}
+                    />
+                </Tooltip>
+                <span style={{ paddingLeft: 8, cursor: 'auto' }}>
+                    {dislikes}
+                </span>
+            </span>,
+            // <span>Reply to</span>,
         ];
         return (
 
             <div key={this.state.item.id}>
                 <Comment key={this.state.item.id}
+                    actions={actions}
                     author={this.state.item.user}
                     avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
                     content={(
@@ -57,7 +83,7 @@ export default class BlogItem extends Component {
                     )}
                 />
                 {/* ---点赞控件 ---*/}
-                <div style={{ paddingLeft: '45px', marginTop: '-10px' }}>
+                {/* <div style={{ paddingLeft: '45px', marginTop: '-10px' }}>
                     <span>
                         <Tooltip title="Like">
                             <Icon
@@ -82,7 +108,7 @@ export default class BlogItem extends Component {
                             {dislikes}
                         </span>
                     </span>
-                </div>
+                </div> */}
                 {/* ----------- */}
             </div>
         )

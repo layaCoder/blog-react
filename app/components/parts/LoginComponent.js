@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import APIS from '../../api/index';
+import { connect } from 'react-redux'
+import { userLogin, userLogout } from '../../store/actions'
+
 
 import * as storage from '../../utils/commUtils'
 
@@ -32,6 +35,9 @@ class NormalLoginForm extends React.Component {
                         let user = JSON.stringify({ isLogin: true, name: values.userName, avatar: res.data[0].avatarUrl })
                         storage.setLocalStorage("user", user)
                         console.log('localStoreage', storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
+                        //登录后改变redux store中的isLogin状态
+                        this.props.dispatch(userLogin(true))
+                        //跳转路由
                         this.props.history.push('/app/blogall')
                         //调用父辈方法关闭模态框
                         this.handleCancel()
@@ -65,6 +71,8 @@ class NormalLoginForm extends React.Component {
     showLoginRoot = () => {
         this.props.showLoginRoot()
     }
+
+
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -102,5 +110,11 @@ class NormalLoginForm extends React.Component {
     }
 }
 
-export default withRouter(Form.create()(NormalLoginForm));
+let mapStateToProps = (state) => {
+    return {
+        store: state
+    }
+};
+
+export default withRouter(connect(mapStateToProps)(Form.create()(NormalLoginForm)));
 

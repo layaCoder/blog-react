@@ -10,5 +10,6 @@ export const testState = {
         name: '',
         avatarUrl: ''
     },
+    isLogin: false
 
 }
