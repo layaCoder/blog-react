@@ -6,6 +6,9 @@ export const INIT_BLOGS = 'INIT_BLOGS'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
 
+export const LIKE_BLOG = 'LIKE_BLOG'
+export const DISSLIKE_BLOG = 'DISSLIKE_BLOG'
+
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
     return {
@@ -65,3 +68,20 @@ export const userLogout = (flag) => {
         flag
     }
 }
+
+export const likeBlog = (blogId, name) => {
+    return {
+        type: LIKE_BLOG,
+        blogId,
+        name
+    }
+}
+
+export const disslikeBlog = (blogId, name) => {
+    return {
+        type: DISSLIKE_BLOG,
+        blogId,
+        name
+    }
+}
+

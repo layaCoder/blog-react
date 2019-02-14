@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message } from 'antd';
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 
 import axios from 'axios';
 import APIS from '../api/index';
+import { likeBlog, disslikeBlog } from '../store/actions'
+
 
 require('../assets/styles/BlogItem.css')
 
@@ -23,14 +25,13 @@ class BlogItem extends Component {
     }
 
     componentDidMount() {
-        console.log('blog item ==>', this.state.item)
-        if (this.state.item.likes) {
-            this.setState({ likes: this.state.item.likes.length })
-            //在 icon表达式中判断，登录登出后会动态切换，不仅仅在didMoout中来确定状态,但是点击 like btn样式不会变
-            // if (this.state.item.likes.includes(this.props.store.isLogin.userName)) {
-            //     this.setState({ action: 'liked' })
-            // }
-        }
+        // if (this.state.item.likes) {
+        //     this.setState({ likes: this.state.item.likes.length })
+        //     //在 icon表达式中判断，登录登出后会动态切换，不仅仅在didMoout中来确定状态,但是点击 like btn样式不会变
+        //     // if (this.state.item.likes.includes(this.props.store.isLogin.userName)) {
+        //     //     this.setState({ action: 'liked' })
+        //     // }
+        // }
     }
 
 
@@ -39,12 +40,38 @@ class BlogItem extends Component {
         if (this.props.store.isLogin.login === true) {
             //如果已经点赞
             if ((this.state.item.likes.includes(this.props.store.isLogin.userName) === true || this.state.action === 'liked' === true)) {
-                alert('you have liked this blog')
+                this.setState({
+                    likes: this.state.likes - 1,
+                    action: '',
+                    item: { ...this.state.item, likes: this.state.item.likes.filter(item => item !== this.props.store.isLogin.userName) }//复制对象,object.assign的另一种写法
+                    //Object.assign()赋值对象
+                    //item: Object.assign(this.state.item, { ...this.state.item, likes: this.state.item.likes.filter(item => item !== this.props.store.isLogin.userName) })
+                })
+                this.props.dispatch(disslikeBlog(this.state.item.id, this.props.store.isLogin.userName))
+                console.log(this.state)
+                axios({
+                    method: 'post',
+                    url: APIS.disslikeBlogItem.devUrl,
+                    headers: {
+                        // 'Content-type': 'application/x-www-form-urlencoded'
+                        'Content-type': 'application/json'
+                    },
+                    data: {
+                        blogId: this.state.item.id,
+                        name: this.props.store.isLogin.userName
+                    }
+                }).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
                 return
             }
             //如果没有点赞
             else {
                 this.setState({ action: 'liked', likes: this.state.likes + 1 })
+                this.props.dispatch(likeBlog(this.state.item.id, this.props.store.isLogin.userName))
+
                 axios({
                     method: 'post',
                     url: APIS.likeBlogItem.devUrl,
@@ -65,7 +92,8 @@ class BlogItem extends Component {
 
         }
         else {
-            alert('pleaz login first')
+            message.warning('plz login first!')
+            return
         }
     }
 
@@ -90,7 +118,7 @@ class BlogItem extends Component {
                     />
                 </Tooltip>
                 <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-                    {likes}
+                    {this.props.item.likes.length}
                 </span>
             </span>,
             // <span>

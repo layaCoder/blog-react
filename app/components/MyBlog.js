@@ -8,6 +8,8 @@ import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';
 import { delBlog } from '../store/actions'
+import BlogItem from './BlogItem'
+
 
 
 
@@ -99,27 +101,28 @@ class MyBlog extends Component {
                                 {
                                     //用username过滤store中的blogs
                                     this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                        return <div key={item.id}>
-                                            {/* <div style={{ float: 'right', marginTop: '20px' }}>&times;</div> */}
-                                            <Comment
-                                                key={item.id}
-                                                author={item.user}
-                                                avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                                                content={(
-                                                    <div className="commentItem">
-                                                        <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
-                                                            <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
-                                                        </Popconfirm>
-                                                        <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
-                                                        <div className="blogText">{item.text}</div>
-                                                    </div>)}
-                                                datetime={(
-                                                    <Tooltip title={moment(item.date).format('LLLL')}>
-                                                        <span>{moment(item.date).fromNow()}</span>
-                                                    </Tooltip>
-                                                )}
-                                            />
-                                        </div>
+                                        return <BlogItem item={item} key={item.id} />
+                                        // <div key={item.id}>
+                                        //     {/* <div style={{ float: 'right', marginTop: '20px' }}>&times;</div> */}
+                                        //     <Comment
+                                        //         key={item.id}
+                                        //         author={item.user}
+                                        //         avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
+                                        //         content={(
+                                        //             <div className="commentItem">
+                                        //                 <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
+                                        //                     <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
+                                        //                 </Popconfirm>
+                                        //                 <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
+                                        //                 <div className="blogText">{item.text}</div>
+                                        //             </div>)}
+                                        //         datetime={(
+                                        //             <Tooltip title={moment(item.date).format('LLLL')}>
+                                        //                 <span>{moment(item.date).fromNow()}</span>
+                                        //             </Tooltip>
+                                        //         )}
+                                        //     />
+                                        // </div>
 
                                     })}
 

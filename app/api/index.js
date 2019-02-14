@@ -46,5 +46,9 @@ export default {
     likeBlogItem: {
         name: 'likeBlogItem',
         devUrl: 'api/post/likeBlogItem'
+    },
+    disslikeBlogItem: {
+        name: 'disslikeBlogItem',
+        devUrl: 'api/post/disslikeBlogItem'
     }
 }

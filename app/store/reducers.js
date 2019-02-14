@@ -1,4 +1,4 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG } from './actions';
 import { combineReducers } from 'redux';
 import { get_uuid } from '../utils/commUtils'
 
@@ -33,6 +33,53 @@ function blogs(state = [], action) {
                 })
             })
             return state
+        case LIKE_BLOG:
+            console.log('likeBlog running')
+            let resState = []
+            // issue 是否有简便写法?
+            state.map(item => {
+                if (item.id !== action.blogId) {
+                    resState.push(item)
+                }
+                else {
+                    resState.push(
+                        //Object.assign(item, { likes: action.name })
+                        {
+                            id: item.id,
+                            title: item.title,
+                            text: item.text,
+                            htmlDom: item.htmlDom,
+                            user: item.user,
+                            avatarUrl: item.avatarUrl,
+                            date: item.date,
+                            likes: [...item.likes, action.name]
+                        }
+                    )
+                }
+            })
+            return resState
+
+        case DISSLIKE_BLOG:
+            console.log('disslikeBlog running')
+            let resDissState = []
+            state.map(item => {
+                if (item.id !== action.blogId) {
+                    resDissState.push(item)
+                }
+                else {
+                    resDissState.push({
+                        id: item.id,
+                        title: item.title,
+                        text: item.text,
+                        htmlDom: item.htmlDom,
+                        user: item.user,
+                        avatarUrl: item.avatarUrl,
+                        date: item.date,
+                        likes: item.likes.filter(item => item !== action.name)
+                    })
+                }
+            })
+            return resDissState
         default: return state
     }
 }

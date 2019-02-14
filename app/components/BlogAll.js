@@ -4,7 +4,6 @@ import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Sk
 import { withRouter } from 'react-router-dom';
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
-import BLogItem from './BlogItem'
 
 import 'antd/dist/antd.css';
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
