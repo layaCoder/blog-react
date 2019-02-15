@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm } from 'antd';
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 
 import axios from 'axios';
 import APIS from '../api/index';
-import { likeBlog, disslikeBlog } from '../store/actions'
+import { likeBlog, disslikeBlog, delBlog } from '../store/actions'
+
 
 
 require('../assets/styles/BlogItem.css')
@@ -20,7 +21,8 @@ class BlogItem extends Component {
             likes: 0,
             // dislikes: 0,
             action: '',
-            item: props.item //将父组件props传给子组件state
+            item: props.item, //将父组件props传给子组件state,
+            delCurrentId: ''
         }
     }
 
@@ -101,6 +103,37 @@ class BlogItem extends Component {
     //     alert(this.state.item.id)
     // }
 
+    //删除btn点击事件，将id绑定到state
+    handleDel = (id) => {
+        console.log('itemId:', id)
+        this.setState({ delCurrentId: id })
+    }
+
+
+    //确认删除 ==> 将id post 到 backend
+    confirmDel = () => {
+        let delUrl = APIS.deleteBlog.devUrl
+        axios({
+            method: 'post',
+            url: delUrl,
+            headers: {
+                // 'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/json'
+            },
+            data: {
+                blogId: this.state.delCurrentId
+            }
+        }).then(res => {
+            console.log('server res==>', res)
+            this.props.dispatch(delBlog(this.state.delCurrentId))
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+    cancelDel = () => {
+        message.error('Cancel delete');
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -143,9 +176,11 @@ class BlogItem extends Component {
                     author={this.state.item.user}
                     avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
                     content={(
-                        <div>
-                            {/* 【用于对话框形式显示blogDetail】 
-                                    <div><a onClick={this.showBlogDetail.bind(this, item)}>{item.title}</a></div> */}
+                        <div className="commentItem">
+                            {/* 如果是myBlogs页面则显示 delBtn */}
+                            {this.props.type === "myBlogs" ? <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
+                                <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
+                            </Popconfirm> : null}
                             <Link to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date } }}>{this.state.item.title}</Link>
                             <div className="blogText">{this.state.item.text}</div>
                         </div>)}

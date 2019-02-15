@@ -82,7 +82,7 @@ class BlogAll extends Component {
                             {
                                 // this.props.store.blogs.map(item => {
                                 this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    return <BlogItem item={item} key={item.id} />
+                                    return <BlogItem item={item} key={item.id} type="allBlogs" />
                                 })}
                             {/* {this.state.blogs.map(item => {
                         return <Comment key={item.id}

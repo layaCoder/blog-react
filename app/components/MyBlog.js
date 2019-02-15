@@ -101,7 +101,7 @@ class MyBlog extends Component {
                                 {
                                     //用username过滤store中的blogs
                                     this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                        return <BlogItem item={item} key={item.id} />
+                                        return <BlogItem item={item} key={item.id} type={'myBlogs'} />
                                         // <div key={item.id}>
                                         //     {/* <div style={{ float: 'right', marginTop: '20px' }}>&times;</div> */}
                                         //     <Comment
