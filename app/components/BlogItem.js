@@ -53,7 +53,7 @@ class BlogItem extends Component {
                     method: 'post',
                     url: APIS.disslikeBlogItem.devUrl,
                     headers: {
-                        // 'Content-type': 'application/x-www-form-urlencoded'
+                        // 'Content-type': 'application/x-www-form-urlencoded' 
                         'Content-type': 'application/json'
                     },
                     data: {

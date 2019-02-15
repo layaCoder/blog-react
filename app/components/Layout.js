@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal } from 'antd';
+import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal, Progress, message } from 'antd';
 import { connect } from 'react-redux'
-
-
 
 import MyBlog from './MyBlog';
 import WriteBlog from './WriteBlog';
@@ -13,11 +11,15 @@ import BlogDetail from './BlogDetail'
 import Home from './Home'
 import UploadAvatarComponent from './parts/UploadAvatarComponent'
 import ChangePass from './parts/ChangePassComponent'
-
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 import { userLogin, userLogout } from '../store/actions';
+
+import axios from 'axios'
+import APIS from '../api/index'
+import { initBlogs, } from '../store/actions';
+
 require('../assets/styles/Layout.css')
 
 
@@ -28,7 +30,8 @@ class LayoutComponent extends Component {
             uploadAvatarVisible: false,
             modalVisible: false,
             isLogin: false,
-            changePassVisible: false
+            changePassVisible: false,
+            ProgressPercent: 0 //进度条百分比
         }
     }
 
@@ -60,6 +63,21 @@ class LayoutComponent extends Component {
     }
 
     componentDidMount() {
+        //初始化 blogList 数据
+        this.setState({ ProgressPercent: 60 })
+        let url = APIS.blogList.devUrl
+        console.log(url)
+        axios.get(url).then(res => {
+            console.log('blog list', res)
+            this.setState({ ProgressPercent: 99 })
+            this.props.dispatch(initBlogs(res.data))
+            if (this.props.store.blogs.length > 0) {
+                setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+            }
+            else
+                message.warning('server err!!!')
+        })
+
         // * 登录持续时间
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
             console.log(getLocalStorage('user', 1000 * 60 * 60 * 24))
@@ -73,9 +91,6 @@ class LayoutComponent extends Component {
 
     }
 
-    componentDidlUpdate() {
-
-    }
 
     showModal = () => {
         this.setState({
@@ -182,7 +197,8 @@ class LayoutComponent extends Component {
                         </Col>
                     </Row>
                 </Header>
-
+                {/* 进度条 */}
+                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} />}
                 <Content style={{ padding: '10px 200px' }}>
                     <BreadcrumbCusstom />
                     <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>
