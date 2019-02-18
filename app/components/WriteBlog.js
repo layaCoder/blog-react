@@ -9,7 +9,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from '../store/actions'
-import { Row, Input, message, Button } from 'antd';
+import { Row, Input, message, Button, Tag, Col } from 'antd';
 import 'antd/dist/antd.css';
 
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -23,14 +23,26 @@ require('../assets/styles/WriteBlog.css')
 import axios from 'axios';
 import APIS from '../api/index';
 
+const CheckableTag = Tag.CheckableTag;
+const tagsFromServer = ['Frontend', 'Backend', 'IOS', 'Android', 'Design', 'DevTool', 'LifeStyle'];
 
 class WriteBlog extends Component {
     constructor() {
         super();
         this.state = {
             editorState: EditorState.createEmpty(),
-            title: null
+            title: null,
+            selectedTags: [],
         }
+    }
+
+    handleChange(tag, checked) {
+        const { selectedTags } = this.state;
+        const nextSelectedTags = checked
+            ? [...selectedTags, tag]
+            : selectedTags.filter(t => t !== tag);
+        console.log('You are interested in: ', nextSelectedTags);
+        this.setState({ selectedTags: nextSelectedTags });
     }
 
     componentDidUpdate() {
@@ -72,7 +84,8 @@ class WriteBlog extends Component {
                 text: untils.delHtmlTag(markDownText),
                 htmlDom: markDownText,
                 user: user.name,
-                avatarUrl: user.avatar
+                avatarUrl: user.avatar,
+                tags: this.state.selectedTags
             },
         }
         ).then(res => {
@@ -84,11 +97,13 @@ class WriteBlog extends Component {
                 untils.delHtmlTag(markDownText),
                 markDownText,
                 user.name,
-                user.avatar
+                user.avatar,
+                this.state.selectedTags
             ))
             this.setState({
                 editorState: EditorState.createEmpty(),
-                title: ''
+                title: '',
+                selectedTags: []
             })
             message.success('blog saved', 3);
             //////////////////////////
@@ -118,6 +133,19 @@ class WriteBlog extends Component {
                             wrapperClassName="demo-wrapper"
                             editorClassName="demo-editor"
                             onEditorStateChange={this.onEditorStateChange.bind(this)} />
+                    </Row>
+                    <Row style={{ margin: '10px 5px' }}>
+                        <Col span={1}><strong>Tags:</strong></Col>
+                        {tagsFromServer.map(tag => (
+                            <CheckableTag
+                                key={tag}
+                                checked={this.state.selectedTags.indexOf(tag) > -1}
+                                onChange={checked => this.handleChange(tag, checked)}
+                                style={{ marginLeft: '10px' }}
+                            >
+                                {tag}
+                            </CheckableTag>
+                        ))}
                     </Row>
                     <Row className="row">
                         <Button type="primary" onClick={this.handleSubmit.bind(this)}>save</Button>

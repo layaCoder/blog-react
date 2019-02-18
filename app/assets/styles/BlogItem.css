@@ -14,3 +14,16 @@
 参考文档:https://blog.csdn.net/qingzhizhenhun/article/details/79639740
 */
 .commentItem:hover .delBtn{display: inline;}
+
+.tags{
+    margin-right: 10px;
+}
+
+.blogTitle{
+    font-size: 1.1rem;
+}
+
+.blogText{
+    font-size: 0.9rem;
+    color: #999;
+}

@@ -13,7 +13,8 @@ function blogs(state = [], action) {
                 htmlDom: action.htmlDom,//记录带html标签的文本，展示具体blog
                 user: action.user, //用户名
                 avatarUrl: action.avatarUrl,//用户头像url
-                likes: [] //likes 字段添加空数组
+                likes: [], //likes 字段添加空数组
+                tags: action.tags
             }, ...state]
         case DEL_BLOG:
             console.log('reducer id ->', action.id)
@@ -29,7 +30,8 @@ function blogs(state = [], action) {
                     user: item.user,
                     avatarUrl: item.avatarUrl,
                     date: item.date,
-                    likes: item.likes
+                    likes: item.likes,
+                    tags: item.tags
                 })
             })
             return state
@@ -52,6 +54,7 @@ function blogs(state = [], action) {
                             user: item.user,
                             avatarUrl: item.avatarUrl,
                             date: item.date,
+                            tags: item.tags,
                             likes: [...item.likes, action.name]
                         }
                     )
@@ -75,6 +78,7 @@ function blogs(state = [], action) {
                         user: item.user,
                         avatarUrl: item.avatarUrl,
                         date: item.date,
+                        tags: item.tags,
                         likes: item.likes.filter(item => item !== action.name)
                     })
                 }

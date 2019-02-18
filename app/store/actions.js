@@ -27,7 +27,7 @@ export const filterTypes = {
 
 
 //添加个人博客
-export const addBlog = (id, title, text, htmlDom, user, avatarUrl) => {
+export const addBlog = (id, title, text, htmlDom, user, avatarUrl, tags) => {
     return {
         type: ADD_BLOG,
         id,
@@ -35,7 +35,8 @@ export const addBlog = (id, title, text, htmlDom, user, avatarUrl) => {
         text,
         htmlDom,
         user,
-        avatarUrl
+        avatarUrl,
+        tags,
     }
 }
 

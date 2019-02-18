@@ -198,7 +198,7 @@ class LayoutComponent extends Component {
                     </Row>
                 </Header>
                 {/* 进度条 */}
-                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} />}
+                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
                 <Content style={{ padding: '10px 200px' }}>
                     <BreadcrumbCusstom />
                     <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>

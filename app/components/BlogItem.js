@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag } from 'antd';
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import axios from 'axios';
 import APIS from '../api/index';
 import { likeBlog, disslikeBlog, delBlog } from '../store/actions'
+import BlogTag from './parts/BlogTag'
 
 
 
@@ -41,7 +42,7 @@ class BlogItem extends Component {
     like = () => {
         if (this.props.store.isLogin.login === true) {
             //如果已经点赞
-            if ((this.state.item.likes.includes(this.props.store.isLogin.userName) === true || this.state.action === 'liked' === true)) {
+            if ((this.state.item.likes.includes(this.props.store.isLogin.userName) === true || this.state.action === 'liked')) {
                 this.setState({
                     likes: this.state.likes - 1,
                     action: '',
@@ -134,6 +135,10 @@ class BlogItem extends Component {
         message.error('Cancel delete');
     }
 
+    handleTags = (params) => {
+        alert(params)
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -181,8 +186,18 @@ class BlogItem extends Component {
                             {this.props.type === "myBlogs" ? <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
                                 <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
                             </Popconfirm> : null}
-                            <Link to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date } }}>{this.state.item.title}</Link>
+                            {/* title 链接 */}
+                            <Link className="blogTitle" to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date } }}>{this.state.item.title}</Link>
+                            {/* blog内容 */}
                             <div className="blogText">{this.state.item.text}</div>
+                            {/* tags */}
+                            <div style={{ marginTop: '5px' }}>
+                                {this.state.item.tags.map(item => {
+                                    return <div key={item} style={{ marginRight: '5px', display: 'inline' }}><BlogTag tag={item} /> </div>
+                                })}
+                            </div>
+
+
                         </div>)}
                     datetime={(
                         <Tooltip title={moment(this.state.item.date).format('LLLL')}>
