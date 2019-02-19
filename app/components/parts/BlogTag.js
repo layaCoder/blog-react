@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Tag } from 'antd';
+import { Route, Link, Switch } from 'react-router-dom';
+
 
 
 
@@ -39,16 +41,12 @@ export default class BlogTag extends Component {
         }
     }
 
-    handleClick = () => {
-        alert(this.state.tagStr)
-    }
-
     render() {
-       
+
         return (
             <div style={{ display: 'inline' }}>
-                <Tag color={this.state.color} onClick={this.handleClick}>{this.state.tagStr}</Tag>
-            </div>
+                <Link to={{ pathname: '/app/blogall/blogfilter', tag: this.state.tagStr }} replace><Tag color={this.state.color}>{this.state.tagStr}</Tag></Link>
+            </div >
         )
     }
 }

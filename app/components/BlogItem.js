@@ -51,7 +51,6 @@ class BlogItem extends Component {
                     //item: Object.assign(this.state.item, { ...this.state.item, likes: this.state.item.likes.filter(item => item !== this.props.store.isLogin.userName) })
                 })
                 this.props.dispatch(disslikeBlog(this.state.item.id, this.props.store.isLogin.userName))
-                console.log(this.state)
                 axios({
                     method: 'post',
                     url: APIS.disslikeBlogItem.devUrl,
@@ -135,9 +134,7 @@ class BlogItem extends Component {
         message.error('Cancel delete');
     }
 
-    handleTags = (params) => {
-        alert(params)
-    }
+
 
     render() {
         let myStyle = {

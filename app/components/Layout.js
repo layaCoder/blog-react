@@ -12,6 +12,7 @@ import Home from './Home'
 import UploadAvatarComponent from './parts/UploadAvatarComponent'
 import ChangePass from './parts/ChangePassComponent'
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
+import BlogFilterByTags from './BlogFilterByTags'
 
 import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 import { userLogin, userLogout } from '../store/actions';
@@ -208,7 +209,8 @@ class LayoutComponent extends Component {
                             <Route exact path="/app/myblog" component={MyBlog} />
                             <Route exact path="/app/writeblog" component={WriteBlog} />
                             <Route exact path="/app/blogall" component={BlogAll}></Route>
-                            <Route exact patch="/app/blogall/blogdetail" component={BlogDetail}></Route>
+                            <Route exact path="/app/blogall/blogdetail" component={BlogDetail}></Route>
+                            <Route exact path="/app/blogall/blogfilter" component={BlogFilterByTags}></Route>
                         </Switch>
 
                         {/* 用this.props.children方式来显示路由组件 */}
