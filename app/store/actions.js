@@ -9,6 +9,8 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 export const LIKE_BLOG = 'LIKE_BLOG'
 export const DISSLIKE_BLOG = 'DISSLIKE_BLOG'
 
+export const SAVE_REPLY = 'SAVE_REPLY'
+
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
     return {
@@ -56,11 +58,12 @@ export const setFilter = (filter) => {
     }
 }
 
-export const userLogin = (flag, userName) => {
+export const userLogin = (flag, userName, avatarUrl) => {
     return {
         type: USER_LOGIN,
         flag,
-        userName
+        userName,
+        avatarUrl
     }
 }
 export const userLogout = (flag) => {
@@ -86,3 +89,12 @@ export const disslikeBlog = (blogId, name) => {
     }
 }
 
+export const saveReply = (blogId, replyText, user, avatarUrl) => {
+    return {
+        type: SAVE_REPLY,
+        blogId,
+        replyText,
+        user,
+        avatarUrl
+    }
+}

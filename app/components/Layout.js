@@ -81,9 +81,8 @@ class LayoutComponent extends Component {
 
         // * 登录持续时间
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
-            console.log(getLocalStorage('user', 1000 * 60 * 60 * 24))
             this.setState({ isLogin: true })
-            this.props.dispatch(userLogin(true, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name))
+            this.props.dispatch(userLogin(true, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).avatar))
         }
         else {
             this.setState({ isLogin: false })

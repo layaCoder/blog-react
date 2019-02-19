@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import axios from 'axios';
 import APIS from '../api/index';
-import { likeBlog, disslikeBlog, delBlog } from '../store/actions'
+import { likeBlog, disslikeBlog, delBlog, saveReply } from '../store/actions'
 import BlogTag from './parts/BlogTag'
 
 
@@ -145,6 +145,10 @@ class BlogItem extends Component {
             message.warning('reply can\'t not be null!!!')
             return
         }
+        console.log('BlogItem ==>', this.state.item)
+        //添加到store中的BlogList
+        this.props.dispatch(saveReply(this.state.item.id, this.state.replyTest, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
+
         this.setState({ loading: true });
         console.log('reply text===>', this.state.replyTest)
         setTimeout(() => {

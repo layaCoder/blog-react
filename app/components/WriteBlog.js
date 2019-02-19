@@ -98,7 +98,7 @@ class WriteBlog extends Component {
                 markDownText,
                 user.name,
                 user.avatar,
-                this.state.selectedTags
+                this.state.selectedTags,
             ))
             this.setState({
                 editorState: EditorState.createEmpty(),

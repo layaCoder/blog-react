@@ -1,4 +1,4 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY } from './actions';
 import { combineReducers } from 'redux';
 import { get_uuid } from '../utils/commUtils'
 
@@ -14,7 +14,8 @@ function blogs(state = [], action) {
                 user: action.user, //用户名
                 avatarUrl: action.avatarUrl,//用户头像url
                 likes: [], //likes 字段添加空数组
-                tags: action.tags
+                tags: action.tags,
+                replys: [] // replys 字段添加空数组
             }, ...state]
         case DEL_BLOG:
             console.log('reducer id ->', action.id)
@@ -31,7 +32,8 @@ function blogs(state = [], action) {
                     avatarUrl: item.avatarUrl,
                     date: item.date,
                     likes: item.likes,
-                    tags: item.tags
+                    tags: item.tags,
+                    replys: item.replys
                 })
             })
             return state
@@ -55,7 +57,8 @@ function blogs(state = [], action) {
                             avatarUrl: item.avatarUrl,
                             date: item.date,
                             tags: item.tags,
-                            likes: [...item.likes, action.name]
+                            likes: [...item.likes, action.name],
+                            replys: item.replys
                         }
                     )
                 }
@@ -79,11 +82,39 @@ function blogs(state = [], action) {
                         avatarUrl: item.avatarUrl,
                         date: item.date,
                         tags: item.tags,
-                        likes: item.likes.filter(item => item !== action.name)
+                        likes: item.likes.filter(item => item !== action.name),
+                        replys: item.replys
                     })
                 }
             })
             return resDissState
+        case SAVE_REPLY:
+            console.log('saveReply running')
+            let resReplyState = []
+            state.map(item => {
+                if (item.id !== action.blogId) {
+                    resReplyState.push(item)
+                }
+                else {
+                    // let newItem = {
+                    //     id: item.id,
+                    //     title: item.title,
+                    //     text: item.text,
+                    //     htmlDom: item.htmlDom,
+                    //     user: item.user,
+                    //     avatarUrl: item.avatarUrl,
+                    //     date: item.date,
+                    //     tags: item.tags,
+                    //     likes: item.likes,
+                    //     replys: [...item.replys, { id: action.blogId, replayText: action.replayText, name: action.user, avatarUrl: action.avatarUrl }]
+                    // }
+
+                    //使用 OBject.assign()写法，改变对象属性
+                    let newItem = Object.assign({}, item, { replys: [...item.replys, { id: action.blogId, replyText: action.replyText, name: action.user, avatarUrl: action.avatarUrl }] })
+                    resReplyState.push(newItem)
+                }
+            })
+            return resReplyState
         default: return state
     }
 }
@@ -101,12 +132,12 @@ function filter(state = 'all', action) {
 }
 
 //记录用户是否登录
-function isLogin(state = { login: false, userName: null }, action) {
+function isLogin(state = { login: false, userName: null, avatarUrl: null }, action) {
     switch (action.type) {
         case USER_LOGIN:
-            return { login: action.flag, userName: action.userName }
+            return { login: action.flag, userName: action.userName, avatarUrl: action.avatarUrl }
         case USER_LOGOUT:
-            return { login: action.flag, userName: null }
+            return { login: action.flag, userName: null, avatarUrl: null }
         default:
             return state
     }
