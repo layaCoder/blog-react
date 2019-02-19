@@ -184,7 +184,7 @@ class BlogItem extends Component {
                                 <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
                             </Popconfirm> : null}
                             {/* title 链接 */}
-                            <Link className="blogTitle" to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date } }}>{this.state.item.title}</Link>
+                            <Link className="blogTitle" to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type } }}>{this.state.item.title}</Link>
                             {/* blog内容 */}
                             <div className="blogText">{this.state.item.text}</div>
                             {/* tags */}

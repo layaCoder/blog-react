@@ -17,6 +17,7 @@ export default class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
+            type: '' //记录入口类别， myBlog? allBlog? or others
         }
     }
 
@@ -24,21 +25,27 @@ export default class BlogDetail extends Component {
         // this.setState({
         //     blogItem: this.props.location.state
         // })
-        console.log(this.props.location.state)
+        console.log(this.props.location.state.type)
         if (this.props.location.state) {
             this.setState({
                 id: this.props.location.state.id,
                 title: this.props.location.state.title,
                 htmlDom: this.props.location.state.htmlDom,
                 user: this.props.location.state.user,
-                date: this.props.location.state.date
+                date: this.props.location.state.date,
+                type: this.props.location.state.type
             })
         }
     }
 
     goBack = () => {
-        console.log(this.props.history)
-        this.props.history.goBack()
+        // console.log(this.props.history)
+        // this.props.history.goBack()
+        if (this.state.type === 'myBlogs')
+            this.props.history.push('/app/myblog') //js方式控制也秒跳转
+        else {
+            this.props.history.push('/app/blogall')
+        }
     }
 
     render() {
