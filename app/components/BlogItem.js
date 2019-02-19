@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag, Form, Input } from 'antd';
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -15,6 +15,8 @@ import BlogTag from './parts/BlogTag'
 
 require('../assets/styles/BlogItem.css')
 
+const TextArea = Input.TextArea;
+
 class BlogItem extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +25,10 @@ class BlogItem extends Component {
             // dislikes: 0,
             action: '',
             item: props.item, //将父组件props传给子组件state,
-            delCurrentId: ''
+            delCurrentId: '',
+            showReply: false,
+            loading: false,
+            replyTest: null
         }
     }
 
@@ -134,7 +139,31 @@ class BlogItem extends Component {
         message.error('Cancel delete');
     }
 
+    //提交回复
+    handleOk = () => {
+        if (!this.state.replyTest) {
+            message.warning('reply can\'t not be null!!!')
+            return
+        }
+        this.setState({ loading: true });
+        console.log('reply text===>', this.state.replyTest)
+        setTimeout(() => {
+            this.setState({ loading: false, showReply: false });
+        }, 3000);
+    }
+    //取消回复对话框
+    handleCancel = () => {
+        this.setState({ showReply: false });
+    }
 
+    showReplyMoadl = () => {
+        this.setState({ showReply: true, replyTest: null })
+    }
+
+    onChangeReply = (e) => {
+        this.setState({ replyTest: e.target.value })
+        console.log(this.state.replyTest)
+    }
 
     render() {
         let myStyle = {
@@ -168,7 +197,7 @@ class BlogItem extends Component {
             //         {dislikes}
             //     </span>
             // </span>,
-            // <span>Reply to</span>,
+            <span onClick={this.showReplyMoadl}>Reply to</span>,
         ];
         return (
 
@@ -187,22 +216,51 @@ class BlogItem extends Component {
                             <Link className="blogTitle" to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type } }}>{this.state.item.title}</Link>
                             {/* blog内容 */}
                             <div className="blogText">{this.state.item.text}</div>
+
                             {/* tags */}
                             <div style={{ marginTop: '5px' }}>
                                 {this.state.item.tags.map(item => {
                                     return <div key={item} style={{ marginRight: '5px', display: 'inline' }}><BlogTag tag={item} /> </div>
                                 })}
                             </div>
-
-
-                        </div>)}
+                        </div>
+                    )}
                     datetime={(
                         <Tooltip title={moment(this.state.item.date).format('LLLL')}>
                             <span>{moment(this.state.item.date).fromNow()}</span>
                         </Tooltip>
                     )}
                 />
-
+                {/*回复内容*/}
+                <Comment style={{ marginLeft: '40px', marginRight: '20px' }}
+                    key={0}
+                    author={this.state.item.user}
+                    avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
+                    content={(<div>reply content .........</div>)}
+                    datetime={<Tooltip title={moment(this.state.item.date).format('LLLL')}>
+                        <span>{moment(this.state.item.date).fromNow()}</span>
+                    </Tooltip>}
+                />
+                {/*Reply模态框*/}
+                <div>
+                    <Modal visible={this.state.showReply}
+                        title="Reply"
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                        footer={[
+                            <Button key="back" onClick={this.handleCancel}>Return</Button>,
+                            <Button key="submit" type="primary" loading={this.state.loading} onClick={this.handleOk}>
+                                Submit
+                            </Button>,
+                        ]}
+                    >
+                        <div>
+                            <Form.Item>
+                                <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyTest} />
+                            </Form.Item>
+                        </div>
+                    </Modal>
+                </div>
             </div>
         )
     }
