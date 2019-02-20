@@ -110,7 +110,7 @@ function blogs(state = [], action) {
                     // }
 
                     //使用 OBject.assign()写法，改变对象属性
-                    let newItem = Object.assign({}, item, { replys: [...item.replys, { id: action.blogId, replyText: action.replyText, name: action.user, avatarUrl: action.avatarUrl }] })
+                    let newItem = Object.assign({}, item, { replys: [...item.replys, { id: action.id, blogId: action.blogId, replyText: action.replyText, user: action.user, avatarUrl: action.avatarUrl }] })
                     resReplyState.push(newItem)
                 }
             })

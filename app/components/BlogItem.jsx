@@ -11,6 +11,8 @@ import APIS from '../api/index';
 import { likeBlog, disslikeBlog, delBlog, saveReply } from '../store/actions'
 import BlogTag from './parts/BlogTag'
 
+import { get_uuid } from '../utils/commUtils'
+
 
 
 require('../assets/styles/BlogItem.css')
@@ -141,19 +143,36 @@ class BlogItem extends Component {
 
     //提交回复
     handleOk = () => {
+        let replyId = get_uuid()
+
         if (!this.state.replyTest) {
             message.warning('reply can\'t not be null!!!')
             return
         }
-        console.log('BlogItem ==>', this.state.item)
-        //添加到store中的BlogList
-        this.props.dispatch(saveReply(this.state.item.id, this.state.replyTest, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
-
         this.setState({ loading: true });
-        console.log('reply text===>', this.state.replyTest)
-        setTimeout(() => {
+        console.log('BlogItem ==>', this.state.item)
+        axios({
+            method: 'post',
+            url: APIS.saveBlogReply.devUrl,
+            headers: {
+                // 'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/json'
+            },
+            data: {
+                id: replyId,
+                blogId: this.state.item.id,
+                name: this.props.store.isLogin.userName,
+                avatarUrl: this.props.store.isLogin.avatarUrl,
+                replyText: this.state.replyTest
+            }
+        }).then(res => {
+            console.log(res)
+            //添加到store中的BlogList
+            this.props.dispatch(saveReply(replyId, this.state.item.id, this.state.replyTest, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
             this.setState({ loading: false, showReply: false });
-        }, 3000);
+        }).catch(err => {
+            console.log(err)
+        })
     }
     //取消回复对话框
     handleCancel = () => {
@@ -245,9 +264,9 @@ class BlogItem extends Component {
                 />
                 {/*回复内容*/}
                 {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
-                    return <Comment style={{ marginLeft: '40px', marginRight: '20px' }}
-                        key={replyItem}
-                        author={replyItem.name}
+                    return <Comment style={{ marginLeft: '40px', marginRight: '20px', marginTop: '-15px' }}
+                        key={replyItem.id}
+                        author={replyItem.user}
                         avatar={(<Avatar src={replyItem.avatarUrl} alt={replyItem.user} />)}
                         content={replyItem.replyText}
                     />

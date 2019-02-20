@@ -89,9 +89,10 @@ export const disslikeBlog = (blogId, name) => {
     }
 }
 
-export const saveReply = (blogId, replyText, user, avatarUrl) => {
+export const saveReply = (id,blogId, replyText, user, avatarUrl) => {
     return {
         type: SAVE_REPLY,
+        id,
         blogId,
         replyText,
         user,
