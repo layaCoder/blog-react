@@ -8,6 +8,10 @@ module.exports = merge(baseWebpackConfig, {
     output: {
         filename: "js/[name].[chunkhash:16].js",
     },
+
+    resolve: {
+        extensions: ['.js', '.jsx'], //后缀名自动补全,识别jsx文件需增加
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html',

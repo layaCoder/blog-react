@@ -161,6 +161,10 @@ class BlogItem extends Component {
     }
 
     showReplyMoadl = () => {
+        if (this.props.store.isLogin.login === false) {
+            message.warning('plz login first!!!')
+            return
+        }
         this.setState({ showReply: true, replyTest: null })
     }
 
@@ -175,6 +179,10 @@ class BlogItem extends Component {
         }
 
         const { likes, dislikes, action } = this.state;
+
+        const replysInStore = this.props.store.blogs.filter(item => item.id === this.props.item.id)[0].replys //store中的当前 bloogItem 的 replys数组
+
+
         const actions = [
             <span>
                 <Tooltip title="Like">
@@ -236,15 +244,15 @@ class BlogItem extends Component {
                     )}
                 />
                 {/*回复内容*/}
-                <Comment style={{ marginLeft: '40px', marginRight: '20px' }}
-                    key={0}
-                    author={this.state.item.user}
-                    avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
-                    content={(<div>reply content .........</div>)}
-                    datetime={<Tooltip title={moment(this.state.item.date).format('LLLL')}>
-                        <span>{moment(this.state.item.date).fromNow()}</span>
-                    </Tooltip>}
-                />
+                {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
+                    return <Comment style={{ marginLeft: '40px', marginRight: '20px' }}
+                        key={replyItem}
+                        author={replyItem.name}
+                        avatar={(<Avatar src={replyItem.avatarUrl} alt={replyItem.user} />)}
+                        content={replyItem.replyText}
+                    />
+                })}
+
                 {/*Reply模态框*/}
                 <div>
                     <Modal visible={this.state.showReply}
