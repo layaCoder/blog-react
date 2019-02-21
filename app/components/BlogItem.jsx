@@ -30,7 +30,7 @@ class BlogItem extends Component {
             delCurrentId: '',
             showReply: false,
             loading: false,
-            replyTest: null
+            replyText: null
         }
     }
 
@@ -145,7 +145,7 @@ class BlogItem extends Component {
     handleOk = () => {
         let replyId = get_uuid()
 
-        if (!this.state.replyTest) {
+        if (!this.state.replyText) {
             message.warning('reply can\'t not be null!!!')
             return
         }
@@ -163,12 +163,12 @@ class BlogItem extends Component {
                 blogId: this.state.item.id,
                 name: this.props.store.isLogin.userName,
                 avatarUrl: this.props.store.isLogin.avatarUrl,
-                replyText: this.state.replyTest
+                replyText: this.state.replyText
             }
         }).then(res => {
             console.log(res)
             //添加到store中的BlogList
-            this.props.dispatch(saveReply(replyId, this.state.item.id, this.state.replyTest, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
+            this.props.dispatch(saveReply(replyId, this.state.item.id, this.state.replyText, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
             this.setState({ loading: false, showReply: false });
         }).catch(err => {
             console.log(err)
@@ -184,26 +184,20 @@ class BlogItem extends Component {
             message.warning('plz login first!!!')
             return
         }
-        this.setState({ showReply: true, replyTest: null })
+        this.setState({ showReply: true, replyText: null })
     }
 
     onChangeReply = (e) => {
-        this.setState({ replyTest: e.target.value })
-        console.log(this.state.replyTest)
+        this.setState({ replyText: e.target.value })
+        console.log(this.state.replyText)
     }
 
     handleLink = () => {
         console.log(this.props)
         this.props.history.push({
             pathname: '/app/blogall/blogdetail/' + this.state.item.id,
-            state: { type: this.props.type } 
+            state: { type: this.props.type }
         }
-            // + '/' + this.state.item.avatarUrl
-            // + '/' + this.state.item.title
-            // + '/' + this.state.item.htmlDom
-            // + '/' + this.state.item.date
-
-            // + '/' + this.props.type//type通过props获取
         )
 
     }
@@ -244,7 +238,9 @@ class BlogItem extends Component {
             //         {dislikes}
             //     </span>
             // </span>,
-            <span onClick={this.showReplyMoadl}>Reply to</span>,
+            // ----------------隐藏【回复控件】---------------------
+            // <span onClick={this.showReplyMoadl}>Reply to</span>,
+            <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
         ];
         return (
             <div>
@@ -291,15 +287,15 @@ class BlogItem extends Component {
                             </Tooltip>
                         )}
                     />
-                    {/*回复内容*/}
-                    {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
+                    {/*--------------回复内容--------ps：此处隐藏，在blogDetail页面中显示*/}
+                    {/* {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
                         return <Comment style={{ marginLeft: '40px', marginRight: '20px', marginTop: '-15px' }}
                             key={replyItem.id}
                             author={replyItem.user}
                             avatar={(<Avatar src={replyItem.avatarUrl} alt={replyItem.user} />)}
                             content={replyItem.replyText}
                         />
-                    })}
+                    })} */}
 
                     {/*Reply模态框*/}
                     <div>
@@ -316,7 +312,7 @@ class BlogItem extends Component {
                         >
                             <div>
                                 <Form.Item>
-                                    <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyTest} />
+                                    <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyText} />
                                 </Form.Item>
                             </div>
                         </Modal>

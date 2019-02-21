@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { Button, Row, Col, Icon, Divider } from 'antd';
+import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
+import axios from 'axios';
+import APIS from '../api/index';
+import { saveReply } from '../store/actions'
+import { get_uuid } from '../utils/commUtils'
 
-
+const TextArea = Input.TextArea;
 
 class BlogDetail extends Component {
     constructor() {
@@ -20,7 +24,8 @@ class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
-            type: null //记录入口类别， myBlog? allBlog? or others
+            type: null, //记录入口类别， myBlog? allBlog? or others
+            replyText: null
         }
     }
 
@@ -39,6 +44,42 @@ class BlogDetail extends Component {
         else {
             this.props.history.push('/app/blogall')
         }
+    }
+
+    onChangeReply = (e) => {
+        this.setState({ replyText: e.target.value })
+        console.log(this.state.replyText)
+    }
+
+    handleSubmit = () => {
+        let replyId = get_uuid() //生成回复数据id
+
+        if (!this.state.replyText) {
+            message.warning('comment can\'t not be null!!!')
+            return
+        }
+        axios({
+            method: 'post',
+            url: APIS.saveBlogReply.devUrl,
+            headers: {
+                // 'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/json'
+            },
+            data: {
+                id: replyId,
+                blogId: this.props.match.params.id,
+                name: this.props.store.isLogin.userName,
+                avatarUrl: this.props.store.isLogin.avatarUrl,
+                replyText: this.state.replyText
+            }
+        }).then(res => {
+            console.log(res)
+            //添加到store中的BlogList
+            this.props.dispatch(saveReply(replyId, this.props.match.params.id, this.state.replyText, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
+            this.setState({ replyText: '' });
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     render() {
@@ -66,12 +107,45 @@ class BlogDetail extends Component {
                                 <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
                             </Col>
                         </Row>
-                        <Row className="footer" style={{ marginTop: '50px' }}>
-                            <Divider />
-                            <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                        {/* 写评论 */}
+                        <Row>
+                            <Form.Item>
+                                <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyText} placeholder="plz write some comments" />
+                            </Form.Item>
+                            <Button onClick={this.handleSubmit}>Submit</Button>
+                        </Row>
+                        {/* 评论显示区 */}
+                        <Row>
+                            {blogDetailItem[0].replys.length > 0 ?
+                                blogDetailItem[0].replys.map(item => {
+                                    return <Comment
+                                        key={item.id}
+                                        author={item.user}
+                                        avatar={(
+                                            <Avatar
+                                                src={item.avatarUrl}
+                                                alt={item.user}
+                                            />
+                                        )}
+                                        content={
+                                            (<div> {item.replyText}</div>)
+                                        }
+                                    // datetime={(
+                                    //     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                                    //         <span>{moment().fromNow()}</span>
+                                    //     </Tooltip>
+                                    // )}
+                                    />
+                                })
+                                : null
+                            }
                         </Row>
                     </div>
                     : null}
+                <Row className="footer" style={{ marginTop: '50px' }}>
+                    <Divider />
+                    <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                </Row>
             </div>
 
         )
