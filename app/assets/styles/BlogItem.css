@@ -21,11 +21,16 @@
 
 .blogTitle{
     font-size: 1.1rem;
+    color:#1890ff;
+    cursor: pointer;
+    margin:0px;
+    margin-bottom: 5px;
+
 }
 
 .blogText{
     font-size: 0.9rem;
-    color: #999;
+    color: #888;
 }
 
 .ant-comment-content-detail{

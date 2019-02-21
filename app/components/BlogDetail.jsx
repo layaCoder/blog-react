@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { Button, Row, Col, Icon, Divider } from 'antd';
 import moment from 'moment';
+import { connect } from 'react-redux'
 
-export default class BlogDetail extends Component {
+
+
+class BlogDetail extends Component {
     constructor() {
         super();
         this.state = {
@@ -17,32 +20,22 @@ export default class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
-            type: '' //记录入口类别， myBlog? allBlog? or others
+            type: null //记录入口类别， myBlog? allBlog? or others
         }
     }
 
     componentDidMount() {
-        // this.setState({
-        //     blogItem: this.props.location.state
-        // })
-        console.log(this.props.location.state.type)
+        //通过入口返回，如果强制f5刷新页面，type=null ,返回 blogAll
         if (this.props.location.state) {
-            this.setState({
-                id: this.props.location.state.id,
-                title: this.props.location.state.title,
-                htmlDom: this.props.location.state.htmlDom,
-                user: this.props.location.state.user,
-                date: this.props.location.state.date,
-                type: this.props.location.state.type
-            })
+            this.setState({ type: this.props.location.state.type })
         }
     }
 
     goBack = () => {
-        // console.log(this.props.history)
-        // this.props.history.goBack()
+        //this.props.history.goBack()
         if (this.state.type === 'myBlogs')
             this.props.history.push('/app/myblog') //js方式控制也秒跳转
+
         else {
             this.props.history.push('/app/blogall')
         }
@@ -53,28 +46,42 @@ export default class BlogDetail extends Component {
             textAlign: 'center'
         }
 
+        const blogDetailItem = this.props.store.blogs.filter(item => item.id === this.props.match.params.id)
+
 
         return (
             <div>
-                <Row>
-                    <Divider> <h2 style={myStyle}>{this.state.title}</h2></Divider>
-                </Row>
-                <Row>
-                    <Col span={5} offset={8}><p>Author:&nbsp;{this.state.user}</p></Col>
-                    <Col span={8}><p>Date:&nbsp;{moment(this.state.date).format('LLLL')}</p></Col>
-                    <Divider dashed />
-                </Row>
-                <Row>
-                    <Col span={20} offset={2}>
-                        <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
-                    </Col>
-                </Row>
-                <Row className="footer" style={{ marginTop: '50px' }}>
-                    <Divider />
-                    <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
-                </Row>
+                {blogDetailItem.length > 0 ? //判断store中blogList是否加载完毕
+                    <div>
+                        <Row>
+                            <Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>
+                        </Row>
+                        <Row>
+                            <Col span={5} offset={8}><p>Author:&nbsp;{blogDetailItem[0].user}</p></Col>
+                            <Col span={8}><p>Date:&nbsp;{moment(this.state.date).format('LLLL')}</p></Col>
+                            <Divider dashed />
+                        </Row>
+                        <Row>
+                            <Col span={20} offset={2}>
+                                <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
+                            </Col>
+                        </Row>
+                        <Row className="footer" style={{ marginTop: '50px' }}>
+                            <Divider />
+                            <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                        </Row>
+                    </div>
+                    : null}
             </div>
 
         )
     }
 }
+
+let mapStateToProps = (state) => {
+    return {
+        store: state
+    }
+};
+
+export default connect(mapStateToProps)(BlogDetail);

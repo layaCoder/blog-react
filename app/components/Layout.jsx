@@ -208,7 +208,7 @@ class LayoutComponent extends Component {
                             <Route exact path="/app/myblog" component={MyBlog} />
                             <Route exact path="/app/writeblog" component={WriteBlog} />
                             <Route exact path="/app/blogall" component={BlogAll}></Route>
-                            <Route exact path="/app/blogall/blogdetail" component={BlogDetail}></Route>
+                            <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail}></Route>
                             <Route exact path="/app/blogall/blogfilter" component={BlogFilterByTags}></Route>
                         </Switch>
 

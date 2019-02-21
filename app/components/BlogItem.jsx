@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag, Form, Input } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag, Form, Input, Divider } from 'antd';
 
 import { Route, Link, Switch } from 'react-router-dom';
 import moment from 'moment';
@@ -192,6 +192,22 @@ class BlogItem extends Component {
         console.log(this.state.replyTest)
     }
 
+    handleLink = () => {
+        console.log(this.props)
+        this.props.history.push({
+            pathname: '/app/blogall/blogdetail/' + this.state.item.id,
+            state: { type: this.props.type } 
+        }
+            // + '/' + this.state.item.avatarUrl
+            // + '/' + this.state.item.title
+            // + '/' + this.state.item.htmlDom
+            // + '/' + this.state.item.date
+
+            // + '/' + this.props.type//type通过props获取
+        )
+
+    }
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -231,68 +247,82 @@ class BlogItem extends Component {
             <span onClick={this.showReplyMoadl}>Reply to</span>,
         ];
         return (
+            <div>
+                <Divider />
 
-            <div key={this.state.item.id}>
-                <Comment key={this.state.item.id}
-                    actions={actions}
-                    author={this.state.item.user}
-                    avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
-                    content={(
-                        <div className="commentItem">
-                            {/* 如果是myBlogs页面则显示 delBtn */}
-                            {this.props.type === "myBlogs" ? <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
-                                <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
-                            </Popconfirm> : null}
-                            {/* title 链接 */}
-                            <Link className="blogTitle" to={{ pathname: '/app/blogall/blogdetail', blogId: this.state.item.id, state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type } }}>{this.state.item.title}</Link>
-                            {/* blog内容 */}
-                            <div className="blogText">{this.state.item.text}</div>
+                <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
+                    <Comment key={this.state.item.id}
+                        actions={actions}
+                        author={this.state.item.user}
+                        avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
+                        content={(
+                            <div className="commentItem">
+                                {/* 如果是myBlogs页面则显示 delBtn */}
+                                {this.props.type === "myBlogs" ? <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
+                                    <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
+                                </Popconfirm> : null}
+                                {/* title 链接 */}
+                                {/* <Link
+                                    className="blogTitle"
+                                    to={{
+                                        pathname: '/app/blogall/blogdetail',
+                                        state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type },
+                                        query: { id: this.state.item.id }
+                                    }}
+                                > {this.state.item.title}</Link> */}
+                                <a onClick={this.handleLink} className="blogTitle">
+                                    {this.state.item.title}
+                                </a>
 
-                            {/* tags */}
-                            <div style={{ marginTop: '5px' }}>
-                                {this.state.item.tags.map(item => {
-                                    return <div key={item} style={{ marginRight: '5px', display: 'inline' }}><BlogTag tag={item} /> </div>
-                                })}
+                                {/* blog内容 */}
+                                <div className="blogText">{this.state.item.text}</div>
+
+                                {/* tags */}
+                                <div style={{ marginTop: '5px' }}>
+                                    {this.state.item.tags.map(item => {
+                                        return <div key={item} style={{ marginRight: '5px', display: 'inline' }}><BlogTag tag={item} /> </div>
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    datetime={(
-                        <Tooltip title={moment(this.state.item.date).format('LLLL')}>
-                            <span>{moment(this.state.item.date).fromNow()}</span>
-                        </Tooltip>
-                    )}
-                />
-                {/*回复内容*/}
-                {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
-                    return <Comment style={{ marginLeft: '40px', marginRight: '20px', marginTop: '-15px' }}
-                        key={replyItem.id}
-                        author={replyItem.user}
-                        avatar={(<Avatar src={replyItem.avatarUrl} alt={replyItem.user} />)}
-                        content={replyItem.replyText}
+                        )}
+                        datetime={(
+                            <Tooltip title={moment(this.state.item.date).format('LLLL')}>
+                                <span>{moment(this.state.item.date).fromNow()}</span>
+                            </Tooltip>
+                        )}
                     />
-                })}
+                    {/*回复内容*/}
+                    {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
+                        return <Comment style={{ marginLeft: '40px', marginRight: '20px', marginTop: '-15px' }}
+                            key={replyItem.id}
+                            author={replyItem.user}
+                            avatar={(<Avatar src={replyItem.avatarUrl} alt={replyItem.user} />)}
+                            content={replyItem.replyText}
+                        />
+                    })}
 
-                {/*Reply模态框*/}
-                <div>
-                    <Modal visible={this.state.showReply}
-                        title="Reply"
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                        footer={[
-                            <Button key="back" onClick={this.handleCancel}>Return</Button>,
-                            <Button key="submit" type="primary" loading={this.state.loading} onClick={this.handleOk}>
-                                Submit
+                    {/*Reply模态框*/}
+                    <div>
+                        <Modal visible={this.state.showReply}
+                            title="Reply"
+                            onOk={this.handleOk}
+                            onCancel={this.handleCancel}
+                            footer={[
+                                <Button key="back" onClick={this.handleCancel}>Return</Button>,
+                                <Button key="submit" type="primary" loading={this.state.loading} onClick={this.handleOk}>
+                                    Submit
                             </Button>,
-                        ]}
-                    >
-                        <div>
-                            <Form.Item>
-                                <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyTest} />
-                            </Form.Item>
-                        </div>
-                    </Modal>
+                            ]}
+                        >
+                            <div>
+                                <Form.Item>
+                                    <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyTest} />
+                                </Form.Item>
+                            </div>
+                        </Modal>
+                    </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
@@ -302,4 +332,4 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(BlogItem)
+export default withRouter(connect(mapStateToProps)(BlogItem))
