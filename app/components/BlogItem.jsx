@@ -245,7 +245,6 @@ class BlogItem extends Component {
         return (
             <div>
                 <Divider />
-
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Comment key={this.state.item.id}
                         actions={actions}

@@ -70,7 +70,11 @@ class BlogAll extends Component {
             <div>
                 <div>
                     {this.props.store.blogs.length === 0 ?
-                        < Skeleton avatar paragraph={{ rows: 4 }} />
+                        <div>
+                            < Skeleton avatar paragraph={{ rows: 4 }} />
+                            < Skeleton avatar paragraph={{ rows: 4 }} />
+                            < Skeleton avatar paragraph={{ rows: 4 }} />
+                        </div>
                         : null}
                 </div>
                 {this.props.store.blogs.length > 0 ?

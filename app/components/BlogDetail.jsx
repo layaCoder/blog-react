@@ -6,6 +6,7 @@ import axios from 'axios';
 import APIS from '../api/index';
 import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
+require('../assets/styles/BlogDetail.css')
 
 const TextArea = Input.TextArea;
 
@@ -48,7 +49,6 @@ class BlogDetail extends Component {
 
     onChangeReply = (e) => {
         this.setState({ replyText: e.target.value })
-        console.log(this.state.replyText)
     }
 
     handleSubmit = () => {
@@ -108,37 +108,45 @@ class BlogDetail extends Component {
                             </Col>
                         </Row>
                         {/* 写评论 */}
+                        <Divider dashed />
+                        <Row className="replyArea">
+                            <h3 style={myStyle}>Comments</h3>
+                        </Row>
                         <Row>
-                            <Form.Item>
-                                <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyText} placeholder="plz write some comments" />
-                            </Form.Item>
-                            <Button onClick={this.handleSubmit}>Submit</Button>
+                            <Col span={20} offset={2}>
+                                <Form.Item >
+                                    <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyText} placeholder="plz write some comments" />
+                                </Form.Item>
+                                <Button onClick={this.handleSubmit}>Submit</Button>
+                            </Col>
                         </Row>
                         {/* 评论显示区 */}
                         <Row>
-                            {blogDetailItem[0].replys.length > 0 ?
-                                blogDetailItem[0].replys.map(item => {
-                                    return <Comment
-                                        key={item.id}
-                                        author={item.user}
-                                        avatar={(
-                                            <Avatar
-                                                src={item.avatarUrl}
-                                                alt={item.user}
-                                            />
-                                        )}
-                                        content={
-                                            (<div> {item.replyText}</div>)
-                                        }
-                                    // datetime={(
-                                    //     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                    //         <span>{moment().fromNow()}</span>
-                                    //     </Tooltip>
-                                    // )}
-                                    />
-                                })
-                                : null
-                            }
+                            <Col span={20} offset={2}>
+                                {blogDetailItem[0].replys.length > 0 ?
+                                    blogDetailItem[0].replys.map(item => {
+                                        return <Comment
+                                            key={item.id}
+                                            author={item.user}
+                                            avatar={(
+                                                <Avatar
+                                                    src={item.avatarUrl}
+                                                    alt={item.user}
+                                                />
+                                            )}
+                                            content={
+                                                (<div> {item.replyText}</div>)
+                                            }
+                                        // datetime={(
+                                        //     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                                        //         <span>{moment().fromNow()}</span>
+                                        //     </Tooltip>
+                                        // )}
+                                        />
+                                    })
+                                    : null
+                                }
+                            </Col>
                         </Row>
                     </div>
                     : null}
