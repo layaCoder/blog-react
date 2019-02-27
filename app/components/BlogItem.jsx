@@ -210,11 +210,8 @@ class BlogItem extends Component {
     }
 
     render() {
-        let myStyle = {
-            textAlign: 'center'
-        }
 
-        const { likes, dislikes, action } = this.state;
+        const { action } = this.state;
 
         const replysInStore = this.props.store.blogs.filter(item => item.id === this.props.item.id)[0].replys //store中的当前 bloogItem 的 replys数组
 
@@ -233,18 +230,7 @@ class BlogItem extends Component {
                     {this.props.item.likes.length}
                 </span>
             </span>,
-            // <span>
-            //     <Tooltip title="Dislike">
-            //         <Icon
-            //             type="dislike"
-            //             theme={action === 'disliked' ? 'filled' : 'outlined'}
-            //             onClick={this.dislike}
-            //         />
-            //     </Tooltip>
-            //     <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-            //         {dislikes}
-            //     </span>
-            // </span>,
+           
             // ----------------隐藏【回复控件】---------------------
             // <span onClick={this.showReplyMoadl}>Reply to</span>,
             <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
