@@ -30,7 +30,9 @@ class BlogItem extends Component {
             delCurrentId: '',
             showReply: false,
             loading: false,
-            replyText: null
+            replyText: null,
+            showDelModal: false,
+            confirmLoading: false
         }
     }
 
@@ -113,12 +115,14 @@ class BlogItem extends Component {
     //删除btn点击事件，将id绑定到state
     handleDel = (id) => {
         console.log('itemId:', id)
-        this.setState({ delCurrentId: id })
+        this.setState({ delCurrentId: id, showDelModal: true })
+
     }
 
 
     //确认删除 ==> 将id post 到 backend
     confirmDel = () => {
+        this.setState({ confirmLoading: true })
         let delUrl = APIS.deleteBlog.devUrl
         axios({
             method: 'post',
@@ -133,12 +137,15 @@ class BlogItem extends Component {
         }).then(res => {
             console.log('server res==>', res)
             this.props.dispatch(delBlog(this.state.delCurrentId))
+            message.success('delete success!')
         }).catch(error => {
             console.log(error)
+        }).finally(() => {
+            this.setState({ showDelModal: false, confirmLoading: false })
         })
     }
     cancelDel = () => {
-        message.error('Cancel delete');
+        this.setState({ showDelModal: false })
     }
 
     //提交回复
@@ -253,9 +260,7 @@ class BlogItem extends Component {
                         content={(
                             <div className="commentItem">
                                 {/* 如果是myBlogs页面则显示 delBtn */}
-                                {this.props.type === "myBlogs" ? <Popconfirm placement="left" title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
-                                    <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
-                                </Popconfirm> : null}
+                                {this.props.type === "myBlogs" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
                                 {/* title 链接 */}
                                 {/* <Link
                                     className="blogTitle"
@@ -300,7 +305,7 @@ class BlogItem extends Component {
                     <div>
                         <Modal visible={this.state.showReply}
                             title="Reply"
-                            onOk={this.handleOk}
+                            onOk={this.confirmDel}
                             onCancel={this.handleCancel}
                             footer={[
                                 <Button key="back" onClick={this.handleCancel}>Return</Button>,
@@ -316,6 +321,17 @@ class BlogItem extends Component {
                             </div>
                         </Modal>
                     </div>
+                </div>
+                <div>
+                    <Modal
+                        title="Delete Blog"
+                        visible={this.state.showDelModal}
+                        onOk={this.confirmDel}
+                        confirmLoading={this.state.confirmLoading}
+                        onCancel={this.cancelDel}
+                    >
+                        <p className="delWarning">&nbsp;&nbsp; <Icon type="warning" theme="twoTone" twoToneColor="#FAAD14" />&nbsp;&nbsp;Are you sure want to delete this Blog?</p>
+                    </Modal>
                 </div>
             </div >
         )
