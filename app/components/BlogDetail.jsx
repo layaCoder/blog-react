@@ -6,7 +6,7 @@ import axios from 'axios';
 import APIS from '../api/index';
 import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
-require('../assets/styles/BlogDetail.css')
+require('../assets/styles/BlogDetail.scss')
 
 const TextArea = Input.TextArea;
 
@@ -26,7 +26,8 @@ class BlogDetail extends Component {
             htmlDom: '',
             user: '',
             type: null, //记录入口类别， myBlog? allBlog? or others
-            replyText: null
+            replyText: null,
+            isLoading: false
         }
     }
 
@@ -52,6 +53,7 @@ class BlogDetail extends Component {
     }
 
     handleSubmit = () => {
+        this.setState({ isLoading: true })
         let replyId = get_uuid() //生成回复数据id
 
         if (!this.state.replyText) {
@@ -79,6 +81,8 @@ class BlogDetail extends Component {
             this.setState({ replyText: '' });
         }).catch(err => {
             console.log(err)
+        }).finally(() => {
+            this.setState({ isLoading: false })
         })
     }
 
@@ -117,7 +121,7 @@ class BlogDetail extends Component {
                                 <Form.Item >
                                     <TextArea rows={4} onChange={this.onChangeReply} value={this.state.replyText} placeholder="plz write some comments" />
                                 </Form.Item>
-                                <Button onClick={this.handleSubmit}>Submit</Button>
+                                <Button className='btnSubmit' onClick={this.handleSubmit} loading={this.state.isLoading}>Submit</Button>
                             </Col>
                         </Row>
                         {/* 评论显示区 */}
@@ -137,11 +141,11 @@ class BlogDetail extends Component {
                                             content={
                                                 (<div> {item.replyText}</div>)
                                             }
-                                        // datetime={(
-                                        //     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                        //         <span>{moment().fromNow()}</span>
-                                        //     </Tooltip>
-                                        // )}
+                                            datetime={(
+                                                <Tooltip title={moment(item.date).format('LLLL')}>
+                                                    <span>{moment(item.date).fromNow()}</span>
+                                                </Tooltip>
+                                            )}
                                         />
                                     })
                                     : null

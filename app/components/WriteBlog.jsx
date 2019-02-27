@@ -3,6 +3,8 @@
 参考文档：https://blog.csdn.net/genius_yym/article/details/82776430
 控件网站：https://jpuri.github.io/react-draft-wysiwyg/#/docs
 控件github：https://github.com/jpuri/react-draft-wysiwyg
+
+Wysiwyg图片上传功能:参考 https://blog.csdn.net/qq_40524880/article/details/85272926
 */
 
 
@@ -113,6 +115,66 @@ class WriteBlog extends Component {
 
     };
 
+    imageUploadCallBack = file => new Promise((resolve, reject) => {
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        let img = new Image()
+        reader.onload = function (e) {
+            img.src = this.result
+        }
+        img.onload = function () {
+            let canvas = document.createElement('canvas')
+            let context = canvas.getContext('2d')
+            //图片原始尺寸
+            let originWidth = this.width
+            let originHeight = this.height
+
+            //最大尺寸显示，可以通过设置宽高来实现图片压缩程度
+            let maxWidth = 400,
+                maxHeight = 500
+            //目标尺寸
+            let targetWidth = originWidth,
+                targetHeight = originHeight;
+            //图片超过300x300的限制
+            if (originWidth > maxWidth || originHeight > maxHeight) {
+                if (originWidth / originHeight > maxWidth / maxHeight) {
+                    // 更宽，按照宽度限定尺寸
+                    targetWidth = maxWidth;
+                    targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+                } else {
+                    targetHeight = maxHeight;
+                    targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+                }
+            }
+            // canvas对图片进行缩放
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            // 清除画布
+            context.clearRect(0, 0, targetWidth, targetHeight);
+            // 图片压缩
+            context.drawImage(img, 0, 0, targetWidth, targetHeight);
+            /*第一个参数是创建的img对象；第二三个参数是左上角坐标，后面两个是画布区域宽高*/
+
+            //压缩后的图片转base64 url
+            /*canvas.toDataURL(mimeType, qualityArgument),mimeType 默认值是'image/png';
+              * qualityArgument表示导出的图片质量，只有导出为jpeg和webp格式的时候此参数才有效，默认值是0.92*/
+            let newUrl = canvas.toDataURL('image/jpeg', 0.92);//base64 格式
+            resolve({
+                data: {
+                    link: newUrl
+                }
+            })
+
+            //也可以把压缩后的图片转blob格式用于上传
+            // canvas.toBlob((blob)=>{
+            //     console.log(blob)
+            //     //把blob作为参数传给后端
+            // }, 'image/jpeg', 0.92)
+
+
+        }
+    })
+
 
     render() {
         const { editorState } = this.state;
@@ -132,7 +194,19 @@ class WriteBlog extends Component {
                             editorState={editorState}
                             wrapperClassName="demo-wrapper"
                             editorClassName="demo-editor"
-                            onEditorStateChange={this.onEditorStateChange.bind(this)} />
+                            onEditorStateChange={this.onEditorStateChange.bind(this)}
+                            toolbar={{
+                                image: {
+                                    urlEnabled: true,
+                                    uploadEnabled: true,
+                                    alignmentEnabled: true,   // 是否显示排列按钮 相当于text-align
+                                    uploadCallback: this.imageUploadCallBack,  //图片的处理 （但是仅限于本地上传的，url方式不经过此函数）
+                                    previewImage: true,
+                                    inputAccept: 'image/*',
+                                    alt: { present: false, mandatory: false }
+                                }
+                            }}
+                        />
                     </Row>
                     <Row style={{ margin: '10px 5px' }}>
                         <Col span={1}><strong>Tags:</strong></Col>
@@ -150,14 +224,14 @@ class WriteBlog extends Component {
                     <Row className="row">
                         <Button type="primary" onClick={this.handleSubmit.bind(this)}>save</Button>
                     </Row>
-                    <Row className="row">
+                    {/* <Row className="row">
                         <p>let's see the html vison ^^</p>
                         <TextArea
                             className="showHtmlDom"
                             disabled
                             value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
                         />
-                    </Row>
+                    </Row> */}
                 </div>
             </div >
         )

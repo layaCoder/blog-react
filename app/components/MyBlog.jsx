@@ -13,7 +13,6 @@ import BlogItem from './BlogItem'
 
 
 
-require('../assets/styles/MyBlog.css')
 
 
 class MyBlog extends Component {

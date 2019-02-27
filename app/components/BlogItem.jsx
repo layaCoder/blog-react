@@ -15,7 +15,7 @@ import { get_uuid } from '../utils/commUtils'
 
 
 
-require('../assets/styles/BlogItem.css')
+require('../assets/styles/BlogItem.scss')
 
 const TextArea = Input.TextArea;
 
@@ -253,8 +253,8 @@ class BlogItem extends Component {
                         content={(
                             <div className="commentItem">
                                 {/* 如果是myBlogs页面则显示 delBtn */}
-                                {this.props.type === "myBlogs" ? <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
-                                    <div className="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
+                                {this.props.type === "myBlogs" ? <Popconfirm placement="left" title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
+                                    <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div>
                                 </Popconfirm> : null}
                                 {/* title 链接 */}
                                 {/* <Link

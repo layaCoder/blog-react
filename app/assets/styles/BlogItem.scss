@@ -3,7 +3,7 @@
     margin: 0px;
     margin-top: 0px !important;
 }
-.delBtn{
+#delBtn{
     float: right;
     display: none;
     cursor: pointer;
@@ -13,7 +13,10 @@
 父节点hover,子节点display （如果不是父子关系需要使用css预处理器，less/sass）
 参考文档:https://blog.csdn.net/qingzhizhenhun/article/details/79639740
 */
-.commentItem:hover .delBtn{display: inline;}
+//  .commentItem:hover .delBtn{display: inline;}
+
+.ant-comment:hover #delBtn{display: inline;}
+
 
 .tags{
     margin-right: 10px;
@@ -25,7 +28,6 @@
     cursor: pointer;
     margin:0px;
     margin-bottom: 5px;
-
 }
 
 .blogText{
@@ -34,7 +36,6 @@
 }
 
 .ant-comment-content-detail{
-    
     color: #999;
     font-size: 0.8rem;
 }
