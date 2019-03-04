@@ -13,7 +13,7 @@ module.exports = merge(baseWebpackConfig, {
     },
 
 
-    //--------减少打包文件大小-------
+    //-------- 减少打包文件大小,资源加载抽离到 public/index.html 中用cdn方式加载  -------
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',

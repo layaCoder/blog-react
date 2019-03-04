@@ -56,8 +56,14 @@ class BlogDetail extends Component {
         this.setState({ isLoading: true })
         let replyId = get_uuid() //生成回复数据id
 
-        if (!this.state.replyText) {
-            message.warning('comment can\'t not be null!!!')
+        if (this.props.store.isLogin.login === false) {
+            message.warning('plz login first!')
+            this.setState({ isLoading: false })
+            return
+        }
+        else if (!this.state.replyText) {
+            message.warning('comment can\'t not be null!')
+            this.setState({ isLoading: false })
             return
         }
         axios({

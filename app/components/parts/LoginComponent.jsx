@@ -48,6 +48,9 @@ class NormalLoginForm extends React.Component {
                         message.error('name or password is wrong!!!');
                     }
                     this.setState({ isLoading: false })
+                }).catch(err => {
+                    console.log(err)
+                    this.setState({ isLoading: false })
                 })
                 // if (values.userName === 'laya' && values.password === '111') {
                 //     //登录后将 user 存放到 localStorage
@@ -60,6 +63,10 @@ class NormalLoginForm extends React.Component {
                 //     //改变父组件state，显示登陆后内容
                 //     this.showLoginRoot()
                 // }
+            }
+            else {
+                console.log(err)
+                this.setState({ isLoading: false })
             }
         });
     }

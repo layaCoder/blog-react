@@ -5,7 +5,18 @@ const DIST_PATH = path.resolve(__dirname, '../dist');
 
 module.exports = {
     devtool: 'false',
-    
+
+    //-------- 减少打包文件大小,资源加载抽离到 public/index.html 中用cdn方式加载  -------
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+        'react-router': 'ReactRouterDom',
+        'moment': 'moment',
+        "antd": "antd"
+    },
+    // --------------------------
+    //////////////////////////////////////////
+
     //更改devServer配置，使开发版本使用 Serveo 内网穿透
     //参考文档:https://blog.csdn.net/qq_39705237/article/details/80926684
     //serveo说明:https://www.jianshu.com/p/d0b3991a9ce1
