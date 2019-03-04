@@ -2,13 +2,15 @@
 const path = require('path');
 const APP_PATH = path.resolve(__dirname, '../app');
 const DIST_PATH = path.resolve(__dirname, '../dist');
+
 module.exports = {
-    //////////////////////////////////////////
+    devtool: 'false',
+    
     //更改devServer配置，使开发版本使用 Serveo 内网穿透
     //参考文档:https://blog.csdn.net/qq_39705237/article/details/80926684
     //serveo说明:https://www.jianshu.com/p/d0b3991a9ce1
 
-    devServer: { disableHostCheck: true, },
+    //devServer: { disableHostCheck: true, },
     //////////////////////////////////////////
     entry: {
         app: './app/index.js',
@@ -19,8 +21,12 @@ module.exports = {
         path: DIST_PATH
     },
 
+
+
     module: {
+
         rules: [
+
             // { test: /\.js|jsx$/, use: 'babel-loader', exclude: /node_modules/ },
             {
                 test: /.jsx?$/,
@@ -28,12 +34,12 @@ module.exports = {
                 exclude: /node_modules/,
                 query: {
                     presets: ["react", "es2015", "env", "stage-1"]
-                }
+                },
             },
             {
                 test: /\.js?$/,
                 use: "babel-loader",
-                include: APP_PATH
+                include: APP_PATH,
             },
             {
                 test: /\.css$/,
@@ -50,7 +56,8 @@ module.exports = {
                             plugins: [
                                 require('autoprefixer')({
                                     browsers: ['last 5 version']
-                                })
+                                }),
+
                             ]
                         }
                     }
@@ -92,7 +99,7 @@ module.exports = {
                             ]
                         }
                     },
-                   
+
                 ]
             },
             // {

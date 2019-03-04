@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, Row, Skeleton, Pagination, message } from 'antd';
-import { withRouter } from 'react-router-dom';
-import { Route, Link, Switch } from 'react-router-dom';
-import moment from 'moment';
+import { Row, Skeleton, Pagination, message } from 'antd';
 import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';

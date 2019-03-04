@@ -3,11 +3,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import BlogAll from './BlogAll';
 import Layout from './Layout';
 import { connect } from 'react-redux'
-import { initBlogs, getBlogsPageCount } from '../store/actions';
-import axios from 'axios'
-import APIS from '../api/index'
-
-import { Progress } from 'antd';
 
 
 class CRouter extends Component {

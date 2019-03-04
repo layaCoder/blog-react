@@ -1,7 +1,5 @@
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import React, { Component } from 'react'
-import { Route, Link, Switch } from 'react-router-dom';
-import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import APIS from '../../api/index';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Route, Link, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Button, Dropdown, Icon, Row, Col, Modal, Progress, message } from 'antd';
+import { Route, Link, Switch, withRouter } from 'react-router-dom';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Progress, message } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';

@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination, message, Popconfirm, Tag, Form, Input, Divider } from 'antd';
-
-import { Route, Link, Switch } from 'react-router-dom';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button,message, Form, Input, Divider } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
-
 import axios from 'axios';
 import APIS from '../api/index';
 import { likeBlog, disslikeBlog, delBlog, saveReply } from '../store/actions'
