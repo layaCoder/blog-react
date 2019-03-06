@@ -119,7 +119,7 @@ class BlogDetail extends Component {
                         </Row>
                         <Row>
                             <Col span={5} offset={8}><p>Author:&nbsp;{blogDetailItem[0].user}</p></Col>
-                            <Col span={8}><p>Date:&nbsp;{moment(this.state.date).format('LLLL')}</p></Col>
+                            <Col span={8}><p>Date:&nbsp;{moment(blogDetailItem[0].date).format('LLLL')}</p></Col>
                             <Divider dashed />
                         </Row>
                         <Row>
