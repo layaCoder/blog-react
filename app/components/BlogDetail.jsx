@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message } from 'antd';
+import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message, Spin } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
@@ -27,7 +27,8 @@ class BlogDetail extends Component {
             user: '',
             type: null, //记录入口类别， myBlog? allBlog? or others
             replyText: null,
-            isLoading: false
+            isLoading: false,
+            lodingHtmlDom: true
         }
     }
 
@@ -36,6 +37,15 @@ class BlogDetail extends Component {
         if (this.props.location.state) {
             this.setState({ type: this.props.location.state.type })
         }
+        //console.log(this.props.match.params.id)
+        axios.get(
+            APIS.getBlogHtmlDom.devUrl +
+            '?blogId=' + this.props.match.params.id
+        ).then(res => {
+            console.log(res.data)
+            this.setState({ htmlDom: res.data[0].htmlDom })
+            this.setState({ lodingHtmlDom: false })
+        })
     }
 
     goBack = () => {
@@ -114,7 +124,13 @@ class BlogDetail extends Component {
                         </Row>
                         <Row>
                             <Col span={20} offset={2}>
-                                <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
+                                {/* <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div> */}
+
+                                {
+                                    this.state.lodingHtmlDom === false ?
+                                        <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
+                                        : <center style={{ margin: '20px' }}><Icon type="loading" style={{ fontSize: 48, textAlign: 'center' }} Spin /></center>
+                                }
                             </Col>
                         </Row>
                         {/* 写评论 */}

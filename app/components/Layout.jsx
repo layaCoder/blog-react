@@ -66,10 +66,8 @@ class LayoutComponent extends Component {
     componentDidMount() {
         //初始化 blogList 数据
         this.setState({ ProgressPercent: 60 })
-        let url = APIS.blogList.devUrl
-        console.log(url)
+        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
         axios.get(url).then(res => {
-            console.log('blog list', res)
             this.setState({ ProgressPercent: 99 })
             this.props.dispatch(initBlogs(res.data))
             if (this.props.store.blogs.length > 0) {
@@ -131,8 +129,6 @@ class LayoutComponent extends Component {
             switch (key) {
                 case '1':
                     this.setState({ uploadAvatarVisible: true })
-                    console.log('111', this.props.history.location.pathname)
-
                     break;
                 case '2':
                     this.setState({ changePassVisible: true })

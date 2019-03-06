@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, DatePicker, Row, Col, Skeleton, Pagination } from 'antd';
+import { Row, Skeleton, Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { Route, Link, Switch } from 'react-router-dom';
-import moment from 'moment';
+import axios from 'axios'
+import APIS from '../api/index'
 
 import 'antd/dist/antd.css';
-import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
 import { initBlogs } from '../store/actions';
 import BlogItem from './BlogItem';
 require('../assets/styles/BlogAll.css')
@@ -19,12 +18,12 @@ class BlogAll extends Component {
             blogs: [],
             pageSize: 10,
             pageNum: 1,
-
+            totleCount: 100
         }
     }
 
     componentDidMount() {
-        console.log('did mount', this.props)
+
     }
 
     componentDidUpdate() {
@@ -49,6 +48,12 @@ class BlogAll extends Component {
     changeNum = (page, pageSize) => {
         console.log(page, pageSize)
         this.setState({ pageNum: page })
+        let url = APIS.blogList.devUrl + '?pageIndex=' + page + '&pageSize=' + pageSize
+        console.log('get blog list =====>', url)
+        axios.get(url).then(res => {
+            this.props.dispatch(initBlogs(res.data))
+
+        })
     }
 
     changePageSize = (current, size) => {
@@ -69,6 +74,9 @@ class BlogAll extends Component {
         return (
             <div>
                 <div>
+                    <Row>
+                        <h2 style={myStyle}>All Blogs</h2>
+                    </Row>
                     {this.props.store.blogs.length === 0 ?
                         <div>
                             < Skeleton avatar paragraph={{ rows: 4 }} />
@@ -77,50 +85,29 @@ class BlogAll extends Component {
                         </div>
                         : null}
                 </div>
-                {this.props.store.blogs.length > 0 ?
-                    <div>
-                        <Row>
-                            <h2 style={myStyle}>All Blogs</h2>
-                        </Row>
-                        <Row>
-                            {
-                                // this.props.store.blogs.map(item => {
-                                this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    return <BlogItem item={item} key={item.id} type="allBlogs" />
-                                })}
-                            {/* {this.state.blogs.map(item => {
-                        return <Comment key={item.id}
-                            author={item.user}
-                            avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                            content={(
-                                <div>
-                                    
-                                    <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom } }}>{item.title}</Link>
-                                    <div className="blogText">{item.text}</div>
-                                </div>)}
-                            datetime={(
-                                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                    <span>{moment().fromNow()}</span>
-                                </Tooltip>
-                            )}
+                <div>
+
+                    <Row>
+                        {
+                            // this.props.store.blogs.map(item => {
+                            this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                return <BlogItem item={item} key={item.id} type="allBlogs" />
+                            })}
+                    </Row>
+                    <Row>
+                        <Pagination style={paginationStyle}
+                            defaultCurrent={1}
+                            current={this.state.pageNum}
+                            pageSize={this.state.pageSize}
+                            total={this.props.store.blogs.length}
+                            onChange={this.changeNum}
+                            onShowSizeChange={this.changePageSize}
+                            pageSizeOptions={["5", "10", "15", "20"]}
+                            showSizeChanger={true}
+                            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
                         />
-                    })} */}
-                        </Row>
-                        <Row>
-                            <Pagination style={paginationStyle}
-                                defaultCurrent={1}
-                                current={this.state.pageNum}
-                                pageSize={this.state.pageSize}
-                                total={this.props.store.blogs.length}
-                                onChange={this.changeNum}
-                                onShowSizeChange={this.changePageSize}
-                                pageSizeOptions={["5", "10", "15", "20"]}
-                                showSizeChanger
-                                showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                            />
-                        </Row>
-                    </div>
-                    : null}
+                    </Row>
+                </div>
 
             </div>
 

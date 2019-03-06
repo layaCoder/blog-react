@@ -2,8 +2,8 @@ const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 const webpack = require('webpack');
 
 module.exports = merge(baseWebpackConfig, {
@@ -13,16 +13,7 @@ module.exports = merge(baseWebpackConfig, {
     },
 
 
-    //-------- 减少打包文件大小,资源加载抽离到 public/index.html 中用cdn方式加载  -------
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'react-router': 'ReactRouterDom',
-        'moment': 'moment',
-        "antd": "antd"
-    },
-    // --------------------------
-    //////////////////////////////////////////
+
 
     resolve: {
         extensions: ['.js', '.jsx'], //后缀名自动补全,识别jsx文件需增加

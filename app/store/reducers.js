@@ -27,7 +27,8 @@ function blogs(state = [], action) {
                     id: item._id,
                     title: item.title,
                     text: item.text,
-                    htmlDom: item.htmlDom,
+                    // htmlDom: item.htmlDom,
+                    htmlDom: '', //不加载htmlDom，节省资源
                     user: item.user,
                     avatarUrl: item.avatarUrl,
                     date: item.date,

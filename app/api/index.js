@@ -86,5 +86,10 @@ export default {
         //devUrl:'https://blogsev.serveo.net/post/saveBlogReply'
         // devUrl: 'http://39.105.188.13:2000/post/saveBlogReply',
 
+    },
+    //获取单条博客htmlDom
+    getBlogHtmlDom: {
+        name: 'getBlogHtmlDom',
+        devUrl: 'api/get/blogHtmlDom'
     }
 }

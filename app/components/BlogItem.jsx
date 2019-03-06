@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button,message, Form, Input, Divider } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, message, Form, Input, Divider } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
@@ -203,6 +203,8 @@ class BlogItem extends Component {
             state: { type: this.props.type }
         }
         )
+        // let win = window.open('/app/blogall/blogdetail/', '_blank');
+        // win.focus();
 
     }
 
@@ -227,7 +229,7 @@ class BlogItem extends Component {
                     {this.props.item.likes.length}
                 </span>
             </span>,
-           
+
             // ----------------隐藏【回复控件】---------------------
             // <span onClick={this.showReplyMoadl}>Reply to</span>,
             <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
@@ -250,7 +252,7 @@ class BlogItem extends Component {
                                     to={{
                                         pathname: '/app/blogall/blogdetail',
                                         state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type },
-                                        query: { id: this.state.item.id }
+                                        queryquery: { id: this.state.item.id }
                                     }}
                                 > {this.state.item.title}</Link> */}
                                 <a onClick={this.handleLink} className="blogTitle">
