@@ -4,7 +4,6 @@ import { Row, Skeleton, Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
-import { initBlogs } from '../store/actions';
 import BlogItem from './BlogItem';
 require('../assets/styles/BlogAll.css')
 
@@ -46,7 +45,7 @@ class BlogAll extends Component {
     changeNum = (page, pageSize) => {
         console.log(page, pageSize)
         this.setState({ pageNum: page })
-        
+
     }
 
     changePageSize = (current, size) => {
@@ -109,7 +108,7 @@ class BlogAll extends Component {
 }
 
 let mapStateToProps = (state) => {
-     console.log('store=>>>>', state)
+    console.log('store=>>>>', state)
     return {
         store: state
     }

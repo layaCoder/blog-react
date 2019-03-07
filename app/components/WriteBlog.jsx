@@ -217,10 +217,10 @@ class WriteBlog extends Component {
                     </Row>
                     <Row className="row">
                         <div>
-                            <div ref="editorMenu" style={{ backgroundColor: '#F1F1F1', border: 'solid 1px #999999' }}></div>
+                            <div ref="editorMenu" style={{ backgroundColor: '#FAFAFA', border: 'solid 1px #d9d9d9', borderRadius: '5px 5px 0px 0px' }}></div>
                         </div>
-                        <div style={{ border: '#999999 solid 1px', borderTop: '0px' }}>
-                            <div ref='editorElem' style={{ textAlign: 'left', height: '400px', maxHeight: '500px', }} />
+                        <div style={{ border: '#d9d9d9 solid 1px', borderTop: '0px', borderRadius: '0px 0px 5px 5px' }}>
+                            <div ref='editorElem' style={{ textAlign: 'left', height: '400px', maxHeight: '500px' }} />
                         </div>
 
                     </Row>
