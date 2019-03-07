@@ -37,12 +37,10 @@ class BlogDetail extends Component {
         if (this.props.location.state) {
             this.setState({ type: this.props.location.state.type })
         }
-        //console.log(this.props.match.params.id)
         axios.get(
             APIS.getBlogHtmlDom.devUrl +
             '?blogId=' + this.props.match.params.id
         ).then(res => {
-            console.log(res.data)
             this.setState({ htmlDom: res.data[0].htmlDom })
             this.setState({ lodingHtmlDom: false })
         })

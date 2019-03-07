@@ -29,12 +29,10 @@ class NormalLoginForm extends React.Component {
                 console.log('Received values of form: ', values);
                 let loginApi = APIS.userLogin.devUrl + "?name=" + values.userName + "&pass=" + values.password
                 axios.get(loginApi).then(res => {
-                    console.log(res)
                     if (res.data.length > 0) {
                         //登录后将 user 存放到 localStorage
                         let user = JSON.stringify({ isLogin: true, name: values.userName, avatar: res.data[0].avatarUrl })
                         storage.setLocalStorage("user", user)
-                        console.log('localStoreage', storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
                         //登录后改变redux store中的isLogin状态
                         this.props.dispatch(userLogin(true, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name, JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).avatar))
                         //跳转路由

@@ -18,7 +18,6 @@ function blogs(state = [], action) {
                 replys: [] // replys 字段添加空数组
             }, ...state]
         case DEL_BLOG:
-            console.log('reducer id ->', action.id)
             return state.filter(blog => blog.id !== action.id) //遍历blog id，id不相等则保留，相等责备过滤掉
         case INIT_BLOGS:
             state = []
@@ -39,7 +38,6 @@ function blogs(state = [], action) {
             })
             return state
         case LIKE_BLOG:
-            console.log('likeBlog running')
             let resState = []
             // issue 是否有简便写法?
             state.map(item => {
@@ -67,7 +65,6 @@ function blogs(state = [], action) {
             return resState
 
         case DISSLIKE_BLOG:
-            console.log('disslikeBlog running')
             let resDissState = []
             state.map(item => {
                 if (item.id !== action.blogId) {
@@ -90,7 +87,6 @@ function blogs(state = [], action) {
             })
             return resDissState
         case SAVE_REPLY:
-            console.log('saveReply running')
             let resReplyState = []
             state.map(item => {
                 if (item.id !== action.blogId) {

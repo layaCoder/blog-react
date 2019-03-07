@@ -125,7 +125,6 @@ class LayoutComponent extends Component {
         const { Header, Content, Footer } = Layout;
 
         const dropdownClick = ({ key }) => {
-            console.log(typeof key)
             switch (key) {
                 case '1':
                     this.setState({ uploadAvatarVisible: true })

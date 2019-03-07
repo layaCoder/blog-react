@@ -18,9 +18,7 @@ class CRouter extends Component {
         // this.setState({ ProgressPercent: 75 })
         // //初始化 store 中 blogs数组
         // let url = APIS.blogList.devUrl
-        // console.log(url)
         // axios.get(url).then(res => {
-        //     console.log('blog list', res)
         //     this.setState({ ProgressPercent: 90 })
         //     this.props.dispatch(initBlogs(res.data))
         //     // this.props.dispatch(getBlogsPageCount(this.props.store.blogs))//获取分页总页数

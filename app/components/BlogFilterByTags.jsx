@@ -94,7 +94,6 @@ class BlogFilterByTags extends Component {
 }
 
 let mapStateToProps = (state) => {
-    console.log('store=>>>>', state)
     return {
         store: state
     }

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Skeleton, Pagination } from 'antd';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios'
-import APIS from '../api/index'
 
 import 'antd/dist/antd.css';
 import { initBlogs } from '../store/actions';
@@ -48,12 +46,7 @@ class BlogAll extends Component {
     changeNum = (page, pageSize) => {
         console.log(page, pageSize)
         this.setState({ pageNum: page })
-        let url = APIS.blogList.devUrl + '?pageIndex=' + page + '&pageSize=' + pageSize
-        console.log('get blog list =====>', url)
-        axios.get(url).then(res => {
-            this.props.dispatch(initBlogs(res.data))
-
-        })
+        
     }
 
     changePageSize = (current, size) => {
@@ -116,15 +109,12 @@ class BlogAll extends Component {
 }
 
 let mapStateToProps = (state) => {
-    console.log('store=>>>>', state)
+     console.log('store=>>>>', state)
     return {
         store: state
     }
 };
 
 export default withRouter(connect(mapStateToProps)(BlogAll));
-
-        // export default connect(mapStateToProps)(BlogAll)
-
 
 

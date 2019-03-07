@@ -91,5 +91,9 @@ export default {
     getBlogHtmlDom: {
         name: 'getBlogHtmlDom',
         devUrl: 'api/get/blogHtmlDom'
+    },
+    saveBlogImage: {
+        name: 'saveBlogImage',
+        devUrl: 'api/post/saveBlogImage'
     }
 }
