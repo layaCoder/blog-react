@@ -3,18 +3,10 @@ export const testState = {
     blogs: [],
     //可见blog过滤器
     filter: '',
-    blogsPageCount,
-    //用户  discussion:后期是否存在localStorage中？
-    user: {
-        id: '',
-        name: '',
-        avatarUrl: ''
-    },
-    //isLogin: false
     isLogin: {
         login: false,
         userName: null,
         avatarUrl: null
-    }
-
+    },
+    dataPage: 1  //记录当前加载的数据页数
 }

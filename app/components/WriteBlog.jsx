@@ -89,7 +89,7 @@ class WriteBlog extends Component {
             'underline', // 下划线
             'strikeThrough', // 删除线
             'foreColor', // 文字颜色
-            // 'backColor', // 背景颜色
+            'backColor', // 背景颜色
             'link', // 插入链接
             'list', // 列表
             'justify', // 对齐方式
@@ -238,7 +238,7 @@ class WriteBlog extends Component {
                         ))}
                     </Row>
                     <Row className="row">
-                        <Button type="primary" onClick={this.handleSubmit.bind(this)}>save</Button>
+                        <Button type="primary" onClick={this.handleSubmit.bind(this)} className="saveBtn">&nbsp; Save &nbsp;</Button>
                     </Row>
 
                 </div>

@@ -213,7 +213,7 @@ class LayoutComponent extends Component {
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
 
-                    ©2018 Created by laya Studio
+                    ©2019 Created by laya Studio
     </Footer>
                 {/* 模态框 */}
                 <div>

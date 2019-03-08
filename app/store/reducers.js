@@ -1,6 +1,5 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY, DATA_PAGE_INDEX } from './actions';
 import { combineReducers } from 'redux';
-import { get_uuid } from '../utils/commUtils'
 
 //blogs列表
 function blogs(state = [], action) {
@@ -20,7 +19,7 @@ function blogs(state = [], action) {
         case DEL_BLOG:
             return state.filter(blog => blog.id !== action.id) //遍历blog id，id不相等则保留，相等责备过滤掉
         case INIT_BLOGS:
-            state = []
+            // state = []  屏蔽掉刷新state，实现下拉懒加载
             action.blogArray.map(item => {
                 state.push({
                     id: item._id,
@@ -116,6 +115,14 @@ function blogs(state = [], action) {
     }
 }
 
+function dataPage(state = 1, action) {
+    switch (action.type) {
+        case DATA_PAGE_INDEX:
+            return state + 1
+        default:
+            return state
+    }
+}
 
 
 //blog列表过滤器，分为 all , frontend ,lifeStyle
@@ -144,7 +151,8 @@ function isLogin(state = { login: false, userName: null, avatarUrl: null }, acti
 const blogApp = combineReducers({
     filter,
     blogs,
-    isLogin
+    isLogin,
+    dataPage
 })
 
 export default blogApp;

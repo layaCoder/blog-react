@@ -10,6 +10,7 @@ export const LIKE_BLOG = 'LIKE_BLOG'
 export const DISSLIKE_BLOG = 'DISSLIKE_BLOG'
 
 export const SAVE_REPLY = 'SAVE_REPLY'
+export const DATA_PAGE_INDEX = 'DATA_PAGE_INDEX' //在store中记录当前数据页数
 
 //初始化 blogs数组
 export const initBlogs = (blogArray) => {
@@ -89,7 +90,7 @@ export const disslikeBlog = (blogId, name) => {
     }
 }
 
-export const saveReply = (id,blogId, replyText, user, avatarUrl) => {
+export const saveReply = (id, blogId, replyText, user, avatarUrl) => {
     return {
         type: SAVE_REPLY,
         id,
@@ -97,5 +98,12 @@ export const saveReply = (id,blogId, replyText, user, avatarUrl) => {
         replyText,
         user,
         avatarUrl
+    }
+}
+
+export const dataPageIndex = (num) => {
+    return {
+        type: DATA_PAGE_INDEX,
+        num
     }
 }

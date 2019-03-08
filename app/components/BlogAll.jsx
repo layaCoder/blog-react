@@ -1,10 +1,20 @@
+/*
+2019-03-08 update ： 
+【分页】 改为 【下拉懒加载】
+参考:https://blog.csdn.net/zhuchuana/article/details/84848815
+*/
+
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row, Skeleton, Pagination } from 'antd';
+import { Row, Skeleton, Pagination, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
-
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';
+
+import axios from 'axios'
+import APIS from '../api/index'
+import { initBlogs, dataPageIndex } from '../store/actions';
 require('../assets/styles/BlogAll.css')
 
 class BlogAll extends Component {
@@ -13,34 +23,53 @@ class BlogAll extends Component {
         this.state = {
             blogObj: '',
             blogs: [],
-            pageSize: 10,
-            pageNum: 1,
-            totleCount: 100
+            //pageSize: 10,
+            pageNum: 1, //懒加载其实页为第2页，第1页也在项目启动加载完成,
+            isLoading: false,
+            hasMore: true
         }
     }
 
     componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll); //开启滚动监听
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll) //销毁滚动监听
+    }
+
+
+
+    //滚动条滚动方法，
+    handleScroll = (event) => {
+        let clientHeight = document.documentElement.clientHeight//可视区域高度
+        let scrollTop = document.documentElement.scrollTop;//滚动条滚动高度
+        let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
+
+        let res = scrollHeight - scrollTop - clientHeight;
+        if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
+            console.log('scollRes->', res)
+            this.setState({ isLoading: true })
+            if (this.state.hasMore) {
+                this.handleLoadMore()
+            }
+        }
 
     }
 
-    componentDidUpdate() {
-
+    handleLoadMore = () => {
+        let url = APIS.blogList.devUrl + "?pageIndex=" + (this.props.store.dataPage + 1) + '&pageSize=10'
+        axios.get(url).then(res => {
+            if (res.data.length === 0) {
+                this.setState({ hasMore: false })
+                return
+            }
+            this.props.dispatch(dataPageIndex()) //记录当前数据的页数
+            this.props.dispatch(initBlogs(res.data))//将请求的数据，push至 store blog数组中
+            this.setState({ isLoading: false })
+        })
     }
 
-    // showBlogDetail = (item) => {
-    //     //【对话框显示 blogDetail】
-    //     console.log('blogObj', item)
-    //     this.setState({
-    //         blogObj: item
-    //     })
-    //     this.setState({
-    //         visible: true
-    //     })
-    //     //【跳转页面显示blogDetail】
-
-    //     const thisComp = this//将Layout组件通过thisComp变量绑定，在confirm中使用
-    //     thisComp.props.history.push('/app/blogdetail')
-    // }
 
     changeNum = (page, pageSize) => {
         console.log(page, pageSize)
@@ -58,13 +87,13 @@ class BlogAll extends Component {
             textAlign: 'center'
         }
 
-        let paginationStyle = {
-            textAlign: 'center',
-            marginTop: '20px'
-        }
+        // let paginationStyle = {
+        //     textAlign: 'center',
+        //     marginTop: '20px'
+        // }
 
         return (
-            <div>
+            <div ref="bodyBox">
                 <div>
                     <Row>
                         <h2 style={myStyle}>All Blogs</h2>
@@ -81,13 +110,13 @@ class BlogAll extends Component {
 
                     <Row>
                         {
-                            // this.props.store.blogs.map(item => {
-                            this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                            this.props.store.blogs.map(item => {
+                                // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
                                 return <BlogItem item={item} key={item.id} type="allBlogs" />
                             })}
                     </Row>
                     <Row>
-                        <Pagination style={paginationStyle}
+                        {/* <Pagination style={paginationStyle}
                             defaultCurrent={1}
                             current={this.state.pageNum}
                             pageSize={this.state.pageSize}
@@ -97,9 +126,11 @@ class BlogAll extends Component {
                             pageSizeOptions={["5", "10", "15", "20"]}
                             showSizeChanger={true}
                             showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                        />
+                        /> */}
                     </Row>
                 </div>
+                {this.state.hasMore && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
+                {!this.state.hasMore ? <div>&nbsp; No more!!! &nbsp;</div> : null}
 
             </div>
 
