@@ -107,7 +107,7 @@ class MyBlog extends Component {
     //滚动条滚动方法，
     handleScroll = (event) => {
         let clientHeight = document.documentElement.clientHeight//可视区域高度
-        let scrollTop = document.documentElement.scrollTop;//滚动条滚动高度
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop //top使用兼容性写法，否则移动端浏览器兼听不到scroll事件
         let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
 
         let res = scrollHeight - scrollTop - clientHeight;

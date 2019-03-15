@@ -71,6 +71,9 @@ class LayoutComponent extends Component {
         else if (this.props.location.pathname.includes('myblog')) {
             this.intiMyBlogData()
         }
+        else if (this.props.location.pathname.includes('writeblog')) {
+            this.setState({ ProgressPercent: 100 })
+        }
         //初始化 blogList 数据
         // this.setState({ ProgressPercent: 60 })
         // let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'

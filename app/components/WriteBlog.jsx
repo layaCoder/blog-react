@@ -46,6 +46,34 @@ class WriteBlog extends Component {
         const editor = new E(toolBar, elem)
 
         this.editor = editor
+        editor.customConfig.emotions = [
+            // {
+            //     // tab 的标题
+            //     title: '默认',
+            //     // type -> 'emoji' / 'image'
+            //     type: 'image',
+            //     // content -> 数组
+            //     content: [
+            //         {
+            //             alt: '[坏笑]',
+            //             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+            //         },
+            //         {
+            //             alt: '[舔屏]',
+            //             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
+            //         }
+            //     ]
+            // },
+            {
+                // tab 的标题
+                title: 'emoji',
+                // type -> 'emoji' / 'image'
+                type: 'emoji',
+                // content -> 数组
+                content: ['😀', '😃', '😄', '😁', '😆']
+            }
+        ]
+
 
         editor.customConfig.zIndex = 100
         editor.customConfig.uploadImgServer = APIS.saveBlogImage.devUrl
@@ -94,7 +122,7 @@ class WriteBlog extends Component {
             'list', // 列表
             'justify', // 对齐方式
             'quote', // 引用
-            //'emoticon', // 表情
+            'emoticon', // 表情
             'image', // 插入图片
             // 'table', // 表格
             // 'video', // 插入视频
