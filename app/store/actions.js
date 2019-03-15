@@ -11,6 +11,8 @@ export const DISSLIKE_BLOG = 'DISSLIKE_BLOG'
 
 export const SAVE_REPLY = 'SAVE_REPLY'
 
+export const HAS_MORE_BLOG_ITEM = 'HAS_MORE_BLOG_ITEM'
+
 //初始化 blogs数组
 export const initBlogs = (blogArray, firstTime) => {
     return {
@@ -100,4 +102,12 @@ export const saveReply = (id, blogId, replyText, user, avatarUrl) => {
         avatarUrl
     }
 }
+
+export const hasMoreBlogItem = (flag) => {
+    return {
+        type: HAS_MORE_BLOG_ITEM,
+        flag: flag
+    }
+}
+
 

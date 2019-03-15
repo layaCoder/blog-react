@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Comment, Icon, Tooltip, Avatar, Modal, Button, message, Form, Input, Divider } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
@@ -203,6 +203,10 @@ class BlogItem extends Component {
             state: { type: this.props.type }
         }
         )
+        // this.props.history.push({
+        //     pathname: '/blogdetail/' + this.state.item.id,
+        //     state: { type: this.props.type },
+        // })
         // let win = window.open('/app/blogall/blogdetail/', '_blank');
         // win.focus();
 
@@ -248,10 +252,11 @@ class BlogItem extends Component {
                                 {this.props.type === "myBlogs" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
                                 {/* title 链接 */}
                                 {/* <Link
+                                    target="_blank"
                                     className="blogTitle"
                                     to={{
-                                        pathname: '/app/blogall/blogdetail',
-                                        state: { id: this.state.item.id, user: this.state.item.user, avatar: this.state.item.avatarUrl, title: this.state.item.title, htmlDom: this.state.item.htmlDom, date: this.state.item.date, type: this.props.type },
+                                        pathname: '/app/blogall/blogdetail/' + this.state.item.id,
+                                        state: { type: this.props.type },
                                         queryquery: { id: this.state.item.id }
                                     }}
                                 > {this.state.item.title}</Link> */}

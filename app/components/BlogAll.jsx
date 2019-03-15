@@ -14,7 +14,8 @@ import BlogItem from './BlogItem';
 
 import axios from 'axios'
 import APIS from '../api/index'
-import { initBlogs } from '../store/actions';
+import { initBlogs, hasMoreBlogItem } from '../store/actions';
+import { IsPC } from '../utils/commUtils'
 require('../assets/styles/BlogAll.css')
 
 class BlogAll extends Component {
@@ -26,60 +27,58 @@ class BlogAll extends Component {
             //pageSize: 10,
             pageNum: 1, //懒加载其实页为第2页，第1页也在项目启动加载完成,
             isLoading: false,
-            hasMore: true,
+            //hasMore: true,
             firstLoading: false
         }
     }
 
     componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll); //开启滚动监听
-        //加载页面数据
-        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
-        this.setState({ firstLoading: true })
+        if (IsPC()) {
+            window.addEventListener('scroll', this.handleScroll, false); //开启滚动监听
+        }
+        else {
+            window.addEventListener('touchmove', this.handelTouchMove, false); //手机页面使用touch事件
+        }
 
-        axios.get(url).then(res => {
-            this.props.dispatch(initBlogs(res.data, true))
-            if (this.props.store.blogs.length > 0) {
-                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-                // todo:将进度条从layout的state转移到store中
-            }
-            else {
-                message.warning('server err!!!')
-            }
-            this.setState({ firstLoading: false })
-        }).catch(err => {
-            console.log(err)
-        })
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll) //销毁滚动监听
+        if (IsPC()) {
+            window.removeEventListener('scroll', this.handleScroll, false) //销毁滚动监听
+        }
+        else {
+            window.removeEventListener('touchmove', this.handelTouchMove, false); //销毁手机页面使用touch事件
+        }
     }
 
-
+    handelTouchMove = (e) => {
+        this.handleScroll()
+    }
 
     //滚动条滚动方法，
     handleScroll = (event) => {
         let clientHeight = document.documentElement.clientHeight//可视区域高度
-        let scrollTop = document.documentElement.scrollTop;//滚动条滚动高度
+        // let scrollTop = document.documentElement.scrollTop;//滚动条滚动高度
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop //top使用兼容性写法，否则移动端浏览器兼听不到scroll事件
         let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
 
         let res = scrollHeight - scrollTop - clientHeight;
         if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
             console.log('scollRes->', res)
             this.setState({ isLoading: true })
-            if (this.state.hasMore) {
+            // if (this.state.hasMore) {
+            if (this.props.store.hasMoreData) {
                 this.handleLoadMore()
             }
         }
-
     }
 
     handleLoadMore = () => {
         let url = APIS.blogList.devUrl + "?pageIndex=" + (this.state.pageNum + 1) + '&pageSize=10'
         axios.get(url).then(res => {
             if (res.data.length === 0) {
-                this.setState({ hasMore: false })
+                // this.setState({ hasMore: false })
+                this.props.dispatch(hasMoreBlogItem(false))
                 return
             }
             this.setState({ pageNum: this.state.pageNum + 1 })
@@ -150,8 +149,8 @@ class BlogAll extends Component {
                         /> */}
                     </Row>
                 </div>
-                {this.state.hasMore && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.state.hasMore ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
+                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
 
             </div>
 
@@ -160,6 +159,7 @@ class BlogAll extends Component {
 }
 
 let mapStateToProps = (state) => {
+    console.log('store----->', state)
     return {
         store: state
     }

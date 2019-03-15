@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import BlogAll from './BlogAll';
 import Layout from './Layout';
 import { connect } from 'react-redux'
+import BlogDetail from './BlogDetail';
 
 
 class CRouter extends Component {

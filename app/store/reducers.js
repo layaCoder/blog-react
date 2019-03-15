@@ -1,4 +1,4 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, GET_BLOGS_PAGE_COUNT, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY, HAS_MORE_BLOG_ITEM } from './actions';
 import { combineReducers } from 'redux';
 
 //blogs列表
@@ -28,8 +28,8 @@ function blogs(state = [], action) {
                     id: item._id,
                     title: item.title,
                     text: item.text,
-                    // htmlDom: item.htmlDom,
-                    htmlDom: '', //不加载htmlDom，节省资源
+                    htmlDom: item.htmlDom,
+                    //htmlDom: '', //不加载htmlDom，节省资源
                     user: item.user,
                     avatarUrl: item.avatarUrl,
                     date: item.date,
@@ -142,11 +142,21 @@ function isLogin(state = { login: false, userName: null, avatarUrl: null }, acti
     }
 }
 
+function hasMoreData(state = true, action) {
+    switch (action.type) {
+        case HAS_MORE_BLOG_ITEM:
+            return action.flag
+        default:
+            return state
+    }
+}
+
 
 const blogApp = combineReducers({
     filter,
     blogs,
     isLogin,
+    hasMoreData
 })
 
 export default blogApp;

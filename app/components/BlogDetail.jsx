@@ -37,13 +37,13 @@ class BlogDetail extends Component {
         if (this.props.location.state) {
             this.setState({ type: this.props.location.state.type })
         }
-        axios.get(
-            APIS.getBlogHtmlDom.devUrl +
-            '?blogId=' + this.props.match.params.id
-        ).then(res => {
-            this.setState({ htmlDom: res.data[0].htmlDom })
-            this.setState({ lodingHtmlDom: false })
-        })
+        // axios.get(
+        //     APIS.getBlogHtmlDom.devUrl +
+        //     '?blogId=' + this.props.match.params.id
+        // ).then(res => {
+        //     this.setState({ htmlDom: res.data[0].htmlDom })
+        //     this.setState({ lodingHtmlDom: false })
+        // })
     }
 
     goBack = () => {
@@ -122,13 +122,13 @@ class BlogDetail extends Component {
                         </Row>
                         <Row>
                             <Col span={20} offset={2}>
-                                {/* <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div> */}
+                                <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
 
-                                {
+                                {/* {
                                     this.state.lodingHtmlDom === false ?
                                         <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
                                         : <center style={{ margin: '20px' }}><Icon type="loading" style={{ fontSize: 48, textAlign: 'center' }} Spin /></center>
-                                }
+                                } */}
                             </Col>
                         </Row>
                         {/* 写评论 */}

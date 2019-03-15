@@ -4,8 +4,9 @@ import { Row, Skeleton, Pagination, message } from 'antd';
 import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';
-import { delBlog, initBlogs } from '../store/actions'
+import { delBlog, initBlogs, hasMoreBlogItem } from '../store/actions'
 import BlogItem from './BlogItem'
+import { IsPC } from '../utils/commUtils'
 
 
 
@@ -23,48 +24,50 @@ class MyBlog extends Component {
             pageNum: 1,
             delCurrentId: null,
             isLoading: false,
-            hasMore: true,
+            // hasMore: true,
             firstLoading: false
 
         }
     }
 
     componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll); //开启滚动监听
-        this.setState({ firstLoading: true })
+        if (IsPC()) {
+            window.addEventListener('scroll', this.handleScroll, false); //开启滚动监听
+        }
+        else {
+            window.addEventListener('touchmove', this.handelTouchMove, false); //手机页面使用touch事件
+        }
+        //this.setState({ firstLoading: true })
         //获取当前登录的用户，以 name 作为 blogList的 filter条件
         let user = JSON.parse(storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
         this.setState({ userName: user.name })
 
-        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
-        axios.get(url).then(res => {
-            this.props.dispatch(initBlogs(res.data, true))
-            if (this.props.store.blogs.length > 0) {
-                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-                // todo:将进度条从layout的state转移到store中
-            }
-            else {
-                message.warning('server err!!!')
-            }
-            this.setState({ firstLoading: false })
+        // let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
+        // axios.get(url).then(res => {
+        //     this.props.dispatch(initBlogs(res.data, true))
+        //     if (this.props.store.blogs.length > 0) {
+        //         // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+        //         // todo:将进度条从layout的state转移到store中
+        //     }
+        //     else {
+        //         message.warning('server err!!!')
+        //     }
+        //     this.setState({ firstLoading: false })
 
-        })
+        // })
     }
 
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll) //销毁滚动监听
+        if (IsPC()) {
+            window.removeEventListener('scroll', this.handleScroll, false) //销毁滚动监听
+        }
+        else {
+            window.removeEventListener('touchmove', this.handelTouchMove, false); //销毁手机页面使用touch事件
+        }
     }
 
-    // changeNum = (page, pageSize) => {
-    //     console.log(page, pageSize)
-    //     this.setState({ pageNum: page })
-    // }
 
-    // changePageSize = (current, size) => {
-    //     //设置pageSize后返回第一页（pageNum:1)，避免选择Size后当前页显示错误
-    //     this.setState({ pageSize: size, pageNum: 1 })
-    // }
 
     //删除btn点击事件，将id绑定到state
     handleDel = (id) => {
@@ -96,6 +99,10 @@ class MyBlog extends Component {
         message.error('Cancel delete');
     }
 
+    handelTouchMove = (e) => {
+        this.handleScroll()
+    }
+
 
     //滚动条滚动方法，
     handleScroll = (event) => {
@@ -107,7 +114,8 @@ class MyBlog extends Component {
         if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
             console.log('scollRes->', res)
             this.setState({ isLoading: true })
-            if (this.state.hasMore) {
+            // if (this..hasMore) {
+            if (this.props.store.hasMoreData) {
                 this.handleLoadMore()
             }
         }
@@ -118,7 +126,9 @@ class MyBlog extends Component {
         let url = APIS.blogList.devUrl + "?pageIndex=" + (this.state.pageNum + 1) + '&pageSize=10&user=' + this.state.userName
         axios.get(url).then(res => {
             if (res.data.length === 0) {
-                this.setState({ hasMore: false })
+                console.log('res', res.data)
+                // this.setState({ hasMore: false })
+                this.props.dispatch(hasMoreBlogItem(false))
                 return
             }
             this.setState({ pageNum: this.state.pageNum + 1 })
@@ -168,8 +178,8 @@ class MyBlog extends Component {
                         </div>
                         : null}
                 </div>
-                {this.state.hasMore && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.state.hasMore ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
+                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
             </div>
 
         )
