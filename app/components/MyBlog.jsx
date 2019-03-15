@@ -4,9 +4,8 @@ import { Row, Skeleton, Pagination, message } from 'antd';
 import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';
-import { delBlog } from '../store/actions'
+import { delBlog, initBlogs } from '../store/actions'
 import BlogItem from './BlogItem'
-
 
 
 
@@ -22,25 +21,50 @@ class MyBlog extends Component {
             userName: '',
             pageSize: 10,
             pageNum: 1,
-            delCurrentId: null
+            delCurrentId: null,
+            isLoading: false,
+            hasMore: true,
+            firstLoading: false
+
         }
     }
 
     componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll); //开启滚动监听
+        this.setState({ firstLoading: true })
         //获取当前登录的用户，以 name 作为 blogList的 filter条件
         let user = JSON.parse(storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
         this.setState({ userName: user.name })
+
+        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
+        axios.get(url).then(res => {
+            this.props.dispatch(initBlogs(res.data, true))
+            if (this.props.store.blogs.length > 0) {
+                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+                // todo:将进度条从layout的state转移到store中
+            }
+            else {
+                message.warning('server err!!!')
+            }
+            this.setState({ firstLoading: false })
+
+        })
     }
 
-    changeNum = (page, pageSize) => {
-        console.log(page, pageSize)
-        this.setState({ pageNum: page })
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll) //销毁滚动监听
     }
 
-    changePageSize = (current, size) => {
-        //设置pageSize后返回第一页（pageNum:1)，避免选择Size后当前页显示错误
-        this.setState({ pageSize: size, pageNum: 1 })
-    }
+    // changeNum = (page, pageSize) => {
+    //     console.log(page, pageSize)
+    //     this.setState({ pageNum: page })
+    // }
+
+    // changePageSize = (current, size) => {
+    //     //设置pageSize后返回第一页（pageNum:1)，避免选择Size后当前页显示错误
+    //     this.setState({ pageSize: size, pageNum: 1 })
+    // }
 
     //删除btn点击事件，将id绑定到state
     handleDel = (id) => {
@@ -72,6 +96,39 @@ class MyBlog extends Component {
         message.error('Cancel delete');
     }
 
+
+    //滚动条滚动方法，
+    handleScroll = (event) => {
+        let clientHeight = document.documentElement.clientHeight//可视区域高度
+        let scrollTop = document.documentElement.scrollTop;//滚动条滚动高度
+        let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
+
+        let res = scrollHeight - scrollTop - clientHeight;
+        if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
+            console.log('scollRes->', res)
+            this.setState({ isLoading: true })
+            if (this.state.hasMore) {
+                this.handleLoadMore()
+            }
+        }
+
+    }
+
+    handleLoadMore = () => {
+        let url = APIS.blogList.devUrl + "?pageIndex=" + (this.state.pageNum + 1) + '&pageSize=10&user=' + this.state.userName
+        axios.get(url).then(res => {
+            if (res.data.length === 0) {
+                this.setState({ hasMore: false })
+                return
+            }
+            this.setState({ pageNum: this.state.pageNum + 1 })
+            this.props.dispatch(initBlogs(res.data, false))//将请求的数据，push至 store blog数组中
+            this.setState({ isLoading: false })
+        })
+    }
+
+
+
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -87,58 +144,32 @@ class MyBlog extends Component {
                 </div>
                 <div>
                     <div>
-                        {this.props.store.blogs.length === 0 ?
-                            < Skeleton avatar paragraph={{ rows: 4 }} />
+                        {this.state.firstLoading === true ?
+                            <div>
+                                < Skeleton avatar paragraph={{ rows: 4 }} />
+                                < Skeleton avatar paragraph={{ rows: 4 }} />
+                                < Skeleton avatar paragraph={{ rows: 4 }} />
+                            </div>
                             : null}
                     </div>
-                    {this.props.store.blogs.length > 0 ?
+                    {/* {this.props.store.blogs.length > 0 ? */}
+                    {this.state.firstLoading === false ?
                         <div>
                             <Row>
                                 {
                                     //用username过滤store中的blogs
-                                    this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                    // this.props.store.blogs.filter(item => item.user === this.state.userName).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                    this.props.store.blogs.map(item => {
                                         return <BlogItem item={item} key={item.id} type={'myBlogs'} />
-                                        // <div key={item.id}>
-                                        //     {/* <div style={{ float: 'right', marginTop: '20px' }}>&times;</div> */}
-                                        //     <Comment
-                                        //         key={item.id}
-                                        //         author={item.user}
-                                        //         avatar={(<Avatar src={item.avatarUrl} alt={item.user} />)}
-                                        //         content={(
-                                        //             <div className="commentItem">
-                                        //                 <Popconfirm title="Are you sure delete this task?" onConfirm={this.confirmDel} onCancel={this.cancelDel} okText="Yes" cancelText="No">
-                                        //                     <div className="delBtn" onClick={this.handleDel.bind(this, item.id)}>&times;</div>
-                                        //                 </Popconfirm>
-                                        //                 <Link to={{ pathname: '/app/blogall/blogdetail', blogId: item.id, state: { id: item.id, user: item.user, avatar: item.avatarUrl, title: item.title, htmlDom: item.htmlDom, date: item.date } }}>{item.title}</Link>
-                                        //                 <div className="blogText">{item.text}</div>
-                                        //             </div>)}
-                                        //         datetime={(
-                                        //             <Tooltip title={moment(item.date).format('LLLL')}>
-                                        //                 <span>{moment(item.date).fromNow()}</span>
-                                        //             </Tooltip>
-                                        //         )}
-                                        //     />
-                                        // </div>
-
                                     })}
 
                             </Row>
-                            <Row>
-                                <Pagination style={paginationStyle}
-                                    defaultCurrent={1}
-                                    current={this.state.pageNum}
-                                    pageSize={this.state.pageSize}
-                                    total={this.props.store.blogs.filter(item => item.user === this.state.userName).length}
-                                    onChange={this.changeNum}
-                                    onShowSizeChange={this.changePageSize}
-                                    pageSizeOptions={["5", "10", "15", "20"]}
-                                    showSizeChanger
-                                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                                />
-                            </Row>
+
                         </div>
                         : null}
                 </div>
+                {this.state.hasMore && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
+                {!this.state.hasMore ? <div>&nbsp; No more!!! &nbsp;</div> : null}
             </div>
 
         )
@@ -146,6 +177,7 @@ class MyBlog extends Component {
 }
 
 let mapStateToProps = (state) => {
+    console.log('store=>>>>', state)
     return {
         store: state
     }

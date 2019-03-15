@@ -14,7 +14,7 @@ import BlogItem from './BlogItem';
 
 import axios from 'axios'
 import APIS from '../api/index'
-import { initBlogs, dataPageIndex } from '../store/actions';
+import { initBlogs } from '../store/actions';
 require('../assets/styles/BlogAll.css')
 
 class BlogAll extends Component {
@@ -26,12 +26,30 @@ class BlogAll extends Component {
             //pageSize: 10,
             pageNum: 1, //懒加载其实页为第2页，第1页也在项目启动加载完成,
             isLoading: false,
-            hasMore: true
+            hasMore: true,
+            firstLoading: false
         }
     }
 
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll); //开启滚动监听
+        //加载页面数据
+        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
+        this.setState({ firstLoading: true })
+
+        axios.get(url).then(res => {
+            this.props.dispatch(initBlogs(res.data, true))
+            if (this.props.store.blogs.length > 0) {
+                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+                // todo:将进度条从layout的state转移到store中
+            }
+            else {
+                message.warning('server err!!!')
+            }
+            this.setState({ firstLoading: false })
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     componentWillUnmount() {
@@ -58,14 +76,14 @@ class BlogAll extends Component {
     }
 
     handleLoadMore = () => {
-        let url = APIS.blogList.devUrl + "?pageIndex=" + (this.props.store.dataPage + 1) + '&pageSize=10'
+        let url = APIS.blogList.devUrl + "?pageIndex=" + (this.state.pageNum + 1) + '&pageSize=10'
         axios.get(url).then(res => {
             if (res.data.length === 0) {
                 this.setState({ hasMore: false })
                 return
             }
-            this.props.dispatch(dataPageIndex()) //记录当前数据的页数
-            this.props.dispatch(initBlogs(res.data))//将请求的数据，push至 store blog数组中
+            this.setState({ pageNum: this.state.pageNum + 1 })
+            this.props.dispatch(initBlogs(res.data, false))//将请求的数据，push至 store blog数组中
             this.setState({ isLoading: false })
         })
     }
@@ -98,7 +116,8 @@ class BlogAll extends Component {
                     <Row>
                         <h2 style={myStyle}>All Blogs</h2>
                     </Row>
-                    {this.props.store.blogs.length === 0 ?
+                    {/* {this.props.store.blogs.length === 0 ? */}
+                    {this.state.firstLoading === true ?
                         <div>
                             < Skeleton avatar paragraph={{ rows: 4 }} />
                             < Skeleton avatar paragraph={{ rows: 4 }} />
@@ -107,14 +126,16 @@ class BlogAll extends Component {
                         : null}
                 </div>
                 <div>
+                    {this.state.firstLoading === true ? null :
+                        <Row>
+                            {
+                                this.props.store.blogs.map(item => {
+                                    // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                    return <BlogItem item={item} key={item.id} type="allBlogs" />
+                                })}
+                        </Row>
+                    }
 
-                    <Row>
-                        {
-                            this.props.store.blogs.map(item => {
-                                // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                return <BlogItem item={item} key={item.id} type="allBlogs" />
-                            })}
-                    </Row>
                     <Row>
                         {/* <Pagination style={paginationStyle}
                             defaultCurrent={1}
@@ -139,7 +160,6 @@ class BlogAll extends Component {
 }
 
 let mapStateToProps = (state) => {
-    console.log('store=>>>>', state)
     return {
         store: state
     }

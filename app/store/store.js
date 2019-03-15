@@ -8,5 +8,4 @@ export const testState = {
         userName: null,
         avatarUrl: null
     },
-    dataPage: 1  //记录当前加载的数据页数
 }

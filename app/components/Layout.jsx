@@ -66,16 +66,16 @@ class LayoutComponent extends Component {
     componentDidMount() {
         //初始化 blogList 数据
         this.setState({ ProgressPercent: 60 })
-        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
-        axios.get(url).then(res => {
-            this.setState({ ProgressPercent: 99 })
-            this.props.dispatch(initBlogs(res.data))
-            if (this.props.store.blogs.length > 0) {
-                setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-            }
-            else
-                message.warning('server err!!!')
-        })
+        // let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
+        // axios.get(url).then(res => {
+        //     this.setState({ ProgressPercent: 99 })
+        //     this.props.dispatch(initBlogs(res.data, true))
+        //     if (this.props.store.blogs.length > 0) {
+        //         setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+        //     }
+        //     else
+        //         message.warning('server err!!!')
+        // })
 
         // * 登录持续时间
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
@@ -193,7 +193,7 @@ class LayoutComponent extends Component {
                     </Row>
                 </Header>
                 {/* 进度条 */}
-                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
+                {/* {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />} */}
                 <Content style={{ padding: '10px 200px' }}>
                     <BreadcrumbCusstom />
                     <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }}>
