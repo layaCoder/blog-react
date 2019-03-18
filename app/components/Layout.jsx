@@ -14,12 +14,11 @@ import ChangePass from './parts/ChangePassComponent'
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 import BlogFilterByTags from './BlogFilterByTags'
 
-import { setLocalStorage, getLocalStorage } from '../utils/commUtils'
-import { userLogin, userLogout, hasMoreBlogItem } from '../store/actions';
+import { getLocalStorage } from '../utils/commUtils'
+import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from '../store/actions';
 
 import axios from 'axios'
 import APIS from '../api/index'
-import { initBlogs } from '../store/actions';
 
 require('../assets/styles/Layout.css')
 
@@ -35,8 +34,6 @@ class LayoutComponent extends Component {
             ProgressPercent: 0, //进度条百分比
         }
     }
-
-
 
 
     handleLogOut = () => {
@@ -65,27 +62,21 @@ class LayoutComponent extends Component {
 
     componentDidMount() {
         //通过 url 包含string来判断加载的数据
-        if (this.props.location.pathname.includes('blogall')) {
+        if (this.props.location.pathname.includes('blogall') && this.props.location.pathname.indexOf('blogfilter') === -1) {
             this.initBlogAllData()
         }
         else if (this.props.location.pathname.includes('myblog')) {
-            this.intiMyBlogData()
+            this.initMyBlogData()
         }
         else if (this.props.location.pathname.includes('writeblog')) {
-            this.setState({ ProgressPercent: 100 })
+            this.props.dispatch(showLoading(false))
         }
-        //初始化 blogList 数据
-        // this.setState({ ProgressPercent: 60 })
-        // let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
-        // axios.get(url).then(res => {
-        //     this.setState({ ProgressPercent: 99 })
-        //     this.props.dispatch(initBlogs(res.data, true))
-        //     if (this.props.store.blogs.length > 0) {
-        //         setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-        //     }
-        //     else
-        //         message.warning('server err!!!')
-        // })
+        else if (this.props.location.pathname.includes('blogfilter')) {
+            //获取 url 中 最后一个斜杠后面的 string ， 及【tag】 标签
+            let index = this.props.location.pathname.lastIndexOf("\/");
+            let tag = this.props.location.pathname.substring(index + 1, this.props.location.pathname.length);
+            this.initBlogByTag(tag)
+        }
 
         // * 登录持续时间
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
@@ -131,19 +122,18 @@ class LayoutComponent extends Component {
         })
     }
 
+    //初始化 blogAll数据
     initBlogAllData = () => {
         this.props.dispatch(hasMoreBlogItem(true))
-        this.setState({ ProgressPercent: 80 })
+        this.props.dispatch(isShowLoading(true))
 
         //加载页面数据
         let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
 
         axios.get(url).then(res => {
-            this.setState({ ProgressPercent: 90 })
 
             this.props.dispatch(initBlogs(res.data, true))
-            this.setState({ ProgressPercent: 100 })
-
+            this.props.dispatch(isShowLoading(false))
             if (this.props.store.blogs.length > 0) {
                 // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
                 // todo:将进度条从layout的state转移到store中
@@ -157,19 +147,20 @@ class LayoutComponent extends Component {
 
     }
 
-    //初始化 blogAll数据
-    intiMyBlogData = () => {
+    //初始化myBlog数据
+    initMyBlogData = () => {
         this.props.dispatch(hasMoreBlogItem(true))
-        this.setState({ ProgressPercent: 80 })
+        // this.setState({ ProgressPercent: 80 })
+        this.props.dispatch(isShowLoading(true))
         let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
         this.setState({ userName: user.name })
 
         let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
         axios.get(url).then(res => {
             console.log('res', res.data)
-            this.props.dispatch(initBlogs(res.data, true))
+            this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
             this.props.dispatch(hasMoreBlogItem(true))
-            this.setState({ ProgressPercent: 100 })
+            this.props.dispatch(isShowLoading(false))
             if (this.props.store.blogs.length > 0) {
                 // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
                 // todo:将进度条从layout的state转移到store中
@@ -178,6 +169,29 @@ class LayoutComponent extends Component {
                 message.warning('server err!!!')
             }
 
+        })
+    }
+
+    //初始化tag过去的blogList   !!!!此方法作用于 避免F5后状态丢失
+    initBlogByTag = (tag) => {
+        this.props.dispatch(hasMoreBlogItem(true))
+        // this.setState({ ProgressPercent: 80 })
+        this.props.dispatch(isShowLoading(true))
+        let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
+
+        let url = APIS.blogListByTag.devUrl + '?pageIndex=1&pageSize=10&tag=' + tag
+        axios.get(url).then(res => {
+            console.log('res', res.data)
+            this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
+            this.props.dispatch(hasMoreBlogItem(true))
+            this.props.dispatch(isShowLoading(false))
+            if (this.props.store.blogs.length > 0) {
+                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+                // todo:将进度条从layout的state转移到store中
+            }
+            else {
+                message.warning('server err!!!')
+            }
         })
     }
 
@@ -212,7 +226,6 @@ class LayoutComponent extends Component {
         return (
             <Layout className="layout">
                 <Header>
-
                     <Row>
                         <Col span={18}>
                             <Menu
@@ -225,7 +238,7 @@ class LayoutComponent extends Component {
                                 <Menu.Item key={['/app/blogall']}>
                                     <Link to={{ pathname: '/app/blogall', state: this.props.store.blogs }} onClick={this.initBlogAllData}>All Blogs</Link>
                                 </Menu.Item>
-                                <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }} onClick={this.intiMyBlogData}>
+                                <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }} onClick={this.initMyBlogData}>
                                     <Link to={'/app/myblog'}  >My Blogs</Link>
                                 </Menu.Item>
                                 <Menu.Item key={['/app/writeblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
@@ -233,6 +246,9 @@ class LayoutComponent extends Component {
                                 </Menu.Item>
                                 <Menu.Item key={['4']} style={{ display: 'none' }}>
                                     <Link to={'/app/blogall/blogdetail'}>Blog Detail</Link>
+                                </Menu.Item>
+                                <Menu.Item key={['4']} style={{ display: 'none' }}>
+                                    <Link to={'/app/blogall/blogfilter'}>Blog Filter By Tag</Link>
                                 </Menu.Item>
                             </Menu>
                         </Col>
@@ -253,29 +269,28 @@ class LayoutComponent extends Component {
                     </Row>
                 </Header>
                 {/* 进度条 */}
-                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
+                {/* {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />} */}
+
                 <Content style={{ padding: '10px 200px' }}>
                     <BreadcrumbCusstom />
                     <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
-                        {this.state.ProgressPercent === 100 ?
+                        {this.props.store.showLoading === false ?
                             < Switch >
                                 <Route exact path='/app' component={Home} />
                                 <Route exact path="/app/myblog" component={MyBlog} />
                                 <Route exact path="/app/writeblog" component={WriteBlog} />
                                 <Route exact path="/app/blogall" component={BlogAll} ></Route>
-                                <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail}></Route>
-                                <Route exact path="/app/blogall/blogfilter" component={BlogFilterByTags}></Route>
+                                <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
+                                <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
                             </Switch>
                             :
                             <div>
-                                <Skeleton avatar paragraph={{ rows: 4 }} />
-                                <Skeleton avatar paragraph={{ rows: 4 }} />
-                                <Skeleton avatar paragraph={{ rows: 4 }} />
-                                <Skeleton avatar paragraph={{ rows: 4 }} />
+                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                <Skeleton active avatar paragraph={{ rows: 4 }} />
                             </div>
                         }
-
-
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>

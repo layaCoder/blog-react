@@ -25,7 +25,6 @@ class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
-            type: null, //记录入口类别， myBlog? allBlog? or others
             replyText: null,
             isLoading: false,
             lodingHtmlDom: true
@@ -33,27 +32,12 @@ class BlogDetail extends Component {
     }
 
     componentDidMount() {
-        //通过入口返回，如果强制f5刷新页面，type=null ,返回 blogAll
-        if (this.props.location.state) {
-            this.setState({ type: this.props.location.state.type })
-        }
-        // axios.get(
-        //     APIS.getBlogHtmlDom.devUrl +
-        //     '?blogId=' + this.props.match.params.id
-        // ).then(res => {
-        //     this.setState({ htmlDom: res.data[0].htmlDom })
-        //     this.setState({ lodingHtmlDom: false })
-        // })
+        console.log('prpppppsl....>', this.props)
     }
 
     goBack = () => {
-        //this.props.history.goBack()
-        if (this.state.type === 'myBlogs')
-            this.props.history.push('/app/myblog') //js方式控制也秒跳转
+        this.props.history.goBack()
 
-        else {
-            this.props.history.push('/app/blogall')
-        }
     }
 
     onChangeReply = (e) => {

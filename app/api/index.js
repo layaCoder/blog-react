@@ -16,6 +16,11 @@ export default {
         //devUrl: 'https://blogsev.serveo.net/get/blogList'
         // devUrl: 'http://39.105.188.13:2000/get/blogList'
     },
+    blogListByTag: {
+        name: 'blogListByTag',
+        devUrl: 'api/get/blogListByTag'
+    }
+    ,
     //用户登录
     userLogin: {
         name: 'login',

@@ -4,7 +4,6 @@
 参考:https://blog.csdn.net/zhuchuana/article/details/84848815
 */
 
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Skeleton, Pagination, Button } from 'antd';
@@ -115,14 +114,6 @@ class BlogAll extends Component {
                     <Row>
                         <h2 style={myStyle}>All Blogs</h2>
                     </Row>
-                    {/* {this.props.store.blogs.length === 0 ? */}
-                    {this.state.firstLoading === true ?
-                        <div>
-                            < Skeleton avatar paragraph={{ rows: 4 }} />
-                            < Skeleton avatar paragraph={{ rows: 4 }} />
-                            < Skeleton avatar paragraph={{ rows: 4 }} />
-                        </div>
-                        : null}
                 </div>
                 <div>
                     {this.state.firstLoading === true ? null :
@@ -130,7 +121,7 @@ class BlogAll extends Component {
                             {
                                 this.props.store.blogs.map(item => {
                                     // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    return <BlogItem item={item} key={item.id} type="allBlogs" />
+                                    return <BlogItem item={item} key={item.id} />
                                 })}
                         </Row>
                     }
@@ -159,7 +150,6 @@ class BlogAll extends Component {
 }
 
 let mapStateToProps = (state) => {
-    console.log('store----->', state)
     return {
         store: state
     }

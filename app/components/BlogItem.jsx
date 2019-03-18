@@ -5,7 +5,8 @@ import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
 import APIS from '../api/index';
-import { likeBlog, disslikeBlog, delBlog, saveReply } from '../store/actions'
+import { likeBlog, disslikeBlog, delBlog, saveReply, hasMoreBlogItem, initBlogs, isShowLoading } from '../store/actions'
+
 import BlogTag from './parts/BlogTag'
 
 import { get_uuid } from '../utils/commUtils'
@@ -29,7 +30,7 @@ class BlogItem extends Component {
             loading: false,
             replyText: null,
             showDelModal: false,
-            confirmLoading: false
+            confirmLoading: false,
         }
     }
 
@@ -43,6 +44,26 @@ class BlogItem extends Component {
         // }
     }
 
+
+    // 初始化数据封装在子组件的点击事件中
+    initTagBlog = (tag) => {
+        this.props.dispatch(hasMoreBlogItem(true))
+        this.props.dispatch(isShowLoading(true)) //全局显示loading
+        //加载页面数据
+        let url = APIS.blogListByTag.devUrl + '?pageIndex=1&pageSize=10&tag=' + tag
+        axios.get(url).then(res => {
+            this.props.dispatch(initBlogs(res.data, true))
+            this.props.dispatch(isShowLoading(false))
+            if (this.props.store.blogs.length > 0) {
+
+            }
+            else {
+                message.warning('server err!!!')
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 
 
     like = () => {
@@ -197,7 +218,6 @@ class BlogItem extends Component {
     }
 
     handleLink = () => {
-        console.log(this.props)
         this.props.history.push({
             pathname: '/app/blogall/blogdetail/' + this.state.item.id,
             state: { type: this.props.type }
@@ -212,12 +232,11 @@ class BlogItem extends Component {
 
     }
 
+
+
     render() {
 
         const { action } = this.state;
-
-        const replysInStore = this.props.store.blogs.filter(item => item.id === this.props.item.id)[0].replys //store中的当前 bloogItem 的 replys数组
-
 
         const actions = [
             <span>
@@ -239,7 +258,7 @@ class BlogItem extends Component {
             <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
         ];
         return (
-            <div>
+            < div >
                 <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Comment key={this.state.item.id}
@@ -270,7 +289,7 @@ class BlogItem extends Component {
                                 {/* tags */}
                                 <div style={{ marginTop: '5px' }}>
                                     {this.state.item.tags.map(item => {
-                                        return <div key={item} style={{ marginRight: '5px', display: 'inline' }}><BlogTag tag={item} /> </div>
+                                        return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
                                     })}
                                 </div>
                             </div>
@@ -323,6 +342,7 @@ class BlogItem extends Component {
                         <p className="delWarning">&nbsp;&nbsp; <Icon type="warning" theme="twoTone" twoToneColor="#FAAD14" />&nbsp;&nbsp;Are you sure want to delete this Blog?</p>
                     </Modal>
                 </div>
+
             </div >
         )
     }

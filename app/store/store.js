@@ -8,5 +8,6 @@ export const testState = {
         userName: null,
         avatarUrl: null
     },
-    hasMoreData: true
+    hasMoreData: true,
+    showLoading: false
 }

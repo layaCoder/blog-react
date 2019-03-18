@@ -1,4 +1,4 @@
-import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY, HAS_MORE_BLOG_ITEM } from './actions';
+import { ADD_BLOG, DEL_BLOG, SET_FILTER, INIT_BLOGS, USER_LOGIN, USER_LOGOUT, LIKE_BLOG, DISSLIKE_BLOG, SAVE_REPLY, HAS_MORE_BLOG_ITEM, IS_SHOW_LOADING } from './actions';
 import { combineReducers } from 'redux';
 
 //blogs列表
@@ -152,11 +152,22 @@ function hasMoreData(state = true, action) {
 }
 
 
+function showLoading(state = false, action) {
+    switch (action.type) {
+        case IS_SHOW_LOADING:
+            return action.bool
+        default:
+            return state
+    }
+}
+
+
 const blogApp = combineReducers({
     filter,
     blogs,
     isLogin,
-    hasMoreData
+    hasMoreData,
+    showLoading
 })
 
 export default blogApp;

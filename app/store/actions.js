@@ -13,6 +13,9 @@ export const SAVE_REPLY = 'SAVE_REPLY'
 
 export const HAS_MORE_BLOG_ITEM = 'HAS_MORE_BLOG_ITEM'
 
+export const IS_SHOW_LOADING = 'IS_SHOW_LOADING'
+
+
 //初始化 blogs数组
 export const initBlogs = (blogArray, firstTime) => {
     return {
@@ -109,5 +112,12 @@ export const hasMoreBlogItem = (flag) => {
         flag: flag
     }
 }
+
+//loading状态，true为显示，false不显示
+export const isShowLoading = (bool) => ({
+    type: "IS_SHOW_LOADING",
+    bool
+})
+
 
 

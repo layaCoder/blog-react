@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Tag } from 'antd';
-import {  Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 
 
 
-export default class BlogTag extends Component {
+class BlogTag extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -40,13 +40,27 @@ export default class BlogTag extends Component {
             default: return null
         }
     }
+    handleLink = () => {
+        this.props.history.push({
+            pathname: '/app/blogall/blogfilter/' + this.state.tagStr,
+        }
+        )
+    }
+
 
     render() {
 
         return (
             <div style={{ display: 'inline' }}>
-                <Link to={{ pathname: '/app/blogall/blogfilter', tag: this.state.tagStr }} replace><Tag color={this.state.color}>{this.state.tagStr}</Tag></Link>
+                {/* <Link to={{ pathname: '/app/blogall/blogfilter', tag: this.state.tagStr }} replace><Tag color={this.state.color}>{this.state.tagStr}</Tag></Link> */}
+                <a onClick={this.handleLink} ><Tag color={this.state.color}>{this.state.tagStr}</Tag></a>
+
             </div >
         )
+
+
     }
+
 }
+
+export default withRouter(BlogTag)
