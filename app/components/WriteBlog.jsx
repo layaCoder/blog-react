@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { addBlog } from '../store/actions'
 import { Row, Input, message, Button, Tag, Col } from 'antd';
 import 'antd/dist/antd.css';
+import emojiPack from '../api/emojiUrl'
 
 import * as untils from '../utils/commUtils.js'
 import E from 'wangeditor'
@@ -70,8 +71,13 @@ class WriteBlog extends Component {
                 // type -> 'emoji' / 'image'
                 type: 'emoji',
                 // content -> 数组
-                content: ['😀', '😃', '😄', '😁', '😆']
-            }
+                content: ['😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎', '😍', '😘',
+                    '😗', '😙', '😚', '🙂', '🤗', '🤔', '😐', '😑', '😶', '🙄', '😏', '😣', '😥', '😮', '🤐', '😯',
+                    '😪', '😫', '😴', '😌', '😛', '😜', '😝', '🤤', '😒', '🤓', '😈', '👿', '👹', '👺', '💀', '👻',
+                    '👽', '🤖', '💩', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾']
+            },
+            //从api地址加载表情包
+            emojiPack
         ]
 
 

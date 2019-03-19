@@ -69,7 +69,7 @@ class LayoutComponent extends Component {
             this.initMyBlogData()
         }
         else if (this.props.location.pathname.includes('writeblog')) {
-            this.props.dispatch(showLoading(false))
+            this.props.dispatch(isShowLoading(false))
         }
         else if (this.props.location.pathname.includes('blogfilter')) {
             //获取 url 中 最后一个斜杠后面的 string ， 及【tag】 标签

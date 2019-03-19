@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row, Skeleton, Pagination, Button } from 'antd';
+import { Row } from 'antd';
 import { withRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';

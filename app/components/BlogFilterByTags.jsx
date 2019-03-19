@@ -6,7 +6,6 @@ import { IsPC } from '../utils/commUtils'
 import APIS from '../api/index'
 import axios from 'axios'
 import { initBlogs, hasMoreBlogItem } from '../store/actions';
-
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';
 require('../assets/styles/BlogAll.css')
@@ -55,7 +54,6 @@ class BlogFilterByTags extends Component {
         if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
             console.log('scollRes->', res)
             this.setState({ isLoading: true })
-            // if (this.state.hasMore) {
             if (this.props.store.hasMoreData) {
                 this.handleLoadMore()
             }
@@ -66,7 +64,6 @@ class BlogFilterByTags extends Component {
         let url = APIS.blogListByTag.devUrl + "?pageIndex=" + (this.state.pageNum + 1) + '&pageSize=10&tag=' + this.props.match.params.tag
         axios.get(url).then(res => {
             if (res.data.length === 0) {
-                // this.setState({ hasMore: false })
                 this.props.dispatch(hasMoreBlogItem(false))
                 return
             }
