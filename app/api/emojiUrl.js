@@ -3,6 +3,7 @@
  * @type {object}
  */
 
+ 
 export default {
     title: 'coder',
     type: 'image',

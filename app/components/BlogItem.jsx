@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom';
-import { Comment, Icon, Tooltip, Avatar, Modal, Button, message, Form, Input, Divider } from 'antd';
+import { Comment, Icon, Tooltip, Avatar, Modal, Button, message, Form, Input, Divider, Row, Col } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
@@ -31,17 +31,21 @@ class BlogItem extends Component {
             replyText: null,
             showDelModal: false,
             confirmLoading: false,
+            hasImage: false
         }
     }
 
     componentDidMount() {
-        // if (this.state.item.likes) {
-        //     this.setState({ likes: this.state.item.likes.length })
-        //     //在 icon表达式中判断，登录登出后会动态切换，不仅仅在didMoout中来确定状态,但是点击 like btn样式不会变
-        //     // if (this.state.item.likes.includes(this.props.store.isLogin.userName)) {
-        //     //     this.setState({ action: 'liked' })
-        //     // }
-        // }
+        //通过正则表达式获取 htmlDom中的图片地址
+        //参考资料https://blog.csdn.net/zb219/article/details/25380867
+        let imgStr = this.state.item.htmlDom
+        if (imgStr.match(/<img src="(\S*)"/)) {
+            this.setState({ hasImage: true })
+            this.setState({ firstImgUrl: this.state.item.htmlDom.match(/src=(\S*)"/)[1].replace("\"", '') }) //去掉双引号
+        }
+        if (this.props.location.pathname.includes('myblog')) {
+            this.setState({ type: 'myblog' })
+        }
     }
 
 
@@ -261,16 +265,18 @@ class BlogItem extends Component {
             < div >
                 <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
-                    <Comment key={this.state.item.id}
-                        actions={actions}
-                        author={this.state.item.user}
-                        avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
-                        content={(
-                            <div className="commentItem">
-                                {/* 如果是myBlogs页面则显示 delBtn */}
-                                {this.props.type === "myBlogs" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
-                                {/* title 链接 */}
-                                {/* <Link
+                    <Row>
+                        <Col span={this.state.hasImage === true ? '20' : '24'}>
+                            <Comment key={this.state.item.id}
+                                actions={actions}
+                                author={this.state.item.user}
+                                avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
+                                content={(
+                                    <div className="commentItem">
+                                        {/* 如果是myBlogs页面则显示 delBtn */}
+                                        {this.state.type === "myblog" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
+                                        {/* title 链接 */}
+                                        {/* <Link
                                     target="_blank"
                                     className="blogTitle"
                                     to={{
@@ -279,27 +285,34 @@ class BlogItem extends Component {
                                         queryquery: { id: this.state.item.id }
                                     }}
                                 > {this.state.item.title}</Link> */}
-                                <a onClick={this.handleLink} className="blogTitle">
-                                    {this.state.item.title}
-                                </a>
+                                        <a onClick={this.handleLink} className="blogTitle">
+                                            {this.state.item.title}
+                                        </a>
 
-                                {/* blog内容 */}
-                                <div className="blogText">{this.state.item.text}</div>
+                                        {/* blog内容 */}
+                                        <div className="blogText">{this.state.item.text}</div>
 
-                                {/* tags */}
-                                <div style={{ marginTop: '5px' }}>
-                                    {this.state.item.tags.map(item => {
-                                        return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
-                                    })}
-                                </div>
+                                        {/* tags */}
+                                        <div style={{ marginTop: '5px' }}>
+                                            {this.state.item.tags.map(item => {
+                                                return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+                                datetime={(
+                                    <Tooltip title={moment(this.state.item.date).format('LLLL')}>
+                                        <span>{moment(this.state.item.date).fromNow()}</span>
+                                    </Tooltip>
+                                )}
+                            />
+                        </Col>
+                        <Col span={this.state.hasImage === true ? "4" : "0"}>
+                            <div className="div">
+                                {this.state.hasImage === true ? <img src={this.state.firstImgUrl} /> : null}
                             </div>
-                        )}
-                        datetime={(
-                            <Tooltip title={moment(this.state.item.date).format('LLLL')}>
-                                <span>{moment(this.state.item.date).fromNow()}</span>
-                            </Tooltip>
-                        )}
-                    />
+                        </Col>
+                    </Row>
                     {/*--------------回复内容--------ps：此处隐藏，在blogDetail页面中显示*/}
                     {/* {replysInStore.length === 0 ? null : replysInStore.map(replyItem => {
                         return <Comment style={{ marginLeft: '40px', marginRight: '20px', marginTop: '-15px' }}
