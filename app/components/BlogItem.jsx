@@ -262,19 +262,17 @@ class BlogItem extends Component {
             <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
         ];
         return (
-            < div >
+            < div className="wapper">
                 <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Row>
-                        <Col span={this.state.hasImage === true ? '20' : '24'}>
+                        <Col span={this.state.hasImage === true ? '18' : '23'}>
                             <Comment key={this.state.item.id}
                                 actions={actions}
                                 author={this.state.item.user}
                                 avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
                                 content={(
                                     <div className="commentItem">
-                                        {/* 如果是myBlogs页面则显示 delBtn */}
-                                        {this.state.type === "myblog" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
                                         {/* title 链接 */}
                                         {/* <Link
                                     target="_blank"
@@ -306,11 +304,16 @@ class BlogItem extends Component {
                                     </Tooltip>
                                 )}
                             />
+                            
                         </Col>
-                        <Col span={this.state.hasImage === true ? "4" : "0"}>
+                        <Col span={this.state.hasImage === true ? "5" : "0"}>
                             <div className="div">
                                 {this.state.hasImage === true ? <img src={this.state.firstImgUrl} /> : null}
                             </div>
+                        </Col>
+                        <Col span={1}>
+                            {/* 如果是myBlogs页面则显示 delBtn */}
+                            {this.state.type === "myblog" ? <div id="delBtn" onClick={this.handleDel.bind(this, this.state.item.id)}>&times;</div> : null}
                         </Col>
                     </Row>
                     {/*--------------回复内容--------ps：此处隐藏，在blogDetail页面中显示*/}
@@ -355,7 +358,6 @@ class BlogItem extends Component {
                         <p className="delWarning">&nbsp;&nbsp; <Icon type="warning" theme="twoTone" twoToneColor="#FAAD14" />&nbsp;&nbsp;Are you sure want to delete this Blog?</p>
                     </Modal>
                 </div>
-
             </div >
         )
     }

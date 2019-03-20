@@ -19,6 +19,7 @@ import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from
 
 import axios from 'axios'
 import APIS from '../api/index'
+import { IsPC } from '../utils/commUtils'
 
 require('../assets/styles/Layout.css')
 
@@ -32,6 +33,7 @@ class LayoutComponent extends Component {
             isLogin: false,
             changePassVisible: false,
             ProgressPercent: 0, //进度条百分比
+            isPc: true //模式是pc端进入
         }
     }
 
@@ -61,6 +63,11 @@ class LayoutComponent extends Component {
     }
 
     componentDidMount() {
+        if (!IsPC()) {
+            this.setState({ isPc: false })
+        }
+
+
         //通过 url 包含string来判断加载的数据
         if (this.props.location.pathname.includes('blogall') && this.props.location.pathname.indexOf('blogfilter') === -1) {
             this.initBlogAllData()
@@ -271,28 +278,32 @@ class LayoutComponent extends Component {
                 {/* 进度条 */}
                 {/* {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />} */}
 
-                <Content style={{ padding: '10px 200px' }}>
-                    <BreadcrumbCusstom />
-                    <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
-                        {this.props.store.showLoading === false ?
-                            < Switch >
-                                <Route exact path='/app' component={Home} />
-                                <Route exact path="/app/myblog" component={MyBlog} />
-                                <Route exact path="/app/writeblog" component={WriteBlog} />
-                                <Route exact path="/app/blogall" component={BlogAll} ></Route>
-                                <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
-                                <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
-                            </Switch>
-                            :
-                            <div>
-                                <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                <Row>
+                    <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 6 : 1}>
+                        <Content>
+                            <BreadcrumbCusstom />
+                            <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
+                                {this.props.store.showLoading === false ?
+                                    < Switch >
+                                        <Route exact path='/app' component={Home} />
+                                        <Route exact path="/app/myblog" component={MyBlog} />
+                                        <Route exact path="/app/writeblog" component={WriteBlog} />
+                                        <Route exact path="/app/blogall" component={BlogAll} ></Route>
+                                        <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
+                                        <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
+                                    </Switch>
+                                    :
+                                    <div>
+                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                </Content>
+                        </Content>
+                    </Col>
+                </Row>
                 <Footer style={{ textAlign: 'center' }}>
 
                     ©2019 Created by laya Studio

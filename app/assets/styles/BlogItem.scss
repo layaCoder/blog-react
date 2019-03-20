@@ -5,7 +5,7 @@
 }
 #delBtn{
     float: right;
-    display: none;
+     display: none;
     cursor: pointer;
 }
 
@@ -14,7 +14,7 @@
 参考文档:https://blog.csdn.net/qingzhizhenhun/article/details/79639740
 */
 
-.ant-comment:hover #delBtn{display: inline;}
+.wapper:hover #delBtn{display: inline;}
 
 
 .tags{
@@ -50,13 +50,30 @@
     height:0px;
     padding-bottom:100%;
     position:relative;
+    
 }
+
 .div img{
-        margin-top: 20px;
         // width:60%;
         // height:60%;
         width:100px;
         height:100px;
         position:absolute;
         border-radius: 5px;
+        top:0;
+        left: 20px;
+        right: 0;
+        bottom: 0;
+        margin: auto
 }
+
+
+
+#sample{
+    width:100px;
+    height:100px;
+    overflow:hidden;
+    position: relative;
+    border-radius: 5px;
+}
+// 裁剪图片：参考https://www.cnblogs.com/bushe/p/4518446.html

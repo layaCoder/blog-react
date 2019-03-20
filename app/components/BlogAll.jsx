@@ -27,7 +27,7 @@ class BlogAll extends Component {
             pageNum: 1, //懒加载其实页为第2页，第1页也在项目启动加载完成,
             isLoading: false,
             //hasMore: true,
-            firstLoading: false
+            firstLoading: false,
         }
     }
 
@@ -118,11 +118,11 @@ class BlogAll extends Component {
                 <div>
                     {this.state.firstLoading === true ? null :
                         <Row>
-                            {
-                                this.props.store.blogs.map(item => {
-                                    // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    return <BlogItem item={item} key={item.id} />
-                                })}
+                                {
+                                    this.props.store.blogs.map(item => {
+                                        // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                        return <BlogItem item={item} key={item.id} />
+                                    })}
                         </Row>
                     }
 
