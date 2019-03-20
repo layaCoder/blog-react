@@ -266,7 +266,7 @@ class BlogItem extends Component {
                 <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Row>
-                        <Col span={this.state.hasImage === true ? '18' : '23'}>
+                            <Col span={this.state.hasImage === true ? '18' : '23'}>
                             <Comment key={this.state.item.id}
                                 actions={actions}
                                 author={this.state.item.user}
@@ -304,7 +304,6 @@ class BlogItem extends Component {
                                     </Tooltip>
                                 )}
                             />
-                            
                         </Col>
                         <Col span={this.state.hasImage === true ? "5" : "0"}>
                             <div className="div">

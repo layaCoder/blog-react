@@ -43,14 +43,14 @@
     font-size: 1rem;
     color: #888;
 }
-
-
+// 图片截取显示
+// 参考: https://blog.csdn.net/xd_yangxiaoromg/article/details/81030880
 .div{
     width:100%;
     height:0px;
     padding-bottom:100%;
     position:relative;
-    
+    overflow:hidden;
 }
 
 .div img{
@@ -60,11 +60,12 @@
         height:100px;
         position:absolute;
         border-radius: 5px;
-        top:0;
+        top:20px;
         left: 20px;
         right: 0;
         bottom: 0;
-        margin: auto
+        margin: auto;
+        object-fit: cover;
 }
 
 
