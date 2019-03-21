@@ -8,13 +8,15 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addBlog } from '../store/actions'
+import { addBlog, userLogout } from '../store/actions'
 import { Row, Input, message, Button, Tag, Col } from 'antd';
 import 'antd/dist/antd.css';
 import emojiPack from '../api/emojiUrl'
 
 import * as untils from '../utils/commUtils.js'
 import E from 'wangeditor'
+import { getLocalStorage } from '../utils/commUtils'
+
 require('../assets/styles/WriteBlog.css')
 
 import axios from 'axios';
@@ -37,6 +39,14 @@ class WriteBlog extends Component {
         }
     }
     componentDidMount() {
+        if (!getLocalStorage('user', 1000 * 60 * 60 * 24)) {
+            this.props.history.push({
+                pathname: '/app/blogall'
+            })
+            this.props.dispatch(userLogout(false))
+            window.location.reload();
+        }
+
         this.initEditor()
     }
 
@@ -48,23 +58,7 @@ class WriteBlog extends Component {
 
         this.editor = editor
         editor.customConfig.emotions = [
-            // {
-            //     // tab 的标题
-            //     title: '默认',
-            //     // type -> 'emoji' / 'image'
-            //     type: 'image',
-            //     // content -> 数组
-            //     content: [
-            //         {
-            //             alt: '[坏笑]',
-            //             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
-            //         },
-            //         {
-            //             alt: '[舔屏]',
-            //             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
-            //         }
-            //     ]
-            // },
+
             {
                 // tab 的标题
                 title: 'emoji',

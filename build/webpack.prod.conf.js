@@ -36,6 +36,7 @@ module.exports = merge(baseWebpackConfig, {
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             },
+            favicon: 'app/assets/img/favicon.ico'
         }),
         new CleanWebpackPlugin(['../dist'], { allowExternal: true }),
 

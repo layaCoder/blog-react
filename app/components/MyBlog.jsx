@@ -4,7 +4,7 @@ import { Row, Skeleton, Pagination, message } from 'antd';
 import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';
-import { delBlog, initBlogs, hasMoreBlogItem } from '../store/actions'
+import { delBlog, initBlogs, hasMoreBlogItem, userLogout } from '../store/actions'
 import BlogItem from './BlogItem'
 import { IsPC } from '../utils/commUtils'
 
@@ -40,23 +40,18 @@ class MyBlog extends Component {
         //this.setState({ firstLoading: true })
         //获取当前登录的用户，以 name 作为 blogList的 filter条件
         let user = JSON.parse(storage.getLocalStorage("user", 1000 * 60 * 60 * 24))
-        this.setState({ userName: user.name })
-
-        // let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
-        // axios.get(url).then(res => {
-        //     this.props.dispatch(initBlogs(res.data, true))
-        //     if (this.props.store.blogs.length > 0) {
-        //         // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-        //         // todo:将进度条从layout的state转移到store中
-        //     }
-        //     else {
-        //         message.warning('server err!!!')
-        //     }
-        //     this.setState({ firstLoading: false })
-
-        // })
+        if (user) {
+            this.setState({ userName: user.name })
+        }
+        else {
+            this.props.history.push({
+                pathname: '/app/blogall'
+            }
+            )
+            window.location.reload()
+            this.props.dispatch(userLogout(false))
+        }
     }
-
 
     componentWillUnmount() {
         if (IsPC()) {

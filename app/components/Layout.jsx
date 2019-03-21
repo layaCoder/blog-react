@@ -156,27 +156,37 @@ class LayoutComponent extends Component {
 
     //初始化myBlog数据
     initMyBlogData = () => {
-        this.props.dispatch(hasMoreBlogItem(true))
-        // this.setState({ ProgressPercent: 80 })
-        this.props.dispatch(isShowLoading(true))
-        let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
-        this.setState({ userName: user.name })
 
-        let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
-        axios.get(url).then(res => {
-            console.log('res', res.data)
-            this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
+        if (!getLocalStorage('user', 1000 * 60 * 60 * 24)) {
+            this.props.history.push({
+                pathname: '/app/blogall'
+            })
+            window.location.reload();
+        }
+        else {
             this.props.dispatch(hasMoreBlogItem(true))
-            this.props.dispatch(isShowLoading(false))
-            if (this.props.store.blogs.length > 0) {
-                // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-                // todo:将进度条从layout的state转移到store中
-            }
-            else {
-                message.warning('server err!!!')
-            }
+            // this.setState({ ProgressPercent: 80 })
+            this.props.dispatch(isShowLoading(true))
+            let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
+            this.setState({ userName: user.name })
 
-        })
+            let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
+            axios.get(url).then(res => {
+                console.log('res', res.data)
+                this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
+                this.props.dispatch(hasMoreBlogItem(true))
+                this.props.dispatch(isShowLoading(false))
+                if (this.props.store.blogs.length > 0) {
+                    // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
+                    // todo:将进度条从layout的state转移到store中
+                }
+                else {
+                    message.warning('server err!!!')
+                }
+
+            })
+        }
+
     }
 
     //初始化tag过去的blogList   !!!!此方法作用于 避免F5后状态丢失
@@ -269,7 +279,7 @@ class LayoutComponent extends Component {
                             {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
                             <Dropdown overlay={menu}>
                                 <a className="ant-dropdown-link" href="#">
-                                    <h3 className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</h3>
+                                    <h3 className="head-userName" > Hello: {this.props.store.isLogin.login === true ? this.props.store.isLogin.userName : ''}</h3>
                                 </a>
                             </Dropdown>
                         </Col>

@@ -21,7 +21,8 @@ module.exports = merge(baseWebpackConfig, {
             minify: {
                 html5: true
             },
-            hash: false
+            hash: false,
+            favicon:'app/assets/img/favicon.ico'
         }),
         new webpack.HotModuleReplacementPlugin(),
     ],
