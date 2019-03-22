@@ -125,7 +125,7 @@ class BlogDetail extends Component {
                             <Col span={20} offset={2}>
                                 <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
                                 {/* <div dangerouslySetInnerHTML={{ __html: this.state.testCode }}></div> */}
-                                
+
                             </Col>
                         </Row>
                         {/* 写评论 */}
