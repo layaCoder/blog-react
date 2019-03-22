@@ -106,7 +106,6 @@ class BlogDetail extends Component {
         let myStyle = {
             textAlign: 'center'
         }
-
         const blogDetailItem = this.props.store.blogs.filter(item => item.id === this.props.match.params.id)
 
         return (
