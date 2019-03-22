@@ -21,6 +21,10 @@ export default {
         devUrl: 'api/get/blogListByTag'
     }
     ,
+    blogListBySearch: {
+        name: 'blogListBySearch',
+        devUrl: 'api/get/blogListBySearch'
+    },
     //用户登录
     userLogin: {
         name: 'login',

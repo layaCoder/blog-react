@@ -118,11 +118,11 @@ class BlogAll extends Component {
                 <div>
                     {this.state.firstLoading === true ? null :
                         <Row>
-                                {
-                                    this.props.store.blogs.map(item => {
-                                        // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                        return <BlogItem item={item} key={item.id} />
-                                    })}
+                            {
+                                this.props.store.blogs.map(item => {
+                                    // this.props.store.blogs.slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                    return <BlogItem item={item} key={item.id} />
+                                })}
                         </Row>
                     }
 

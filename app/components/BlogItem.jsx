@@ -224,7 +224,7 @@ class BlogItem extends Component {
     handleLink = () => {
         this.props.history.push({
             pathname: '/app/blogall/blogdetail/' + this.state.item.id,
-            state: { type: this.props.type }
+            state: { type: this.props.type, htmlDom: this.state.item.htmlDom }
         }
         )
         // this.props.history.push({
@@ -266,7 +266,7 @@ class BlogItem extends Component {
                 <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Row>
-                            <Col span={this.state.hasImage === true ? '18' : '23'}>
+                        <Col span={this.state.hasImage === true ? '18' : '23'}>
                             <Comment key={this.state.item.id}
                                 actions={actions}
                                 author={this.state.item.user}

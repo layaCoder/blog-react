@@ -1,26 +1,35 @@
+/*
+todo: hightlight.js 后续改进
+参考issuehttps://github.com/highlightjs/highlight.js/issues/925
+*/
+
+
 import React, { Component } from 'react'
-import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message, Spin } from 'antd';
+import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
 import APIS from '../api/index';
 import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
+import hljs from "highlight.js";
+
+
 require('../assets/styles/BlogDetail.scss')
 
 const TextArea = Input.TextArea;
+
+hljs.configure({
+    classPrefix: 'hljs-',
+    languages: ['CSS', 'HTML', 'XML', 'JavaScript', 'Stylus', 'TypeScript',]
+})
+
 
 class BlogDetail extends Component {
     constructor() {
         super();
         this.state = {
             blogId: '',
-            // blogItem: {
-            //     title: '1',
-            //     htmlDom: '2',
-            //     user: '4',
-            //     id: 5
-            // },
             id: '',
             title: '',
             htmlDom: '',
@@ -32,8 +41,17 @@ class BlogDetail extends Component {
     }
 
     componentDidMount() {
-        console.log('prpppppsl....>', this.props)
+        this.updateCodeSyntaxHighlighting();
     }
+
+    componentDidUpdate() {
+        this.updateCodeSyntaxHighlighting();
+    }
+    updateCodeSyntaxHighlighting = () => {
+        document.querySelectorAll("pre code").forEach(block => {
+            hljs.highlightBlock(block);
+        });
+    };
 
     goBack = () => {
         this.props.history.goBack()
@@ -91,7 +109,6 @@ class BlogDetail extends Component {
 
         const blogDetailItem = this.props.store.blogs.filter(item => item.id === this.props.match.params.id)
 
-
         return (
             <div>
                 {blogDetailItem.length > 0 ? //判断store中blogList是否加载完毕
@@ -107,12 +124,8 @@ class BlogDetail extends Component {
                         <Row>
                             <Col span={20} offset={2}>
                                 <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
-
-                                {/* {
-                                    this.state.lodingHtmlDom === false ?
-                                        <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
-                                        : <center style={{ margin: '20px' }}><Icon type="loading" style={{ fontSize: 48, textAlign: 'center' }} Spin /></center>
-                                } */}
+                                {/* <div dangerouslySetInnerHTML={{ __html: this.state.testCode }}></div> */}
+                                
                             </Col>
                         </Row>
                         {/* 写评论 */}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Progress, message, Skeleton } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -165,7 +165,6 @@ class LayoutComponent extends Component {
         }
         else {
             this.props.dispatch(hasMoreBlogItem(true))
-            // this.setState({ ProgressPercent: 80 })
             this.props.dispatch(isShowLoading(true))
             let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
             this.setState({ userName: user.name })
@@ -173,12 +172,12 @@ class LayoutComponent extends Component {
             let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
             axios.get(url).then(res => {
                 console.log('res', res.data)
-                this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
+                this.props.dispatch(initBlogs(res.data, true)) 
+                /*initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中*/
                 this.props.dispatch(hasMoreBlogItem(true))
                 this.props.dispatch(isShowLoading(false))
                 if (this.props.store.blogs.length > 0) {
-                    // setInterval(() => { this.setState({ ProgressPercent: 100 }) }, 1000)
-                    // todo:将进度条从layout的state转移到store中
+                 
                 }
                 else {
                     message.warning('server err!!!')
@@ -192,13 +191,11 @@ class LayoutComponent extends Component {
     //初始化tag过去的blogList   !!!!此方法作用于 避免F5后状态丢失
     initBlogByTag = (tag) => {
         this.props.dispatch(hasMoreBlogItem(true))
-        // this.setState({ ProgressPercent: 80 })
         this.props.dispatch(isShowLoading(true))
-        let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
+        // let user = JSON.parse(getLocalStorage("user", 1000 * 60 * 60 * 24))
 
         let url = APIS.blogListByTag.devUrl + '?pageIndex=1&pageSize=10&tag=' + tag
         axios.get(url).then(res => {
-            console.log('res', res.data)
             this.props.dispatch(initBlogs(res.data, true)) //initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中
             this.props.dispatch(hasMoreBlogItem(true))
             this.props.dispatch(isShowLoading(false))
@@ -212,8 +209,17 @@ class LayoutComponent extends Component {
         })
     }
 
+    //搜索事件跳转
+    handleSearch = (value) => {
+        let url = APIS.blogListBySearch.devUrl + '?pageIndex=1&pageSize=10&param=' + value
+        axios.get(url).then(res => {
+            console.log(res)
+        })
+    }
+
     render() {
         const { Header, Content, Footer } = Layout;
+        const Search = Input.Search
 
         const dropdownClick = ({ key }) => {
             switch (key) {
@@ -244,7 +250,7 @@ class LayoutComponent extends Component {
             <Layout className="layout">
                 <Header>
                     <Row>
-                        <Col span={18}>
+                        <Col span={15}>
                             <Menu
                                 theme="dark"
                                 mode="horizontal"
@@ -268,6 +274,13 @@ class LayoutComponent extends Component {
                                     <Link to={'/app/blogall/blogfilter'}>Blog Filter By Tag</Link>
                                 </Menu.Item>
                             </Menu>
+                        </Col>
+                        <Col span={6}>
+                            <Search
+                                placeholder="Search in laya's Blog"
+                                onSearch={value => this.handleSearch(value)}
+                                style={{ width: '200px' }}
+                            />
                         </Col>
                         <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
                             <Button type="primary" onClick={this.showModal}>Login</Button>

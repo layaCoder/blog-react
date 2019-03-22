@@ -12,7 +12,8 @@ module.exports = {
         'react-dom': 'ReactDOM',
         'react-router': 'ReactRouterDom',
         'moment': 'moment',
-        "antd": "antd"
+        "antd": "antd",
+        "highlight.js": "hljs"
     },
     // --------------------------
     //////////////////////////////////////////

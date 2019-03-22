@@ -22,7 +22,7 @@ module.exports = merge(baseWebpackConfig, {
                 html5: true
             },
             hash: false,
-            favicon:'app/assets/img/favicon.ico'
+            favicon: 'app/assets/img/favicon.ico'
         }),
         new webpack.HotModuleReplacementPlugin(),
     ],
