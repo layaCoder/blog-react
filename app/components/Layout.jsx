@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -20,6 +20,7 @@ import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from
 import axios from 'axios'
 import APIS from '../api/index'
 import { IsPC } from '../utils/commUtils'
+import BlogBySearch from './BlogBySearch';
 
 require('../assets/styles/Layout.css')
 
@@ -33,7 +34,7 @@ class LayoutComponent extends Component {
             isLogin: false,
             changePassVisible: false,
             ProgressPercent: 0, //进度条百分比
-            isPc: true //模式是pc端进入
+            isPc: true, //模式是pc端进入
         }
     }
 
@@ -67,7 +68,6 @@ class LayoutComponent extends Component {
             this.setState({ isPc: false })
         }
 
-
         //通过 url 包含string来判断加载的数据
         if (this.props.location.pathname.includes('blogall') && this.props.location.pathname.indexOf('blogfilter') === -1) {
             this.initBlogAllData()
@@ -81,9 +81,16 @@ class LayoutComponent extends Component {
         else if (this.props.location.pathname.includes('blogfilter')) {
             //获取 url 中 最后一个斜杠后面的 string ， 及【tag】 标签
             let index = this.props.location.pathname.lastIndexOf("\/");
-            let tag = this.props.location.pathname.substring(index + 1, this.props.location.pathname.length);
+            let tag = this.props.location.pathname.substring(index + 1, this.props.location.pathname.length)
             this.initBlogByTag(tag)
         }
+        else if (this.props.location.pathname.includes('blogbysearch')) {
+            let paramStrIndex = this.props.location.pathname.lastIndexOf("\/")
+            let serachParam = this.props.location.pathname.substring(paramStrIndex + 1, this.props.location.pathname.length)
+            this.handleSearch(serachParam)
+        }
+
+
 
         // * 登录持续时间
         if (getLocalStorage('user', 1000 * 60 * 60 * 24) !== null) {
@@ -156,7 +163,6 @@ class LayoutComponent extends Component {
 
     //初始化myBlog数据
     initMyBlogData = () => {
-
         if (!getLocalStorage('user', 1000 * 60 * 60 * 24)) {
             this.props.history.push({
                 pathname: '/app/blogall'
@@ -172,12 +178,12 @@ class LayoutComponent extends Component {
             let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
             axios.get(url).then(res => {
                 console.log('res', res.data)
-                this.props.dispatch(initBlogs(res.data, true)) 
+                this.props.dispatch(initBlogs(res.data, true))
                 /*initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中*/
                 this.props.dispatch(hasMoreBlogItem(true))
                 this.props.dispatch(isShowLoading(false))
                 if (this.props.store.blogs.length > 0) {
-                 
+
                 }
                 else {
                     message.warning('server err!!!')
@@ -211,10 +217,23 @@ class LayoutComponent extends Component {
 
     //搜索事件跳转
     handleSearch = (value) => {
+        this.setState({ ProgressPercent: 60 })
         let url = APIS.blogListBySearch.devUrl + '?pageIndex=1&pageSize=10&param=' + value
+        this.setState({ ProgressPercent: 80 })
         axios.get(url).then(res => {
-            console.log(res)
+            if (res.data.length > 0 && value) {
+                this.props.dispatch(hasMoreBlogItem(true))
+                this.props.dispatch(initBlogs(res.data, true))
+                this.setState({ ProgressPercent: 100 })
+                this.props.history.push({
+                    pathname: '/app/blogbysearch/' + value
+                })
+            } else {
+                message.warning('No results!')
+                this.setState({ ProgressPercent: 100 })
+            }
         })
+
     }
 
     render() {
@@ -299,7 +318,7 @@ class LayoutComponent extends Component {
                     </Row>
                 </Header>
                 {/* 进度条 */}
-                {/* {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />} */}
+                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
 
                 <Row>
                     <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 6 : 1}>
@@ -314,6 +333,7 @@ class LayoutComponent extends Component {
                                         <Route exact path="/app/blogall" component={BlogAll} ></Route>
                                         <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
                                         <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
+                                        <Route exact path="/app/blogbysearch/:param" component={BlogBySearch}></Route>
                                     </Switch>
                                     :
                                     <div>

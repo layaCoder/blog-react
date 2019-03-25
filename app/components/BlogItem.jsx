@@ -36,8 +36,8 @@ class BlogItem extends Component {
     }
 
     componentDidMount() {
-        //通过正则表达式获取 htmlDom中的图片地址
-        //参考资料https://blog.csdn.net/zb219/article/details/25380867
+        /*通过正则表达式获取 htmlDom中的图片地址*/
+        /*参考资料https://blog.csdn.net/zb219/article/details/25380867*/
         let imgStr = this.state.item.htmlDom
         if (imgStr.match(/<img src="(\S*)"/)) {
             this.setState({ hasImage: true })

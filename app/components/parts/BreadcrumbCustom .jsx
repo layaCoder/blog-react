@@ -9,7 +9,8 @@ const breadcrumbNameMap = {
     '/app/writeblog': 'Write Blog',
     '/app/blogall': 'All Blogs',
     '/app/blogall/blogdetail': 'Blog Detail',
-    '/app/blogall/blogfilter': 'Filter By tags'
+    '/app/blogall/blogfilter': 'Filter By tags',
+    '/app/blogbysearch': 'Search'
 };
 class BreadcrumbCustom extends Component {
     //利用PropTypes记住所跳转每个页面的位置 
