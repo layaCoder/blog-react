@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress, Icon, SubMenu } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -21,6 +21,7 @@ import axios from 'axios'
 import APIS from '../api/index'
 import { IsPC } from '../utils/commUtils'
 import BlogBySearch from './BlogBySearch';
+import AsideMenu from './parts/AsideMenu'
 
 require('../assets/styles/Layout.css')
 
@@ -35,6 +36,7 @@ class LayoutComponent extends Component {
             changePassVisible: false,
             ProgressPercent: 0, //进度条百分比
             isPc: true, //模式是pc端进入
+            showAside: false
         }
     }
 
@@ -56,6 +58,7 @@ class LayoutComponent extends Component {
             onCancel() { },
         });
     }
+
 
 
     //loginComp调用，子组件模态框中确认登录后改变父组件state
@@ -236,6 +239,20 @@ class LayoutComponent extends Component {
 
     }
 
+    //显示/隐藏AsideMenu
+    showAside = () => {
+        this.setState({ showAside: !this.state.showAside })
+    }
+    //点击遮罩层隐藏侧导航
+    hideCover = () => {
+        if (this.state.showAside) {
+            this.showAside()
+        }
+        else {
+            return
+        }
+    }
+
     render() {
         const { Header, Content, Footer } = Layout;
         const Search = Input.Search
@@ -266,134 +283,138 @@ class LayoutComponent extends Component {
         );
 
         return (
-            <Layout className="layout">
-                <Header>
-                    <Row>
-                        <Col span={15}>
-                            <Menu
-                                theme="dark"
-                                mode="horizontal"
-                                defaultSelectedKeys={['/app/blogall']}
-                                selectedKeys={[this.props.history.location.pathname]}
-                                style={{ lineHeight: '64px' }}
-                            >
-                                <Menu.Item key={['/app/blogall']}>
-                                    <Link to={{ pathname: '/app/blogall', state: this.props.store.blogs }} onClick={this.initBlogAllData}>All Blogs</Link>
-                                </Menu.Item>
-                                <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }} onClick={this.initMyBlogData}>
-                                    <Link to={'/app/myblog'}  >My Blogs</Link>
-                                </Menu.Item>
-                                <Menu.Item key={['/app/writeblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
-                                    <Link to={'/app/writeblog'}>Write Blog</Link>
-                                </Menu.Item>
-                                <Menu.Item key={['4']} style={{ display: 'none' }}>
-                                    <Link to={'/app/blogall/blogdetail'}>Blog Detail</Link>
-                                </Menu.Item>
-                                <Menu.Item key={['4']} style={{ display: 'none' }}>
-                                    <Link to={'/app/blogall/blogfilter'}>Blog Filter By Tag</Link>
-                                </Menu.Item>
-                            </Menu>
-                        </Col>
-                        <Col span={6}>
-                            <Search
-                                placeholder="Search in laya's Blog"
-                                onSearch={value => this.handleSearch(value)}
-                                style={{ width: '200px' }}
-                            />
-                        </Col>
-                        <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
-                            <Button type="primary" onClick={this.showModal}>Login</Button>
-                        </Col>
-                        {/* <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+            <div>
+                <AsideMenu showAside={this.state.showAside} toggleAside={this.showAside} onClick={this.hideCover} />
+                <div className={this.state.showAside ? "mobile-aside-wrap" : ""} onClick={this.hideCover}>
+                    <Layout className="layout">
+                        <Header>
+                            <Row>
+                                <Col span={2}><Button onClick={this.showAside}>Test</Button></Col>
+                                <Col span={13}>
+                                    <Menu
+                                        theme="dark"
+                                        mode="horizontal"
+                                        defaultSelectedKeys={['/app/blogall']}
+                                        selectedKeys={[this.props.history.location.pathname]}
+                                        style={{ lineHeight: '64px' }}
+                                    >
+                                        <Menu.Item key={['/app/blogall']}>
+                                            <Link to={{ pathname: '/app/blogall', state: this.props.store.blogs }} onClick={this.initBlogAllData}>All Blogs</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key={['/app/myblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }} onClick={this.initMyBlogData}>
+                                            <Link to={'/app/myblog'}  >My Blogs</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key={['/app/writeblog']} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                                            <Link to={'/app/writeblog'}>Write Blog</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key={['4']} style={{ display: 'none' }}>
+                                            <Link to={'/app/blogall/blogdetail'}>Blog Detail</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key={['4']} style={{ display: 'none' }}>
+                                            <Link to={'/app/blogall/blogfilter'}>Blog Filter By Tag</Link>
+                                        </Menu.Item>
+                                    </Menu>
+                                </Col>
+                                <Col span={6}>
+                                    <Search
+                                        placeholder="Search in laya's Blog"
+                                        onSearch={value => this.handleSearch(value)}
+                                        style={{ width: '200px' }}
+                                    />
+                                </Col>
+                                <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
+                                    <Button type="primary" onClick={this.showModal}>Login</Button>
+                                </Col>
+                                {/* <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
                             <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
                         </Col> */}
-                        <Col span={3} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
-                            {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
-                            <Dropdown overlay={menu}>
-                                <a className="ant-dropdown-link" href="#">
-                                    <h3 className="head-userName" > Hello: {this.props.store.isLogin.login === true ? this.props.store.isLogin.userName : ''}</h3>
-                                </a>
-                            </Dropdown>
-                        </Col>
-                    </Row>
-                </Header>
-                {/* 进度条 */}
-                {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
-
-                <Row>
-                    <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 6 : 1}>
-                        <Content>
-                            <BreadcrumbCusstom />
-                            <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
-                                {this.props.store.showLoading === false ?
-                                    < Switch >
-                                        <Route exact path='/app' component={Home} />
-                                        <Route exact path="/app/myblog" component={MyBlog} />
-                                        <Route exact path="/app/writeblog" component={WriteBlog} />
-                                        <Route exact path="/app/blogall" component={BlogAll} ></Route>
-                                        <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
-                                        <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
-                                        <Route exact path="/app/blogbysearch/:param" component={BlogBySearch}></Route>
-                                    </Switch>
-                                    :
-                                    <div>
-                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
-                                        <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                <Col span={3} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                                    {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
+                                    <Dropdown overlay={menu}>
+                                        <a className="ant-dropdown-link" href="#">
+                                            <h3 className="head-userName" > Hello: {this.props.store.isLogin.login === true ? this.props.store.isLogin.userName : ''}</h3>
+                                        </a>
+                                    </Dropdown>
+                                </Col>
+                            </Row>
+                        </Header>
+                        {/* 进度条 */}
+                        {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
+                        <Row>
+                            <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 6 : 1}>
+                                <Content>
+                                    <BreadcrumbCusstom />
+                                    <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
+                                        {this.props.store.showLoading === false ?
+                                            < Switch >
+                                                <Route exact path='/app' component={Home} />
+                                                <Route exact path="/app/myblog" component={MyBlog} />
+                                                <Route exact path="/app/writeblog" component={WriteBlog} />
+                                                <Route exact path="/app/blogall" component={BlogAll} ></Route>
+                                                <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
+                                                <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
+                                                <Route exact path="/app/blogbysearch/:param" component={BlogBySearch}></Route>
+                                            </Switch>
+                                            :
+                                            <div>
+                                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                                            </div>
+                                        }
                                     </div>
-                                }
-                            </div>
-                        </Content>
-                    </Col>
-                </Row>
-                <Footer style={{ textAlign: 'center' }}>
+                                </Content>
+                            </Col>
+                        </Row>
+                        <Footer style={{ textAlign: 'center' }}>
 
-                    ©2019 Created by laya Studio
+                            ©2019 Created by laya Studio
     </Footer>
-                {/* 模态框 */}
-                <div>
-                    {/* 用户登录模态框 */}
-                    <Modal
-                        title="User login"
-                        visible={this.state.modalVisible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                        // footer = null 取消模态框的【确认】【取消】button
-                        footer={null}
-                    >
-                        <Login handleCancel={this.handleCancel} showLoginRoot={this.showLoginRoot} />
-                    </Modal>
+                        {/* 模态框 */}
+                        <div>
+                            {/* 用户登录模态框 */}
+                            <Modal
+                                title="User login"
+                                visible={this.state.modalVisible}
+                                onOk={this.handleOk}
+                                onCancel={this.handleCancel}
+                                // footer = null 取消模态框的【确认】【取消】button
+                                footer={null}
+                            >
+                                <Login handleCancel={this.handleCancel} showLoginRoot={this.showLoginRoot} />
+                            </Modal>
+                        </div>
+                        <div>
+                            {/* 上传头像模态框 */}
+                            <Modal
+                                title="Upload Avatar"
+                                visible={this.state.uploadAvatarVisible}
+                                onOk={this.handleOk}
+                                onCancel={this.handleCloseUploadAvatar}
+                                footer={null}
+                                closable={false}
+                            >
+                                {this.state.uploadAvatarVisible === true ? <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} /> : null}
+                            </Modal>
+                        </div>
+                        <div>
+                            {/* 修改密码模态框 */}
+                            <Modal
+                                width={"50%"}
+                                title="Change Password"
+                                visible={this.state.changePassVisible}
+                                onOk={this.handleOk}
+                                footer={null}
+                                closable={false}
+                                onCancel={this.handleChangePassClose}
+                            >
+                                {this.state.changePassVisible === true ? <ChangePass handleCloseChangePass={this.handleChangePassClose} /> : null}
+                            </Modal>
+                        </div>
+                    </Layout >
                 </div>
-                <div>
-                    {/* 上传头像模态框 */}
-                    <Modal
-                        title="Upload Avatar"
-                        visible={this.state.uploadAvatarVisible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCloseUploadAvatar}
-                        footer={null}
-                        closable={false}
-                    >
-                        {this.state.uploadAvatarVisible === true ? <UploadAvatarComponent handleClose={this.handleCloseUploadAvatar} /> : null}
-                    </Modal>
-                </div>
-                <div>
-                    {/* 修改密码模态框 */}
-                    <Modal
-                        width={"50%"}
-                        title="Change Password"
-                        visible={this.state.changePassVisible}
-                        onOk={this.handleOk}
-                        footer={null}
-                        closable={false}
-                        onCancel={this.handleChangePassClose}
-                    >
-                        {this.state.changePassVisible === true ? <ChangePass handleCloseChangePass={this.handleChangePassClose} /> : null}
-                    </Modal>
-                </div>
-
-            </Layout >
+            </div>
         )
     }
 }

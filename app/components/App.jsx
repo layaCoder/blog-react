@@ -17,7 +17,6 @@ class CRouter extends Component {
     }
     render() {
         return (
-
             <div style={{ height: '100%' }} >
                 <div>
                     {/* {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} />} */}

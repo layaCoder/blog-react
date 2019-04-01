@@ -12,3 +12,10 @@ display: -webkit-box;
 -webkit-line-clamp: 3;
 -webkit-box-orient: vertical;
 }
+
+/* 移动端设置 */
+@media screen and (max-width: 300px) {
+    div {
+        font-size: 1.3rem !important;
+    }
+}
