@@ -24,6 +24,15 @@ class AsideMenu extends Component {
         this.props.toggleAside()
     }
 
+    linkToHome = () => {
+        this.props.history.push({ pathname: '/app' })
+        this.props.toggleAside()
+    }
+
+    linkToMessageBoard = () => {
+        this.props.history.push({ pathname: '/app/messageboard' })
+        this.props.toggleAside()
+    }
 
     render() {
         let myStyle = {
@@ -35,18 +44,21 @@ class AsideMenu extends Component {
                     <Button onClick={this.hideAside}>Back</Button>
                 </Col> */}
                 <Col>
+                    <h2 className="aside-title">laya's Blog</h2>
+                </Col>
+                <Col>
                     <Menu
                         theme="dark"
                         mode="inline"
-                        defaultSelectedKeys={['/app/blogall']}
+                        defaultSelectedKeys={[]}
                         selectedKeys={[this.props.history.location.pathname]}
                         style={{ lineHeight: '64px' }}
                     >
-                        <Menu.Item key={['/app/blogall']}>
-                            <Link to={{ pathname: '/app/blogall', state: this.props.store.blogs }} onClick={this.initBlogAllData}>All Blogs</Link>
+                        <Menu.Item key={['/app']}>
+                            <a to="#" onClick={this.linkToHome}>Home Page</a>
                         </Menu.Item>
-                        <Menu.Item key={['/app/myblog']} onClick={this.initMyBlogData}>
-                            <Link to={'/app/myblog'}  >My Blogs</Link>
+                        <Menu.Item key={['/app/messageboard']} >
+                            <a to="#" onClick={this.linkToMessageBoard}>Message Board</a>
                         </Menu.Item>
                     </Menu>
                 </Col>

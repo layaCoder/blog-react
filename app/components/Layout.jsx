@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress, Icon, SubMenu } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -13,6 +13,8 @@ import UploadAvatarComponent from './parts/UploadAvatarComponent'
 import ChangePass from './parts/ChangePassComponent'
 import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 import BlogFilterByTags from './BlogFilterByTags'
+import MessageBoard from './MessageBoard'
+import TagsBoard from './parts/TagsBoard'
 
 import { getLocalStorage } from '../utils/commUtils'
 import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from '../store/actions';
@@ -22,6 +24,8 @@ import APIS from '../api/index'
 import { IsPC } from '../utils/commUtils'
 import BlogBySearch from './BlogBySearch';
 import AsideMenu from './parts/AsideMenu'
+import logoUrl from '../assets/img/logo2.png';
+
 
 require('../assets/styles/Layout.css')
 
@@ -289,8 +293,12 @@ class LayoutComponent extends Component {
                     <Layout className="layout">
                         <Header>
                             <Row>
-                                <Col span={2}><Button onClick={this.showAside}>Test</Button></Col>
-                                <Col span={13}>
+                                <Col span={1}>
+                                    {/* <Button type="primary" onClick={this.showAside} style={{ marginBottom: 16, width: "50px" }} ><Icon type='menu-unfold' /></Button> */}
+                                    <img src={logoUrl} style={{ width: '70%', height: '70%', cursor: 'pointer' }} onClick={this.showAside} />
+                                </Col>
+
+                                <Col span={14}>
                                     <Menu
                                         theme="dark"
                                         mode="horizontal"
@@ -341,7 +349,7 @@ class LayoutComponent extends Component {
                         {/* 进度条 */}
                         {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
                         <Row>
-                            <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 6 : 1}>
+                            <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 3 : 1}>
                                 <Content>
                                     <BreadcrumbCusstom />
                                     <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
@@ -354,6 +362,7 @@ class LayoutComponent extends Component {
                                                 <Route exact path="/app/blogall/blogdetail/:id" component={BlogDetail} ></Route>
                                                 <Route exact path="/app/blogall/blogfilter/:tag" component={BlogFilterByTags}  ></Route>
                                                 <Route exact path="/app/blogbysearch/:param" component={BlogBySearch}></Route>
+                                                <Route exact path="/app/messageboard" component={MessageBoard}></Route>
                                             </Switch>
                                             :
                                             <div>
@@ -366,6 +375,11 @@ class LayoutComponent extends Component {
                                     </div>
                                 </Content>
                             </Col>
+                            {this.state.isPc ? <Col span={7}>
+                                <div>
+                                    <TagsBoard />
+                                </div>
+                            </Col> : null}
                         </Row>
                         <Footer style={{ textAlign: 'center' }}>
 

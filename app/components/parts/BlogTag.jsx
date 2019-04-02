@@ -14,19 +14,19 @@ class BlogTag extends Component {
         }
     }
 
+
     componentDidMount() {
         switch (this.state.tagStr) {
-
             case 'Frontend':
                 this.setState({ color: 'red' })
                 return
             case 'Backend':
                 this.setState({ color: 'orange' })
                 return
-            case 'IOS':
+            case 'CentOS':
                 this.setState({ color: 'gold' })
                 return
-            case 'Android':
+            case 'JavaScript':
                 this.setState({ color: 'green' })
                 return
             case 'Design':

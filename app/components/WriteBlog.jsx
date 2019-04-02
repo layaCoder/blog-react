@@ -23,7 +23,7 @@ import axios from 'axios';
 import APIS from '../api/index';
 
 const CheckableTag = Tag.CheckableTag;
-const tagsFromServer = ['Frontend', 'Backend', 'IOS', 'Android', 'Design', 'DevTool', 'LifeStyle'];
+const tagsFromServer = ['Frontend', 'Backend', 'CentOS', 'JavaScript', 'Design', 'DevTool', 'LifeStyle'];
 
 //Axios开启跨域
 const instanceAxios = axios.create({
