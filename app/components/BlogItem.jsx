@@ -263,7 +263,6 @@ class BlogItem extends Component {
         ];
         return (
             < div className="wapper">
-                <Divider />
                 <div key={this.state.item.id} style={{ marginLeft: '30px' }}>
                     <Row>
                         <Col span={this.state.hasImage === true ? '18' : '23'}>
@@ -357,6 +356,8 @@ class BlogItem extends Component {
                         <p className="delWarning">&nbsp;&nbsp; <Icon type="warning" theme="twoTone" twoToneColor="#FAAD14" />&nbsp;&nbsp;Are you sure want to delete this Blog?</p>
                     </Modal>
                 </div>
+                <Divider />
+
             </div >
         )
     }

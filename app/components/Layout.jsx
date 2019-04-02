@@ -323,7 +323,7 @@ class LayoutComponent extends Component {
                                         </Menu.Item>
                                     </Menu>
                                 </Col>
-                                <Col span={6}>
+                                <Col span={5}>
                                     <Search
                                         placeholder="Search in laya's Blog"
                                         onSearch={value => this.handleSearch(value)}
@@ -351,8 +351,8 @@ class LayoutComponent extends Component {
                         <Row>
                             <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 3 : 1}>
                                 <Content>
-                                    <BreadcrumbCusstom />
-                                    <div style={{ background: '#fff', padding: '24px', minHeight: '280px' }} >
+                                    {/* <BreadcrumbCusstom /> */}
+                                    <div style={{ background: '#fff', margin: '45px 0px', padding: '24px', minHeight: '280px' }} >
                                         {this.props.store.showLoading === false ?
                                             < Switch >
                                                 <Route exact path='/app' component={Home} />

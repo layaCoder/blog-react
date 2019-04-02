@@ -87,13 +87,6 @@ class BlogAll extends Component {
     }
 
 
-    changeNum = (page, pageSize) => {
-        console.log(page, pageSize)
-        this.setState({ pageNum: page })
-
-    }
-
-  
     render() {
         let myStyle = {
             textAlign: 'center'
@@ -103,7 +96,7 @@ class BlogAll extends Component {
             <div ref="bodyBox">
                 <div>
                     <Row>
-                        <h2 style={myStyle}>All Blogs</h2>
+                        <h2 className="a-title" >All Blogs</h2>
                     </Row>
                 </div>
                 <div>

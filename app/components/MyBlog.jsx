@@ -135,17 +135,11 @@ class MyBlog extends Component {
 
 
     render() {
-        let myStyle = {
-            textAlign: 'center'
-        }
-        let paginationStyle = {
-            textAlign: 'center',
-            marginTop: '20px'
-        }
+       
         return (
             <div>
                 <div>
-                    <h2 style={myStyle}>My Blogs</h2>
+                    <h2 className="a-title">My Blogs</h2>
                 </div>
                 <div>
                     <div>

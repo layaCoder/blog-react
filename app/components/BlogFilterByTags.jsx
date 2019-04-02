@@ -74,14 +74,7 @@ class BlogFilterByTags extends Component {
     }
 
     render() {
-        let myStyle = {
-            textAlign: 'center'
-        }
-
-        let paginationStyle = {
-            textAlign: 'center',
-            marginTop: '20px'
-        }
+        
 
         return (
             <div>
@@ -93,7 +86,7 @@ class BlogFilterByTags extends Component {
                 {this.props.store.blogs.length > 0 ?
                     <div>
                         <Row>
-                            <h2 style={myStyle}>{this.props.match.params.tag}</h2>
+                            <h2 className="a-title">{this.props.match.params.tag}</h2>
                             {/* <h2 style={myStyle}>{this.state.blogType}</h2> */}
 
                         </Row>
