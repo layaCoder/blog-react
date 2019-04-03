@@ -36,6 +36,7 @@ class BlogItem extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.item)
         /*通过正则表达式获取 htmlDom中的图片地址*/
         /*参考资料https://blog.csdn.net/zb219/article/details/25380867*/
         let imgStr = this.state.item.htmlDom
@@ -243,7 +244,7 @@ class BlogItem extends Component {
         const { action } = this.state;
 
         const actions = [
-            <span>
+            <span  >
                 <Tooltip title="Like">
                     <Icon
                         type="like"
@@ -256,6 +257,7 @@ class BlogItem extends Component {
                     {this.props.item.likes.length}
                 </span>
             </span>,
+            <span style={{color:'#cecece'}}>&nbsp;|&nbsp;</span>,
 
             // ----------------隐藏【回复控件】---------------------
             // <span onClick={this.showReplyMoadl}>Reply to</span>,
@@ -272,25 +274,22 @@ class BlogItem extends Component {
                                 avatar={(<Avatar src={this.state.item.avatarUrl} alt={this.state.item.user} />)}
                                 content={(
                                     <div className="commentItem">
-                                        {/* title 链接 */}
-                                        {/* <Link
-                                    target="_blank"
-                                    className="blogTitle"
-                                    to={{
-                                        pathname: '/app/blogall/blogdetail/' + this.state.item.id,
-                                        state: { type: this.props.type },
-                                        queryquery: { id: this.state.item.id }
-                                    }}
-                                > {this.state.item.title}</Link> */}
+                                        {/* diyTags */}
+                                        {this.state.item.diyTags.map(item => {
+                                            return <div className='article-tag' >
+                                                <div className='tag-ele'>
+                                                    {item}
+                                                </div>
+                                            </div>
+                                        })}
+                                        {/* blog Title */}
                                         <a onClick={this.handleLink} className="blogTitle">
                                             {this.state.item.title}
                                         </a>
-
                                         {/* blog内容 */}
                                         <div className="blogText">{this.state.item.text}</div>
-
                                         {/* tags */}
-                                        <div style={{ marginTop: '5px' }}>
+                                        <div>
                                             {this.state.item.tags.map(item => {
                                                 return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
                                             })}
@@ -357,7 +356,6 @@ class BlogItem extends Component {
                     </Modal>
                 </div>
                 <Divider />
-
             </div >
         )
     }

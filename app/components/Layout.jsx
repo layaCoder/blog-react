@@ -15,6 +15,8 @@ import BreadcrumbCusstom from './parts/BreadcrumbCustom '
 import BlogFilterByTags from './BlogFilterByTags'
 import MessageBoard from './MessageBoard'
 import TagsBoard from './parts/TagsBoard'
+import WhatsHot from '../components/WhatsHot'
+
 
 import { getLocalStorage } from '../utils/commUtils'
 import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from '../store/actions';
@@ -22,12 +24,13 @@ import { userLogin, userLogout, hasMoreBlogItem, initBlogs, isShowLoading } from
 import axios from 'axios'
 import APIS from '../api/index'
 import { IsPC } from '../utils/commUtils'
-import BlogBySearch from './BlogBySearch';
+import BlogBySearch from './BlogBySearch'
 import AsideMenu from './parts/AsideMenu'
-import logoUrl from '../assets/img/logo2.png';
+import logoUrl from '../assets/img/logo2.png'
 
 
 require('../assets/styles/Layout.css')
+require('../assets/styles/AntdSelf.scss')
 
 
 class LayoutComponent extends Component {
@@ -376,15 +379,24 @@ class LayoutComponent extends Component {
                                 </Content>
                             </Col>
                             {this.state.isPc ? <Col span={7}>
-                                <div>
-                                    <TagsBoard />
-                                </div>
-                            </Col> : null}
-                        </Row>
-                        <Footer style={{ textAlign: 'center' }}>
+                                <Row>
+                                    <div>
+                                        <TagsBoard />
+                                    </div>
+                                </Row>
+                                <Row>
+                                    <div>
+                                        <WhatsHot />
+                                    </div>
+                                </Row>
+                            </Col>
+                                : null}
 
-                            ©2019 Created by laya Studio
-    </Footer>
+                        </Row>
+
+
+                        <Footer style={{ textAlign: 'center' }}>
+                            ©2019 Created by laya Studio</Footer>
                         {/* 模态框 */}
                         <div>
                             {/* 用户登录模态框 */}

@@ -14,7 +14,8 @@ function blogs(state = [], action) {
                 avatarUrl: action.avatarUrl,//用户头像url
                 likes: [], //likes 字段添加空数组
                 tags: action.tags,
-                replys: [] // replys 字段添加空数组
+                replys: [], // replys 字段添加空数组
+                diyTags: action.diyTags
             }, ...state]
         case DEL_BLOG:
             return state.filter(blog => blog.id !== action.id) //遍历blog id，id不相等则保留，相等责备过滤掉
@@ -35,7 +36,8 @@ function blogs(state = [], action) {
                     date: item.date,
                     likes: item.likes,
                     tags: item.tags,
-                    replys: item.replys
+                    replys: item.replys,
+                    diyTags: item.diyTags
                 })
             })
             return state
@@ -59,7 +61,9 @@ function blogs(state = [], action) {
                             date: item.date,
                             tags: item.tags,
                             likes: [...item.likes, action.name],
-                            replys: item.replys
+                            replys: item.replys,
+                            tags: item.diyTags,
+                            diyTags: item.diyTags
                         }
                     )
                 }
@@ -83,7 +87,8 @@ function blogs(state = [], action) {
                         date: item.date,
                         tags: item.tags,
                         likes: item.likes.filter(item => item !== action.name),
-                        replys: item.replys
+                        replys: item.replys,
+                        diyTags: item.diyTags
                     })
                 }
             })

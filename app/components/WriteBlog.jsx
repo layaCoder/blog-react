@@ -9,18 +9,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addBlog, userLogout } from '../store/actions'
-import { Row, Input, message, Button, Tag, Col } from 'antd';
+import { Row, Input, message, Button, Tag, Col, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import emojiPack from '../api/emojiUrl'
 
 import * as untils from '../utils/commUtils.js'
 import E from 'wangeditor'
 import { getLocalStorage } from '../utils/commUtils'
-
-require('../assets/styles/WriteBlog.css')
+import { TweenOneGroup } from 'rc-tween-one';
 
 import axios from 'axios';
 import APIS from '../api/index';
+
+require('../assets/styles/WriteBlog.css')
 
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = ['Frontend', 'Backend', 'CentOS', 'JavaScript', 'Design', 'DevTool', 'LifeStyle'];
@@ -36,6 +37,9 @@ class WriteBlog extends Component {
         this.state = {
             title: null,
             selectedTags: [],
+            tags: [],
+            inputVisible: false,
+            inputValue: ''
         }
     }
     componentDidMount() {
@@ -203,7 +207,8 @@ class WriteBlog extends Component {
                 htmlDom: markDownText,
                 user: user.name,
                 avatarUrl: user.avatar,
-                tags: this.state.selectedTags
+                tags: this.state.selectedTags,
+                diyTags: this.state.tags
             },
         }
         ).then(res => {
@@ -232,7 +237,65 @@ class WriteBlog extends Component {
     };
 
 
+    /****自定义tag------------------------------------------------- */
+    handleClose = (removedTag) => {
+        const tags = this.state.tags.filter(tag => tag !== removedTag);
+        console.log(tags);
+        this.setState({ tags });
+    }
+
+    showInput = () => {
+        this.setState({ inputVisible: true }, () => this.input.focus());
+    }
+
+    handleInputChange = (e) => {
+        this.setState({ inputValue: e.target.value });
+    }
+
+    handleInputConfirm = () => {
+        const { inputValue } = this.state;
+        let { tags } = this.state;
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+            tags = [...tags, inputValue];
+        }
+        console.log(tags);
+        this.setState({
+            tags,
+            inputVisible: false,
+            inputValue: '',
+        });
+    }
+
+    saveInputRef = input => this.input = input
+
+    forMap = (tag) => {
+        const tagElem = (
+            <Tag
+                closable
+                onClose={(e) => {
+                    e.preventDefault();
+                    this.handleClose(tag);
+                }}
+            >
+                {tag}
+            </Tag>
+        );
+        return (
+            <span key={tag} style={{ display: 'inline-block' }}>
+                {tagElem}
+            </span>
+        );
+    }
+    /*--------------------------------------------------------------- */
+
+
+
+
+
     render() {
+
+        const { tags, inputVisible, inputValue } = this.state;
+        const tagChild = tags.map(this.forMap);
 
         return (
             <div>
@@ -253,17 +316,62 @@ class WriteBlog extends Component {
 
                     </Row>
                     <Row style={{ margin: '10px 5px' }}>
-                        <Col span={1}><strong>Tags:</strong></Col>
-                        {tagsFromServer.map(tag => (
-                            <CheckableTag
-                                key={tag}
-                                checked={this.state.selectedTags.indexOf(tag) > -1}
-                                onChange={checked => this.handleChange(tag, checked)}
-                                style={{ marginLeft: '10px' }}
-                            >
-                                {tag}
-                            </CheckableTag>
-                        ))}
+                        <Col span={3}><strong>Categories:</strong></Col>
+                        <Col span={20}>
+                            {tagsFromServer.map(tag => (
+                                <CheckableTag
+                                    key={tag}
+                                    checked={this.state.selectedTags.indexOf(tag) > -1}
+                                    onChange={checked => this.handleChange(tag, checked)}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    {tag}
+                                </CheckableTag>
+                            ))}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={3} style={{ margin: '10px 5px' }}>
+                            <strong>Tags:</strong>
+                        </Col>
+                        <Col span={20} style={{ display: 'inlineBlock' }}>
+                            <div style={{ marginTop: '10px', display: 'inline-block' }}>
+                                <TweenOneGroup
+                                    enter={{
+                                        scale: 0.8, opacity: 0, type: 'from', duration: 100,
+                                        onComplete: (e) => {
+                                            e.target.style = '';
+                                        },
+                                    }}
+                                    leave={{ opacity: 0, width: 0, scale: 0, duration: 200 }}
+                                    appear={false}
+                                >
+                                    {tagChild}
+                                </TweenOneGroup>
+                            </div>
+                            {inputVisible && (
+                                <Input
+                                    ref={this.saveInputRef}
+                                    type="text"
+                                    size="small"
+                                    style={{ width: 78, marginTop: '10px' }}
+                                    value={inputValue}
+                                    onChange={this.handleInputChange}
+                                    onBlur={this.handleInputConfirm}
+                                    onPressEnter={this.handleInputConfirm}
+                                />
+                            )}
+                            {!inputVisible && (
+                                <div style={{ marginTop: '10px', display: 'inline-block' }}>
+                                    <Tag
+                                        onClick={this.showInput}
+                                        style={{ background: '#fff', borderStyle: 'dashed' }}
+                                    >
+                                        <Icon type="plus" /> New Tag
+                               </Tag>
+                                </div>
+                            )}
+                        </Col>
                     </Row>
                     <Row className="row">
                         <Button type="primary" onClick={this.handleSubmit.bind(this)} className="saveBtn">&nbsp; Save &nbsp;</Button>

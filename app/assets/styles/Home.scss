@@ -1,0 +1,69 @@
+#wrap div{ border-radius: 50%;position: absolute; } 
+#red{ 
+border-top:100px solid red; 
+border-right: 100px solid transparent; 
+border-bottom: 100px solid transparent; 
+border-left: 100px solid red; 
+transform:rotate(-45deg); 
+left:150px; 
+top:50px; 
+} 
+#yellow{ 
+border-top:100px solid yellow; 
+border-right: 100px solid transparent; 
+border-bottom: 100px solid transparent; 
+border-left: 100px solid yellow; 
+left:250px; 
+top:150px; 
+transform:rotate(45deg); 
+} 
+#pink{ 
+border-top:100px solid pink; 
+border-right: 100px solid transparent; 
+border-bottom: 100px solid transparent; 
+border-left: 100px solid pink; 
+left:150px; 
+top:250px; 
+transform:rotate(135deg); 
+} 
+#cyna{ 
+    border-top:100px solid cyan; 
+    border-right: 100px solid transparent; 
+    border-bottom: 100px solid transparent; 
+    border-left: 100px solid cyan; 
+    left:50px; 
+    top:150px; 
+    transform:rotate(-135deg); 
+    } 
+
+
+@keyframes run{ 
+    from{transform: rotate(0deg);} 
+    to{transform: rotate(360deg);} 
+    } 
+    @-webkit-keyframes run{ 
+    from{transform: rotate(0deg);} 
+    to{transform: rotate(360deg);} 
+    } 
+    #wrap{ 
+    width: 500px; 
+    height: 500px; 
+    line-height: 500px; 
+    text-align: center; 
+    border-radius: 0; 
+    position: relative; 
+    margin:0 auto; 
+    animation:run 2s linear infinite; 
+    } 
+
+    #limb{ 
+    width: 10px; 
+    height: 300px; 
+    border-radius: 0; 
+    background-color: #000; 
+    position: absolute; 
+    margin:0 auto; 
+    left:678px; 
+    top:250px; 
+    z-index: -1; 
+    } 

@@ -6,7 +6,13 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import blogApp from './store/reducers.js'
 
-const store = createStore(blogApp, applyMiddleware(thunk));
+
+/* composeEnhancers 启用redux devtool调试工具*/
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+const store = createStore(blogApp,
+    composeEnhancers(applyMiddleware(thunk))
+
+);
 
 
 ReactDom.render(

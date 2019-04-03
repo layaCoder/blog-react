@@ -1,0 +1,41 @@
+
+.whats-hot-wrapper{
+    margin-left: 20px;
+    background: #fff;
+    width:380px;
+    min-height: 400px;
+
+    ul>li{
+        list-style: none;
+        width: 100%;
+        padding: 6px 0;
+        font-size: 15px;
+    }
+    a{
+        color: #888;
+        font-size: 1.2rem;
+    }
+    a:hover{
+        color: #1890FF
+    }
+}
+
+.hots-title{
+    height: 38px;
+    line-height: 38px;
+    padding: 0px 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #1890FF;
+    font-size: 18px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.hots-tag{
+    color: #1890FF;
+    font-size: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    font-style: normal;
+    vertical-align: sub;
+    font-weight: 700;
+}
