@@ -38,6 +38,9 @@ class TagsBoard extends Component {
 
         return (
             <div className="tag-board">
+                <Row>
+                    <h2 className="tag-board-title">Categories</h2>
+                </Row>
                 <Row className="tag-board-row">
                     <div className="tag-board-btn" onClick={this.linkToFrontend.bind(this, 'Frontend')}>
                         <span><Icon type="tag" />&nbsp;Frontend</span>

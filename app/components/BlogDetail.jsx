@@ -112,23 +112,26 @@ class BlogDetail extends Component {
             <div>
                 {blogDetailItem.length > 0 ? //判断store中blogList是否加载完毕
                     <div>
-                        <Row>
+                        <Row >
                             <Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>
                         </Row>
                         <Row>
                             <Col span={5} offset={8}><p>Author:&nbsp;{blogDetailItem[0].user}</p></Col>
                             <Col span={8}><p>Date:&nbsp;{moment(blogDetailItem[0].date).format('LLLL')}</p></Col>
-                            <Divider dashed />
+                            <div className='detail-divider'>
+                                <Divider dashed />
+                            </div>
                         </Row>
                         <Row>
                             <Col span={20} offset={2}>
                                 <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
                                 {/* <div dangerouslySetInnerHTML={{ __html: this.state.testCode }}></div> */}
-
                             </Col>
                         </Row>
                         {/* 写评论 */}
-                        <Divider dashed />
+                        <div className="detail-divider" >
+                            <Divider dashed />
+                        </div>
                         <Row className="replyArea">
                             <h3 style={myStyle}>Comments</h3>
                         </Row>
@@ -171,8 +174,12 @@ class BlogDetail extends Component {
                     </div>
                     : null}
                 <Row className="footer" style={{ marginTop: '50px' }}>
-                    <Divider />
-                    <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                    <div className='detial-divider' >
+                        <Divider />
+                    </div>
+                    <div className='detail-goback-btn'>
+                        <Button type="dashed" onClick={this.goBack}><Icon type="left" /> Go back</Button>
+                    </div>
                 </Row>
             </div>
 

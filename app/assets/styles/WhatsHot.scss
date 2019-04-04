@@ -9,7 +9,10 @@
         list-style: none;
         width: 100%;
         padding: 6px 0;
-        font-size: 15px;
+        
+        span{
+            font-size: 1rem;
+        }
     }
     a{
         color: #888;
@@ -38,4 +41,5 @@
     font-style: normal;
     vertical-align: sub;
     font-weight: 700;
+    
 }

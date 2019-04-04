@@ -244,7 +244,7 @@ class BlogItem extends Component {
         const { action } = this.state;
 
         const actions = [
-            <span  >
+            <span>
                 <Tooltip title="Like">
                     <Icon
                         type="like"
@@ -257,10 +257,9 @@ class BlogItem extends Component {
                     {this.props.item.likes.length}
                 </span>
             </span>,
-            <span style={{color:'#cecece'}}>&nbsp;|&nbsp;</span>,
+            <span style={{ color: '#cecece' }}>&nbsp;|&nbsp;</span>,
 
-            // ----------------隐藏【回复控件】---------------------
-            // <span onClick={this.showReplyMoadl}>Reply to</span>,
+
             <span>Replys&nbsp;:&nbsp;{this.state.item.replys.length}</span>
         ];
         return (
@@ -289,7 +288,7 @@ class BlogItem extends Component {
                                         {/* blog内容 */}
                                         <div className="blogText">{this.state.item.text}</div>
                                         {/* tags */}
-                                        <div>
+                                        <div className="blogitem-tags-bar">
                                             {this.state.item.tags.map(item => {
                                                 return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
                                             })}

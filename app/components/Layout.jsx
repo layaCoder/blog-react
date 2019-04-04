@@ -300,7 +300,6 @@ class LayoutComponent extends Component {
                                     {/* <Button type="primary" onClick={this.showAside} style={{ marginBottom: 16, width: "50px" }} ><Icon type='menu-unfold' /></Button> */}
                                     <img src={logoUrl} style={{ width: '70%', height: '70%', cursor: 'pointer' }} onClick={this.showAside} />
                                 </Col>
-
                                 <Col span={14}>
                                     <Menu
                                         theme="dark"

@@ -26,9 +26,4 @@ display: -webkit-box;
     /* text-align: center; */
 }
 
-/* 移动端设置 */
-@media screen and (max-width: 300px) {
-    div {
-        font-size: 1.3rem !important;
-    }
-}
+
