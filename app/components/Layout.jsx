@@ -187,7 +187,6 @@ class LayoutComponent extends Component {
 
             let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10&user=' + user.name
             axios.get(url).then(res => {
-                console.log('res', res.data)
                 this.props.dispatch(initBlogs(res.data, true))
                 /*initBlogs(data,flag)   flag===true 表示是第一次初始化数据，需要清空blog数组， flag===false表示是后续懒加载的数据，push到blog数组中*/
                 this.props.dispatch(hasMoreBlogItem(true))
@@ -325,7 +324,7 @@ class LayoutComponent extends Component {
                                         </Menu.Item>
                                     </Menu>
                                 </Col>
-                                <Col span={5}>
+                                <Col span={this.state.isPc ? 4 : 6}>
                                     <Search
                                         placeholder="Search in laya's Blog"
                                         onSearch={value => this.handleSearch(value)}

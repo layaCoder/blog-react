@@ -91,7 +91,6 @@ class BlogDetail extends Component {
                 replyText: this.state.replyText
             }
         }).then(res => {
-            console.log(res)
             //添加到store中的BlogList
             this.props.dispatch(saveReply(replyId, this.props.match.params.id, this.state.replyText, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
             this.setState({ replyText: '' });

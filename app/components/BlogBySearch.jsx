@@ -57,7 +57,6 @@ class BlogBySearch extends Component {
 
         let res = scrollHeight - scrollTop - clientHeight;
         if (res <= 400 && !this.state.isLoading) { //值小于400时，开始加载数据
-            console.log('scollRes->', res)
             this.setState({ isLoading: true })
             // if (this.state.hasMore) {
             if (this.props.store.hasMoreData) {
