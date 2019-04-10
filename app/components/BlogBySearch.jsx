@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row,Divider } from 'antd';
+import { Row, Divider, Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';
@@ -89,7 +89,7 @@ class BlogBySearch extends Component {
                     <Row>
                         <h2 style={myStyle}>Search in '&nbsp;<strong style={{ color: 'red', fontStyle: 'italic' }}>{this.props.match.params.param}</strong>&nbsp;'</h2>
                     </Row>
-                    <Divider/>
+                    <Divider />
                 </div>
                 <div>
                     {this.state.firstLoading === true ? null :
@@ -103,8 +103,8 @@ class BlogBySearch extends Component {
                     }
 
                 </div>
-                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                {this.props.store.hasMoreData && this.state.isLoading ? <div className='loading-bar'> <Icon type="loading" /></div> : null}
+                {!this.props.store.hasMoreData ? <div className='loading-bar'>&nbsp; <p>No more!!!</p> &nbsp;</div> : null}
 
             </div >
         )

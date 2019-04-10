@@ -26,4 +26,12 @@ display: -webkit-box;
     /* text-align: center; */
 }
 
+.loading-bar{
+    text-align: center;
+    margin: 20px;
+    margin-bottom: 0xp;
+}
 
+.loading-bar >p{
+    color:#666;
+}

@@ -50,21 +50,22 @@ function blogs(state = [], action) {
                 }
                 else {
                     resState.push(
-                        //Object.assign(item, { likes: action.name })
-                        {
-                            id: item.id,
-                            title: item.title,
-                            text: item.text,
-                            htmlDom: item.htmlDom,
-                            user: item.user,
-                            avatarUrl: item.avatarUrl,
-                            date: item.date,
-                            tags: item.tags,
-                            likes: [...item.likes, action.name],
-                            replys: item.replys,
-                            tags: item.diyTags,
-                            diyTags: item.diyTags
-                        }
+                        // Object.assign({}, item, { likes: [...item.likes, action.name] }) 
+                        { ...item, likes: [...item.likes, action.name] } // es6 扩展运算符写法
+                        // {
+                        //     id: item.id,
+                        //     title: item.title,
+                        //     text: item.text,
+                        //     htmlDom: item.htmlDom,
+                        //     user: item.user,
+                        //     avatarUrl: item.avatarUrl,
+                        //     date: item.date,
+                        //     tags: item.tags,
+                        //     likes: [...item.likes, action.name],
+                        //     replys: item.replys,
+                        //     tags: item.diyTags,
+                        //     diyTags: item.diyTags
+                        // }
                     )
                 }
             })

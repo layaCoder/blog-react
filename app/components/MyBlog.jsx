@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row, Skeleton, Pagination, message } from 'antd';
+import { Row, Skeleton, Pagination, message, Icon } from 'antd';
 import * as storage from '../utils/commUtils'
 import axios from 'axios';
 import APIS from '../api/index';
@@ -135,7 +135,7 @@ class MyBlog extends Component {
 
 
     render() {
-       
+
         return (
             <div>
                 <div>
@@ -167,8 +167,8 @@ class MyBlog extends Component {
                         </div>
                         : null}
                 </div>
-                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                {this.props.store.hasMoreData && this.state.isLoading ? <div className='loading-bar'> <Icon type="loading" /></div> : null}
+                {!this.props.store.hasMoreData ? <div className='loading-bar'>&nbsp; <p>No more!!!</p> &nbsp;</div> : null}
             </div>
 
         )

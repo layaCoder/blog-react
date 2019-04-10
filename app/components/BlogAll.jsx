@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row } from 'antd';
+import { Row,Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';
@@ -110,8 +110,8 @@ class BlogAll extends Component {
                     }
 
                 </div>
-                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                {this.props.store.hasMoreData && this.state.isLoading ? <div className='loading-bar'> <Icon type="loading" /></div> : null}
+                {!this.props.store.hasMoreData ? <div className='loading-bar'>&nbsp; <p>No more!!!</p> &nbsp;</div> : null}
 
             </div>
 

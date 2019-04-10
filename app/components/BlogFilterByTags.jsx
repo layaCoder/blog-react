@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Row, Skeleton, Pagination } from 'antd';
+import { Row, Skeleton, Pagination, Icon, Col } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { IsPC } from '../utils/commUtils'
 import APIS from '../api/index'
@@ -9,6 +9,12 @@ import { initBlogs, hasMoreBlogItem } from '../store/actions';
 import 'antd/dist/antd.css';
 import BlogItem from './BlogItem';
 require('../assets/styles/BlogAll.css')
+require('../assets/styles/BlogFilterByTags.scss')
+
+
+const IconFont = Icon.createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1133602_8mswscufi1y.js',
+});
 
 class BlogFilterByTags extends Component {
     constructor(props) {
@@ -74,40 +80,50 @@ class BlogFilterByTags extends Component {
     }
 
     render() {
-        
+
 
         return (
             <div>
-                <div>
-                    {this.props.store.blogs.length === 0 ?
-                        < Skeleton avatar paragraph={{ rows: 4 }} />
-                        : null}
-                </div>
-                {this.props.store.blogs.length > 0 ?
-                    <div>
-                        <Row>
-                            <h2 className="a-title">{this.props.match.params.tag}</h2>
-                            {/* <h2 style={myStyle}>{this.state.blogType}</h2> */}
+                <Row>
+                    <h2 className="a-title">{this.props.match.params.tag}</h2>
+                    {/* <h2 style={myStyle}>{this.state.blogType}</h2> */}
+                </Row>
+                {this.props.store.blogs.length > 0 ? null :
+                    <Row>
+                        <Col className='icon-wrap'>
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#icon-empty"></use>
+                            </svg>
+                        </Col>
+                        <Col >
+                            <div >
+                                <p className='filterByTags-nothing-content'>nothing here</p>
+                            </div>
+                        </Col>
+                    </Row>}
+                {
+                    this.props.store.blogs.length > 0 ?
+                        <div>
 
-                        </Row>
-                        {this.props.store.blogs.length > 0 ?
-                            <Row>
-                                {
-                                    //在store中filter出tag匹配的blogItem
-                                    // this.props.store.blogs.filter(item => item.tags.includes(this.props.location.tag)).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
-                                    this.props.store.blogs.map(item => {
-                                        // if (item.tags.includes(this.props.location.tag))
-                                        return <BlogItem item={item} key={item.id} />
-                                    })}
-                            </Row> :
-                            null
-                        }
-                    </div>
-                    : null}
-                {this.props.store.hasMoreData && this.state.isLoading ? <div>&nbsp;Loading...&nbsp;</div> : null}
-                {!this.props.store.hasMoreData ? <div>&nbsp; No more!!! &nbsp;</div> : null}
+                            {this.props.store.blogs.length > 0 ?
+                                <Row>
+                                    {
+                                        //在store中filter出tag匹配的blogItem
+                                        // this.props.store.blogs.filter(item => item.tags.includes(this.props.location.tag)).slice((this.state.pageNum - 1) * this.state.pageSize, (this.state.pageNum - 1) * this.state.pageSize + this.state.pageSize).map(item => {
+                                        this.props.store.blogs.map(item => {
+                                            // if (item.tags.includes(this.props.location.tag))
+                                            return <BlogItem item={item} key={item.id} />
+                                        })}
+                                </Row> :
+                                null
+                            }
+                        </div>
+                        : null
+                }
+                {this.props.store.hasMoreData && this.state.isLoading ? <div className='loading-bar'> <Icon type="loading" /></div> : null}
+                {!this.props.store.hasMoreData ? <div className='loading-bar'>&nbsp; <p>No more!!!</p> &nbsp;</div> : null}
 
-            </div>
+            </div >
 
         )
     }
