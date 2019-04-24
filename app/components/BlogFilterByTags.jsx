@@ -88,7 +88,7 @@ class BlogFilterByTags extends Component {
                     <h2 className="a-title">{this.props.match.params.tag}</h2>
                     {/* <h2 style={myStyle}>{this.state.blogType}</h2> */}
                 </Row>
-                {this.props.store.blogs.length > 0 ? null :
+                {this.props.store.blogs.length !== 0 ? null :
                     <Row>
                         <Col className='icon-wrap'>
                             <svg class="icon" aria-hidden="true">

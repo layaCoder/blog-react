@@ -21,14 +21,9 @@ class TagsBoard extends Component {
         axios.get(url).then(res => {
             this.props.dispatch(initBlogs(res.data, true))
             this.props.dispatch(isShowLoading(false))
-            if (this.props.store.blogs.length > 0) {
-                this.props.history.push({
-                    pathname: '/app/blogall/blogfilter/' + param
-                })
-            }
-            else {
-                message.warning('server err!!!')
-            }
+            this.props.history.push({
+                pathname: '/app/blogall/blogfilter/' + param
+            })
         }).catch(err => {
             console.log(err)
         })

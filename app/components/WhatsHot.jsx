@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 require('../assets/styles/WhatsHot.scss')
+import axios from 'axios'
+import APIS from '../api/index'
 
 export default class WhatsHot extends Component {
     componentDidMount() {
+        let url = APIS.getWhatsHot.devUrl
+        axios.get(url).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     render() {

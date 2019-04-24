@@ -104,5 +104,9 @@ export default {
     saveBlogImage: {
         name: 'saveBlogImage',
         devUrl: 'api/post/saveBlogImage'
+    },
+    getWhatsHot: {
+        name: 'getWhatsHot',
+        devUrl: 'api/get/whatsHot'
     }
 }
