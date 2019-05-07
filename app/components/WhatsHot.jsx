@@ -4,17 +4,24 @@ import axios from 'axios'
 import APIS from '../api/index'
 
 export default class WhatsHot extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            data:[]
+        }
+    }
+
     componentDidMount() {
         let url = APIS.getWhatsHot.devUrl
         axios.get(url).then(res => {
-            console.log(res)
+            this.setState({data:res.data})
+            console.log(this.state.data)
         }).catch(err => {
             console.log(err)
         })
     }
 
     render() {
-
         return (
             <div className='whats-hot-wrapper'>
                 <h2 className='hots-title'>what's hot</h2>
@@ -51,6 +58,10 @@ export default class WhatsHot extends Component {
                     </li>
 
                 </ul>
+                {this.state.data.map(item=>{
+                 return <div>{item.title}</div>
+                })}
+                
             </div>
         )
     }
