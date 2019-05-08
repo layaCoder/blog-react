@@ -221,7 +221,7 @@ class BlogItem extends Component {
         console.log(this.state.replyText)
     }
 
-    handleLink = () => {
+   handleLink = () => {
         this.props.history.push({
             pathname: '/app/blogall/blogdetail/' + this.state.item.id,
             state: { type: this.props.type, htmlDom: this.state.item.htmlDom }
@@ -234,7 +234,7 @@ class BlogItem extends Component {
         // let win = window.open('/app/blogall/blogdetail/', '_blank');
         // win.focus();
 
-    }
+    } 
 
 
 

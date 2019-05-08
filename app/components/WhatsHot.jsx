@@ -1,14 +1,22 @@
+import { withRouter, Link } from 'react-router-dom';
 import React, { Component } from 'react'
 require('../assets/styles/WhatsHot.scss')
 import axios from 'axios'
 import APIS from '../api/index'
 
-export default class WhatsHot extends Component {
+class WhatsHot extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data:[]
         }
+    }
+
+    handleLink=(item)=>{
+     console.log(item._id)
+     this.props.history.push({
+         pathname:'/app/blogall/blogdetail/'+item._id,
+     })
     }
 
     componentDidMount() {
@@ -59,10 +67,16 @@ export default class WhatsHot extends Component {
 
                 </ul>
                 {this.state.data.map(item=>{
-                 return <div>{item.title}</div>
+                 return <div>
+                 <div onClick={this.handleLink.bind(this,item)}>
+                 {item.title}
+                 </div>
+                 </div>
                 })}
                 
             </div>
         )
     }
 }
+
+export default withRouter(WhatsHot)

@@ -42,6 +42,7 @@ class BlogDetail extends Component {
 
     componentDidMount() {
         this.updateCodeSyntaxHighlighting();
+        console.log('math id ====>',this.props.match.params.id)
     }
 
     componentDidUpdate() {
