@@ -16,6 +16,10 @@ export default {
         //devUrl: 'https://blogsev.serveo.net/get/blogList'
         // devUrl: 'http://39.105.188.13:2000/get/blogList'
     },
+    singleBlogItem:{
+        name:'singleBlogItem',
+        devUrl:'api/get/singleBlogItem'
+    },
     blogListByTag: {
         name: 'blogListByTag',
         devUrl: 'api/get/blogListByTag'
@@ -45,7 +49,6 @@ export default {
         devUrl: 'api/post/saveBlog',
         //devUrl: 'https://blogsev.serveo.net/post/saveBlog'
         // devUrl: 'http://39.105.188.13:2000/post/saveBlog',
-
     },
     //测试mongoose
     blogInfoOnMongoose: {
@@ -53,7 +56,6 @@ export default {
         devUrl: 'api/get/blogInfoOnMongoose',
         //devUrl: 'https://blogsev.serveo.net/get/blogInfoOnMongoose'
         // devUrl: 'http://39.105.188.13:2000/get/blogInfoOnMongoose',
-
     },
     //修改密码
     changePassword: {
@@ -61,8 +63,6 @@ export default {
         devUrl: 'api/post/changePassword',
         //devUrl: 'https://blogsev.serveo.net/post/changePassword'
         // devUrl: 'http://39.105.188.13:2000/post/changePassword',
-
-
     },
     //删除单条blog
     deleteBlog: {
@@ -70,7 +70,6 @@ export default {
         devUrl: 'api/post/deleteBlog',
         //devUrl: 'https://blogsev.serveo.net/post/deleteBlog'
         // devUrl: 'http://39.105.188.13:2000/post/deleteBlog',
-
     },
     //点赞
     likeBlogItem: {
@@ -78,7 +77,6 @@ export default {
         devUrl: 'api/post/likeBlogItem',
         //devUrl: 'https://blogsev.serveo.net/post/likeBlogItem'
         // devUrl: 'http://39.105.188.13:2000/post/likeBlogItem'
-
     },
     //取消点赞
     disslikeBlogItem: {
@@ -86,7 +84,6 @@ export default {
         devUrl: 'api/post/disslikeBlogItem'
         //devUrl: 'https://blogsev.serveo.net/post/disslikeBlogItem'
         // devUrl: 'http://39.105.188.13:2000/post/disslikeBlogItem'
-
     },
     //保存blog回复
     saveBlogReply: {
@@ -94,7 +91,6 @@ export default {
         devUrl: 'api/post/saveBlogReply',
         //devUrl:'https://blogsev.serveo.net/post/saveBlogReply'
         // devUrl: 'http://39.105.188.13:2000/post/saveBlogReply',
-
     },
     //获取单条博客htmlDom
     getBlogHtmlDom: {
@@ -108,5 +104,6 @@ export default {
     getWhatsHot: {
         name: 'getWhatsHot',
         devUrl: 'api/get/whatsHot'
-    }
+    },
+    
 }

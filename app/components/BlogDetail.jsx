@@ -36,13 +36,20 @@ class BlogDetail extends Component {
             user: '',
             replyText: null,
             isLoading: false,
-            lodingHtmlDom: true
+            lodingHtmlDom: true,
+            blogItem:null
         }
     }
 
     componentDidMount() {
-        this.updateCodeSyntaxHighlighting();
+        this.updateCodeSyntaxHighlighting()
         console.log('math id ====>',this.props.match.params.id)
+        let url=APIS.singleBlogItem.devUrl+'?blogId='+this.props.match.params.id
+        axios.get(url).then(res=>{
+            console.log('resutl===>',res.data)
+            this.setState({blogItem:res.data[0].avatarUrl})
+            //todo 后续改造，全部数据由请求拉取数据
+        })
     }
 
     componentDidUpdate() {
@@ -107,7 +114,8 @@ class BlogDetail extends Component {
             textAlign: 'center'
         }
         const blogDetailItem = this.props.store.blogs.filter(item => item.id === this.props.match.params.id)
-
+       /*  const blogDetailItem = this.state.blogItem */
+        
         return (
             <div>
                 {blogDetailItem.length > 0 ? //判断store中blogList是否加载完毕
@@ -171,6 +179,11 @@ class BlogDetail extends Component {
                                 }
                             </Col>
                         </Row>
+                        <div>
+                         <div>
+                             {this.state.blogItem}
+                         </div>
+                        </div>
                     </div>
                     : null}
                 <Row className="footer" style={{ marginTop: '50px' }}>
