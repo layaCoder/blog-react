@@ -8,21 +8,21 @@ class WhatsHot extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data:[]
+            data: []
         }
     }
 
-    handleLink=(item)=>{
-     console.log(item._id)
-     this.props.history.push({
-         pathname:'/app/blogall/blogdetail/'+item._id,
-     })
+    handleLink = (item) => {
+        console.log(item._id)
+        this.props.history.push({
+            pathname: '/app/blogall/blogdetail/' + item._id,
+        })
     }
 
     componentDidMount() {
         let url = APIS.getWhatsHot.devUrl
         axios.get(url).then(res => {
-            this.setState({data:res.data})
+            this.setState({ data: res.data })
             console.log(this.state.data)
         }).catch(err => {
             console.log(err)
@@ -33,7 +33,7 @@ class WhatsHot extends Component {
         return (
             <div className='whats-hot-wrapper'>
                 <h2 className='hots-title'>what's hot</h2>
-                <ul>
+                {/* <ul>
                     <li>
                         <a href='#'>
                             <i className='hots-tag'>#</i>
@@ -65,15 +65,23 @@ class WhatsHot extends Component {
                         </a>
                     </li>
 
+                </ul> */}
+                <ul>
+                    {this.state.data.map(item => {
+                        return <li>
+                            <div href='#' onClick={this.handleLink.bind(this,item)}>
+                             <i className='hots-tag'>#</i>
+                             <span>{item.title}</span>
+                            </div>
+                            {/* <div onClick={this.handleLink.bind(this, item)}>
+
+                                {item.title}
+                            </div> */}
+                        </li>
+                    })}
                 </ul>
-                {this.state.data.map(item=>{
-                 return <div>
-                 <div onClick={this.handleLink.bind(this,item)}>
-                 {item.title}
-                 </div>
-                 </div>
-                })}
-                
+
+
             </div>
         )
     }

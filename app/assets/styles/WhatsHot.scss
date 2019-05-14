@@ -14,12 +14,20 @@
             font-size: 1rem;
         }
     }
-    a{
+    /* a{
         color: #888;
         font-size: 1.2rem;
     }
     a:hover{
         color: #1890FF
+    } */
+    div{
+        color:#888;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    div:hover{
+        color: #1890FF;
     }
 }
 
