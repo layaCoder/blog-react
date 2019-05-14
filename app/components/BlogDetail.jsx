@@ -30,27 +30,45 @@ class BlogDetail extends Component {
         super();
         this.state = {
             blogId: '',
-            id: '',
+            date: '',
             title: '',
             htmlDom: '',
             user: '',
-            replyText: null,
+            replys:[],
             isLoading: false,
-            lodingHtmlDom: true,
-            blogItem:null
+            lodingHtmlDom: true
         }
+    }
+    //获取blgoDetail数据
+    getDetailData=(apiUrl)=>{
+            axios.get(apiUrl).then(res=>{
+                this.setState({
+                    blogId:res.data[0]._id,
+                    date:res.data[0].date,
+                    user:res.data[0].user,
+                    title:res.data[0].title,
+                    htmlDom:res.data[0].htmlDom,
+                    replys:res.data[0].replys
+                })
+            })
     }
 
     componentDidMount() {
         this.updateCodeSyntaxHighlighting()
-        console.log('math id ====>',this.props.match.params.id)
-        let url=APIS.singleBlogItem.devUrl+'?blogId='+this.props.match.params.id
-        axios.get(url).then(res=>{
-            console.log('resutl===>',res.data)
-            this.setState({blogItem:res.data[0].avatarUrl})
-            //todo 后续改造，全部数据由请求拉取数据
-        })
+        let url=APIS.singleBlogItem.devUrl+'?blogId='+this.props.match.params.id 
+            this.getDetailData(url)
     }
+
+
+    /* 处理路由id参数改变component不更新的问题 */
+    componentWillReceiveProps(nextProps){
+        if(nextProps.match.params.id!==this.props.match.params.id){
+            let url=APIS.singleBlogItem.devUrl+'?blogId='+nextProps.match.params.id 
+            this.getDetailData(url)
+        }
+    }
+    
+    
 
     componentDidUpdate() {
         this.updateCodeSyntaxHighlighting();
@@ -113,26 +131,24 @@ class BlogDetail extends Component {
         let myStyle = {
             textAlign: 'center'
         }
-        const blogDetailItem = this.props.store.blogs.filter(item => item.id === this.props.match.params.id)
-       /*  const blogDetailItem = this.state.blogItem */
-        
         return (
             <div>
-                {blogDetailItem.length > 0 ? //判断store中blogList是否加载完毕
+               
                     <div>
                         <Row >
-                            <Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>
+                           {/*  {<Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>} */}
+                            {<Divider> <h2 style={myStyle}>{this.state.title}</h2></Divider>}
                         </Row>
                         <Row>
-                            <Col span={5} offset={8}><p>Author:&nbsp;{blogDetailItem[0].user}</p></Col>
-                            <Col span={8}><p>Date:&nbsp;{moment(blogDetailItem[0].date).format('LLLL')}</p></Col>
+                            <Col span={5} offset={8}><p>Author:&nbsp;{this.state.user}</p></Col>
+                            <Col span={8}><p>Date:&nbsp;{moment(this.state.date).format('LLLL')}</p></Col>
                             <div className='detail-divider'>
                                 <Divider dashed />
                             </div>
                         </Row>
                         <Row>
                             <Col span={20} offset={2}>
-                                <div dangerouslySetInnerHTML={{ __html: blogDetailItem[0].htmlDom }}></div>
+                                <div dangerouslySetInnerHTML={{ __html: this.state.htmlDom }}></div>
                                 {/* <div dangerouslySetInnerHTML={{ __html: this.state.testCode }}></div> */}
                             </Col>
                         </Row>
@@ -154,8 +170,8 @@ class BlogDetail extends Component {
                         {/* 评论显示区 */}
                         <Row>
                             <Col span={20} offset={2}>
-                                {blogDetailItem[0].replys.length > 0 ?
-                                    blogDetailItem[0].replys.map(item => {
+                                {this.state.replys.length > 0 ?
+                                    this.state.replys.map(item => {
                                         return <Comment
                                             key={item.id}
                                             author={item.user}
@@ -179,13 +195,9 @@ class BlogDetail extends Component {
                                 }
                             </Col>
                         </Row>
-                        <div>
-                         <div>
-                             {this.state.blogItem}
-                         </div>
-                        </div>
+                       
                     </div>
-                    : null}
+                    
                 <Row className="footer" style={{ marginTop: '50px' }}>
                     <div className='detial-divider' >
                         <Divider />
