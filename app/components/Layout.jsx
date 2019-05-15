@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress, BackTop } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -391,7 +391,12 @@ class LayoutComponent extends Component {
                                 : null}
 
                         </Row>
-
+                        <div className='backToTopDiv'>
+                            <div>
+                                <BackTop />
+                                <strong style={{ color: 'rgba(64, 64, 64, 0.6)' }}></strong>
+                            </div>
+                        </div>
 
                         <Footer style={{ textAlign: 'center' }}>
                             ©2019 Created by laya Studio</Footer>

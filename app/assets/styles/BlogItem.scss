@@ -169,8 +169,8 @@
 }
 
 /* 移动端字体放大 */
-/* 当屏幕小于或等于500px时，启用一下样式 */
-@media screen and (max-width: 500px) {
+/* 当屏幕小于或等于375px时，启用一下样式 */
+@media screen and (max-width: 375px) {
     .tag-ele{
         font-size: 1.3rem;
     }   

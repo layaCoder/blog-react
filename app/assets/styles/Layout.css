@@ -14,3 +14,16 @@
     z-index:998;
     /* pointer-events: none; */
 }
+.backToTopDiv{
+ position: fixed;
+ right: 40px;
+ bottom:30px;
+}
+
+/* 移动端字体放大 */
+/* 当屏幕小于或等于375px时，启用一下样式 */
+@media screen and (max-width: 375px) {
+    .backToTopDiv{
+              display: none;
+          }
+      }
