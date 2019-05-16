@@ -13,7 +13,8 @@ require('../assets/styles/BlogFilterByTags.scss')
 
 
 const IconFont = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1133602_8mswscufi1y.js',
+    // scriptUrl: '//at.alicdn.com/t/font_1133602_8mswscufi1y.js',
+    scriptUrl:'//at.alicdn.com/t/font_1133602_4at57gbyjj4.js'
 });
 
 class BlogFilterByTags extends Component {

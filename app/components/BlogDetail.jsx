@@ -5,7 +5,7 @@ todo: hightlight.js 后续改进
 
 
 import React, { Component } from 'react'
-import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message } from 'antd';
+import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message, Skeleton, Popover } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import axios from 'axios';
@@ -14,10 +14,12 @@ import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
 import hljs from "highlight.js";
 
+import QRCode from 'qrcode.react';
+
 
 require('../assets/styles/BlogDetail.scss')
-
 const TextArea = Input.TextArea;
+
 
 hljs.configure({
     classPrefix: 'hljs-',
@@ -34,41 +36,41 @@ class BlogDetail extends Component {
             title: '',
             htmlDom: '',
             user: '',
-            replys:[],
+            replys: [],
             isLoading: false,
-            lodingHtmlDom: true
+            lodingHtmlDom: true,
         }
     }
     //获取blgoDetail数据
-    getDetailData=(apiUrl)=>{
-            axios.get(apiUrl).then(res=>{
-                this.setState({
-                    blogId:res.data[0]._id,
-                    date:res.data[0].date,
-                    user:res.data[0].user,
-                    title:res.data[0].title,
-                    htmlDom:res.data[0].htmlDom,
-                    replys:res.data[0].replys
-                })
+    getDetailData = (apiUrl) => {
+        axios.get(apiUrl).then(res => {
+            this.setState({
+                blogId: res.data[0]._id,
+                date: res.data[0].date,
+                user: res.data[0].user,
+                title: res.data[0].title,
+                htmlDom: res.data[0].htmlDom,
+                replys: res.data[0].replys
             })
+        })
     }
 
     componentDidMount() {
         this.updateCodeSyntaxHighlighting()
-        let url=APIS.singleBlogItem.devUrl+'?blogId='+this.props.match.params.id 
-            this.getDetailData(url)
+        let url = APIS.singleBlogItem.devUrl + '?blogId=' + this.props.match.params.id
+        this.getDetailData(url)
     }
 
 
     /* 处理路由id参数改变component不更新的问题 */
-    componentWillReceiveProps(nextProps){
-        if(nextProps.match.params.id!==this.props.match.params.id){
-            let url=APIS.singleBlogItem.devUrl+'?blogId='+nextProps.match.params.id 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.match.params.id !== this.props.match.params.id) {
+            let url = APIS.singleBlogItem.devUrl + '?blogId=' + nextProps.match.params.id
             this.getDetailData(url)
         }
     }
-    
-    
+
+
 
     componentDidUpdate() {
         this.updateCodeSyntaxHighlighting();
@@ -133,10 +135,25 @@ class BlogDetail extends Component {
         }
         return (
             <div>
-               
-                    <div>
+                {this.state.blogId === '' ? <div>
+                    <Skeleton active paragraph={{ rows: 4 }} />
+                </div> : <div>
                         <Row >
-                           {/*  {<Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>} */}
+                            <Col offset={23} span={1}>
+                                {/*分享二维码*/}
+                                <Popover placement="bottomLeft" title={'share'} content={
+                                    <div>
+                                        <QRCode value={"http://39.105.188.13/#/app/blogall/blogdetail/" + this.state.blogId} />
+                                    </div>
+                                } trigger="click">
+                                    <span>-></span>
+                                </Popover>
+
+                            </Col>
+
+                        </Row>
+                        <Row >
+                            {/*  {<Divider> <h2 style={myStyle}>{blogDetailItem[0].title}</h2></Divider>} */}
                             {<Divider> <h2 style={myStyle}>{this.state.title}</h2></Divider>}
                         </Row>
                         <Row>
@@ -152,6 +169,7 @@ class BlogDetail extends Component {
                                 {/* <div dangerouslySetInnerHTML={{ __html: this.state.testCode }}></div> */}
                             </Col>
                         </Row>
+
                         {/* 写评论 */}
                         <div className="detail-divider" >
                             <Divider dashed />
@@ -195,9 +213,10 @@ class BlogDetail extends Component {
                                 }
                             </Col>
                         </Row>
-                       
+
                     </div>
-                    
+                }
+
                 <Row className="footer" style={{ marginTop: '50px' }}>
                     <div className='detial-divider' >
                         <Divider />
@@ -218,4 +237,4 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(BlogDetail);
+export default connect(mapStateToProps)(BlogDetail); <QRCode value="https://www.cnblogs.com/dreambin/" />
