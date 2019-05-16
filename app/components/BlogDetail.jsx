@@ -13,6 +13,7 @@ import APIS from '../api/index';
 import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
 import hljs from "highlight.js";
+import shareImg from '../assets/img/share.png'
 
 import QRCode from 'qrcode.react';
 
@@ -146,7 +147,8 @@ class BlogDetail extends Component {
                                         <QRCode value={"http://39.105.188.13/#/app/blogall/blogdetail/" + this.state.blogId} />
                                     </div>
                                 } trigger="click">
-                                    <span>-></span>
+                                    {/* <span>-></span> */}
+                                   <img src={shareImg} style={{ width: '15px', height: '15px', cursor: 'pointer' }}/>
                                 </Popover>
 
                             </Col>
