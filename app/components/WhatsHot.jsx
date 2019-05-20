@@ -73,10 +73,7 @@ class WhatsHot extends Component {
                              <i className='hots-tag'>#</i>
                              <span>{item.title}</span>
                             </div>
-                            {/* <div onClick={this.handleLink.bind(this, item)}>
-
-                                {item.title}
-                            </div> */}
+                           
                         </li>
                     })}
                 </ul>
