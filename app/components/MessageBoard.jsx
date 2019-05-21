@@ -7,6 +7,7 @@ import emojiPack from '../api/emojiUrl'
 import * as untils from '../utils/commUtils.js'
 import E from 'wangeditor'
 
+import MsgBoardItem from './parts/MsgBoardItem'
 
 export default class Home extends Component {
     constructor(props) {
@@ -17,9 +18,18 @@ export default class Home extends Component {
             msgData: []
         }
     }
+    
+    initBlogList=()=>{
+        let url=APIS.getMsgList.devUrl+'?pageIndex='+1+'&pageSize=10'
+        axios.get(url).then(res=>{
+            console.log('res',res)
+            this.setState({msgData:res.data})
+        })
+    }
 
     componentDidMount() {
         this.initEditor()
+        this.initBlogList()
     }
 
     initEditor() {
@@ -131,21 +141,45 @@ export default class Home extends Component {
     }
     
     handleSubmit=()=>{
-        let htmlStr=this.editor.txt.html()
-        console.log('htmlStr=====>',htmlStr)
+         if(!this.state.author||untils.delHtmlTag(this.editor.txt.html()).length<2){
+             alert('author or content can not be null!!!')
+             return
+         }
+
+        /* 获取文本编辑器value */
+        let htmlStr=this.editor.txt.html() 
+        let postUrl=APIS.saveBoardMsg.devUrl
+        let role=this.state.author==='laya'?0:1
+        let avatarUrl=this.state.author==='laya'?'http://39.105.188.13:2000/images/laya.png':'http://39.105.188.13:2000/images/guest.png'
+        axios({
+           method:'post',
+           url:postUrl,
+           headers:{
+               'Content-type':'application/json'
+           },
+           data:{
+               author:this.state.author,
+               content:htmlStr,
+               role:role,
+               avatarUrl:avatarUrl
+           }
+        }).then(res=>{
+            this.editor.txt.html('')//清空编辑器
+            this.initBlogList()
+        })
     }
 
     render() {
-
         return (
             <div className='msgBoard-div'>
                 <Row className='msgBoard-row'>
                     <h2 className='msgBoard-title'>Message Board</h2>
                 </Row>
                 <Row className='msgBoard-row'>
-                    <div>msgBoard item</div>
-                    <div>msgBoard item</div>
-                    <div>msgBoard item</div>
+                    <MsgBoardItem/>
+                    {this.state.msgData.map(item=>{
+                        return <MsgBoardItem msgItem={item} />
+                    })}
                 </Row>
                 <Row className='msgBoard-row'>
                     <Row className='input-name-row'>

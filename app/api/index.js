@@ -105,5 +105,13 @@ export default {
         name: 'getWhatsHot',
         devUrl: 'api/get/whatsHot'
     },
+    saveBoardMsg:{
+        name:'/post/messageBoardData',
+        devUrl:'api/users/post/messageBoardData'
+    },
+    getMsgList:{
+        name:'get/msgList',
+        devUrl:'api/users/get/msgList'
+    }
     
 }
