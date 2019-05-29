@@ -25,10 +25,25 @@ class MsgBoardItem extends Component {
 
         return (
             <div>
-                {this.props.msgItem ? 
-                <div>
-                  {this.props.msgItem._id}
-                </div> : null}
+                {this.props.msgItem ?
+                    <div>
+                        <strong>------------------------</strong>
+                        <div>
+                            {this.props.msgItem._id}
+                        </div>
+                        <div>
+                             {this.props.msgItem.auth}
+                        </div>
+                        <div>
+                            {this.props.msgItem.avatarUrl}
+                        </div>
+                        <div>
+                            {this.props.msgItem.content}
+                        </div>
+                        <div>
+                            {this.props.msgItem.date}
+                        </div>
+                    </div> : null}
             </div>
         )
 

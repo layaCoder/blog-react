@@ -13,23 +13,23 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            author:'',
-            msgText:'',
+            author: '',
+            msgText: '',
             msgData: []
         }
     }
-    
-    initBlogList=()=>{
-        let url=APIS.getMsgList.devUrl+'?pageIndex='+1+'&pageSize=10'
-        axios.get(url).then(res=>{
-            console.log('res',res)
-            this.setState({msgData:res.data})
+
+    initMsgList = () => {
+        let url = APIS.getMsgList.devUrl + '?pageIndex=' + 1 + '&pageSize=10'
+        axios.get(url).then(res => {
+            console.log('res', res)
+            this.setState({ msgData: res.data })
         })
     }
 
     componentDidMount() {
         this.initEditor()
-        this.initBlogList()
+        this.initMsgList()
     }
 
     initEditor() {
@@ -136,34 +136,34 @@ export default class Home extends Component {
         editor.create()
     }
 
-    inputAuthor=(e)=>{
-        this.setState({author:e.target.value})
+    inputAuthor = (e) => {
+        this.setState({ author: e.target.value })
     }
-    
-    handleSubmit=()=>{
-         if(!this.state.author||untils.delHtmlTag(this.editor.txt.html()).length<2){
-             alert('author or content can not be null!!!')
-             return
-         }
+
+    handleSubmit = () => {
+        if (!this.state.author || untils.delHtmlTag(this.editor.txt.html()).length < 2) {
+            alert('author or content can not be null!!!')
+            return
+        }
 
         /* 获取文本编辑器value */
-        let htmlStr=this.editor.txt.html() 
-        let postUrl=APIS.saveBoardMsg.devUrl
-        let role=this.state.author==='laya'?0:1
-        let avatarUrl=this.state.author==='laya'?'http://39.105.188.13:2000/images/laya.png':'http://39.105.188.13:2000/images/guest.png'
+        let htmlStr = this.editor.txt.html()
+        let postUrl = APIS.saveBoardMsg.devUrl
+        let role = this.state.author === 'laya' ? 0 : 1
+        let avatarUrl = this.state.author === 'laya' ? 'http://39.105.188.13:2000/images/laya.png' : 'http://39.105.188.13:2000/images/guest.png'
         axios({
-           method:'post',
-           url:postUrl,
-           headers:{
-               'Content-type':'application/json'
-           },
-           data:{
-               author:this.state.author,
-               content:htmlStr,
-               role:role,
-               avatarUrl:avatarUrl
-           }
-        }).then(res=>{
+            method: 'post',
+            url: postUrl,
+            headers: {
+                'Content-type': 'application/json'
+            },
+            data: {
+                author: this.state.author,
+                content: htmlStr,
+                role: role,
+                avatarUrl: avatarUrl
+            }
+        }).then(res => {
             this.editor.txt.html('')//清空编辑器
             this.initBlogList()
         })
@@ -176,8 +176,8 @@ export default class Home extends Component {
                     <h2 className='msgBoard-title'>Message Board</h2>
                 </Row>
                 <Row className='msgBoard-row'>
-                    <MsgBoardItem/>
-                    {this.state.msgData.map(item=>{
+                    <MsgBoardItem />
+                    {this.state.msgData.map(item => {
                         return <MsgBoardItem msgItem={item} />
                     })}
                 </Row>
@@ -187,7 +187,7 @@ export default class Home extends Component {
                             <Avatar src='http://39.105.188.13:2000/images/laya.png'></Avatar>
                         </Col>
                         <Col span={20}>
-                            <Input placeholder='plz input your name' onChange={this.inputAuthor} value={this.state.author}/>
+                            <Input placeholder='plz input your name' onChange={this.inputAuthor} value={this.state.author} />
                         </Col>
                     </Row>
                     <Row>
