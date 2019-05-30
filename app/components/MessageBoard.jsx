@@ -181,6 +181,7 @@ export default class Home extends Component {
                         return <MsgBoardItem msgItem={item} />
                     })}
                 </Row>
+                {/* 文本编辑器，todo：换成 markdown */}
                 <Row className='msgBoard-row'>
                     <Row className='input-name-row'>
                         <Col span={2} offset={1}>
