@@ -3,6 +3,7 @@ import { Tag, Row, Col, Avatar, Tooltip } from 'antd';
 import { withRouter, Link } from 'react-router-dom';
 import moment from 'moment'
 import Item from 'antd/lib/list/Item';
+import * as untils from '../../utils/commUtils';
 require('../../assets/styles/MessageBoard.scss')
 
 
@@ -50,7 +51,6 @@ class MsgBoardItem extends Component {
                         </div> : null}
                 </div> */}
                 <Row>
-                    -------------------
                     {this.props.msgItem ?
                         <Row className='msgBoardItem-row'>
                             <Row>
@@ -61,14 +61,14 @@ class MsgBoardItem extends Component {
                                     {this.props.msgItem.author}
                                 </div>
                                 <div className='msgBoardItem-col'>
-                                    <Tooltip title={moment(this.props.msgItem.date).format('LLLL')}>
+                                    <Tooltip title={moment(this.props.msgItem.date).format('LLLL')} className='dateTip'>
                                         <span>{moment(this.props.msgItem.date).fromNow()}</span>
                                     </Tooltip>
                                 </div>
                             </Row>
                             <Row>
-                                <div>
-                                    {this.props.msgItem.content}
+                                <div className='msgBoardItem-content'>
+                                    {untils.delHtmlTag(this.props.msgItem.content) }
                                 </div>
                             </Row>
                             <Row>

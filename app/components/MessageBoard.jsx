@@ -176,10 +176,9 @@ export default class Home extends Component {
                     <h2 className='msgBoard-title'>Message Board</h2>
                 </Row>
                 <Row className='msgBoard-row'>
-                    <MsgBoardItem />
-                    {this.state.msgData.map(item => {
-                        return <MsgBoardItem msgItem={item} />
-                    })}
+                        {this.state.msgData.map(item => {
+                            return <MsgBoardItem msgItem={item} />
+                        })}
                 </Row>
                 {/* 文本编辑器，todo：换成 markdown */}
                 <Row className='msgBoard-row'>
