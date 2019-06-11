@@ -29,6 +29,7 @@ import AsideMenu from './parts/AsideMenu'
 import logoUrl from '../assets/img/logo2.png'
 
 
+
 require('../assets/styles/Layout.css')
 require('../assets/styles/AntdSelf.scss')
 
@@ -155,6 +156,8 @@ class LayoutComponent extends Component {
         let url = APIS.blogList.devUrl + '?pageIndex=1&pageSize=10'
 
         axios.get(url).then(res => {
+            console.log('blogRes--->', res.data)
+           
 
             this.props.dispatch(initBlogs(res.data, true))
             this.props.dispatch(isShowLoading(false))
@@ -170,6 +173,9 @@ class LayoutComponent extends Component {
         })
 
     }
+
+
+
 
     //初始化myBlog数据
     initMyBlogData = () => {
