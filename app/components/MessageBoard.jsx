@@ -27,7 +27,7 @@ export default class Home extends Component {
         })
     }
 
-    
+
 
 
 
@@ -173,16 +173,33 @@ export default class Home extends Component {
         })
     }
 
+    delMacBookSystem = (macBook) => {
+        delete macBook.system
+        console.log('handle del.....>', macBook)
+        let forSell = macBook.forSell || false
+        console.log('forSell?.....>', forSell)
+    }
+
     render() {
+        let macBook = {
+            size: 13,
+            system: 'macOS',
+            madeIn: 'CN',
+            user: 'Jason',
+        }
         return (
             <div className='msgBoard-div'>
+
                 <Row className='msgBoard-row'>
                     <h2 className='msgBoard-title'>Message Board</h2>
                 </Row>
+                <Row>
+                    <button onClick={this.delMacBookSystem.bind(this, macBook)}>delObjProp</button>
+                </Row>
                 <Row className='msgBoard-row'>
-                        {this.state.msgData.map(item => {
-                            return <MsgBoardItem msgItem={item} />
-                        })}
+                    {this.state.msgData.map(item => {
+                        return <MsgBoardItem msgItem={item} />
+                    })}
                 </Row>
                 {/* 文本编辑器，todo：换成 markdown */}
                 <Row className='msgBoard-row'>
