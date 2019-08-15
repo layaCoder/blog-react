@@ -157,8 +157,6 @@ class LayoutComponent extends Component {
 
         axios.get(url).then(res => {
             console.log('blogRes--->', res.data)
-            console.log('test continuous CI in Azure dev ops')
-
             this.props.dispatch(initBlogs(res.data, true))
             this.props.dispatch(isShowLoading(false))
             if (this.props.store.blogs.length > 0) {
