@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Switch, withRouter } from 'react-router-dom';
-import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress, BackTop } from 'antd';
+import { Layout, Menu, Button, Dropdown, Row, Col, Modal, Input, message, Skeleton, Progress, BackTop, Avatar } from 'antd';
 import { connect } from 'react-redux'
 
 import MyBlog from './MyBlog';
@@ -335,19 +335,19 @@ class LayoutComponent extends Component {
                                         style={{ width: '200px' }}
                                     />
                                 </Col>
-                                <Col span={3} style={{ display: this.state.isLogin == true ? 'none' : '' }}>
+                                <Col span={3} style={{ display: this.state.isLogin === true ? 'none' : '' }}>
                                     <Button type="primary" onClick={this.showModal}>Login</Button>
                                 </Col>
-                                {/* <Col span={2} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
-                            <span className="head-userName" > Hello: {this.state.isLogin === true ? JSON.parse(getLocalStorage('user', 1000 * 60 * 60 * 24)).name : ''}</span>
-                        </Col> */}
-                                <Col span={3} style={{ display: this.state.isLogin == true ? '' : 'none' }}>
+                                <Col span={2} style={{ display: this.state.isLogin === true ? '' : 'none' }}>
                                     {/* <Button type="primary" onClick={this.handleLogOut}>Log out</Button> */}
                                     <Dropdown overlay={menu}>
                                         <a className="ant-dropdown-link" href="#">
                                             <h3 className="head-userName" > Hello: {this.props.store.isLogin.login === true ? this.props.store.isLogin.userName : ''}</h3>
                                         </a>
                                     </Dropdown>
+                                </Col>
+                                <Col span={2} style={{ display: this.state.isLogin ? '' : 'none' }}>
+                                    <Avatar src={this.props.store.isLogin.avatarUrl ? this.props.store.isLogin.avatarUrl : ''} />
                                 </Col>
                             </Row>
                         </Header>
