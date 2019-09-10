@@ -16,9 +16,9 @@ export default {
         //devUrl: 'https://blogsev.serveo.net/get/blogList'
         // devUrl: 'http://39.105.188.13:2000/get/blogList'
     },
-    singleBlogItem:{
-        name:'singleBlogItem',
-        devUrl:'api/get/singleBlogItem'
+    singleBlogItem: {
+        name: 'singleBlogItem',
+        devUrl: 'api/get/singleBlogItem'
     },
     blogListByTag: {
         name: 'blogListByTag',
@@ -105,13 +105,18 @@ export default {
         name: 'getWhatsHot',
         devUrl: 'api/get/whatsHot'
     },
-    saveBoardMsg:{
-        name:'/post/messageBoardData',
-        devUrl:'api/users/post/messageBoardData'
+    saveBoardMsg: {
+        name: '/post/messageBoardData',
+        devUrl: 'api/users/post/messageBoardData'
     },
-    getMsgList:{
-        name:'get/msgList',
-        devUrl:'api/users/get/msgList'
+    getMsgList: {
+        name: 'get/msgList',
+        devUrl: 'api/users/get/msgList'
+    },
+    // 保存 留言板回复
+    saveMsgReply: {
+        name: 'saveMsgReply',
+        devUrl: 'api/users/post/saveMsgReply'
     }
-    
+
 }
