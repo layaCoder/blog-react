@@ -17,6 +17,7 @@ export default class Home extends Component {
             msgText: '',
             msgData: []
         }
+    
     }
 
     initMsgList = () => {
@@ -26,10 +27,6 @@ export default class Home extends Component {
             this.setState({ msgData: res.data })
         })
     }
-
-
-
-
 
     componentDidMount() {
         this.initEditor()
@@ -61,59 +58,14 @@ export default class Home extends Component {
 
 
         editor.customConfig.zIndex = 100
-        editor.customConfig.uploadImgServer = APIS.saveBlogImage.devUrl
-        // 限制一次最多上传 1 张图片
-        editor.customConfig.uploadImgMaxLength = 1
-        // editor.customConfig.uploadFileName = 'yourFileName' //设置文件名
-        editor.customConfig.customUploadImg = function (files, insert) {
-            // files 是 input 中选中的文件列表
-            console.log(files)
-            if (files[0]) {
-                const formData = new window.FormData()
-                formData.append('file', files[0], 'cover.jpg') //将文件传入到fomData中
-                instanceAxios({
-                    method: "post",
-                    url: APIS.saveBlogImage.devUrl,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                        //'Content-type': 'application/x-www-form-urlencoded'
-                        //'Content-type': 'application/json'
-                    },
-                    data: formData,
-                }
-                ).then(res => {
-                    if (res.data[0]) {
-                        insert(res.data[0].imageUrl) //上传服务器后，将url地址返回，插入html片段中
-                    }
-                    else {
-                        console.log(res.data)
-                    }
-                })
-            } else {
-                message.info('plz choose your picture！')
-            }
-        }
+
         editor.customConfig.menus = [
-            'head', // 标题
             'bold', // 粗体
-            'fontSize', // 字号
-            // 'fontName', // 字体
             'italic', // 斜体
             'underline', // 下划线
             'strikeThrough', // 删除线
             'foreColor', // 文字颜色
-            'backColor', // 背景颜色
-            'link', // 插入链接
-            'list', // 列表
-            'justify', // 对齐方式
-            'quote', // 引用
             'emoticon', // 表情
-            'image', // 插入图片
-            // 'table', // 表格
-            // 'video', // 插入视频
-            'code', // 插入代码
-            //'undo', // 撤销
-            // 'redo' // 重复
         ]
         editor.customConfig.lang = {
             '设置标题': 'Title',
@@ -154,7 +106,7 @@ export default class Home extends Component {
         let htmlStr = this.editor.txt.html()
         let postUrl = APIS.saveBoardMsg.devUrl
         let role = this.state.author === 'laya' ? 0 : 1
-        let avatarUrl = this.state.author === 'laya' ? 'http://39.105.188.13:2000/images/laya.png' : 'http://39.105.188.13:2000/images/guest.png'
+        let avatarUrl
         axios({
             method: 'post',
             url: postUrl,
@@ -169,7 +121,7 @@ export default class Home extends Component {
             }
         }).then(res => {
             this.editor.txt.html('')//清空编辑器
-            this.initBlogList()
+            this.initMsgList()
         })
     }
 
@@ -177,11 +129,10 @@ export default class Home extends Component {
         
         return (
             <div className='msgBoard-div'>
-
                 <Row className='msgBoard-row'>
                     <h2 className='msgBoard-title'>Message Board</h2>
                 </Row>
-               
+
                 <Row className='msgBoard-row'>
                     {this.state.msgData.map(item => {
                         return <MsgBoardItem msgItem={item} />
@@ -191,7 +142,7 @@ export default class Home extends Component {
                 <Row className='msgBoard-row'>
                     <Row className='input-name-row'>
                         <Col span={2} offset={1}>
-                            <Avatar src='http://39.105.188.13:2000/images/laya.png'></Avatar>
+                            {/* <Avatar src='http://39.105.188.13:2000/images/laya.png'></Avatar> */}
                         </Col>
                         <Col span={20}>
                             <Input placeholder='plz input your name' onChange={this.inputAuthor} value={this.state.author} />

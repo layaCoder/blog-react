@@ -21,18 +21,30 @@
         margin-top: 10px;
         float: right;
     }
+
 }
 
 .msgBoardItem-col{
     display: inline;
-    margin-right: 10px;
+    margin-right: 5%;
     .dateTip{
         color:#9b9b9ba2
+    };
+    strong{
+        color: #888;
+        font-size: 1rem;
     }
+}
+
+.msgBoardItem-reply-btn{
+    font-size: 0.6;
+    color: #888;
+    cursor: pointer;
 }
 
 .msgBoardItem-content{
     margin-left: 5%;
+    margin-top: 2%;
     padding: 2%;
     background:#f3f3f3;
     border-radius: 5px;
