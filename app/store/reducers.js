@@ -50,50 +50,21 @@ function blogs(state = [], action) {
                 }
                 else {
                     resState.push(
-                        // Object.assign({}, item, { likes: [...item.likes, action.name] }) 
                         { ...item, likes: [...item.likes, action.name] } // es6 扩展运算符写法
-                        // {
-                        //     id: item.id,
-                        //     title: item.title,
-                        //     text: item.text,
-                        //     htmlDom: item.htmlDom,
-                        //     user: item.user,
-                        //     avatarUrl: item.avatarUrl,
-                        //     date: item.date,
-                        //     tags: item.tags,
-                        //     likes: [...item.likes, action.name],
-                        //     replys: item.replys,
-                        //     tags: item.diyTags,
-                        //     diyTags: item.diyTags
-                        // }
                     )
                 }
             })
             return resState
-
+        //TODO： [LIKE_BLOG] & [SAVE_REPLY] change code like this
         case DISSLIKE_BLOG:
-            let resDissState = []
-            state.map(item => {
-                if (item.id !== action.blogId) {
-                    resDissState.push(item)
-                }
-                else {
-                    resDissState.push({
-                        id: item.id,
-                        title: item.title,
-                        text: item.text,
-                        htmlDom: item.htmlDom,
-                        user: item.user,
-                        avatarUrl: item.avatarUrl,
-                        date: item.date,
-                        tags: item.tags,
-                        likes: item.likes.filter(item => item !== action.name),
-                        replys: item.replys,
-                        diyTags: item.diyTags
-                    })
+            state.forEach(item => {
+                if (item.id === action.blogId) {
+                    let likesArray = item.likes.filter(userName => userName !== action.name)
+                    item.likes = likesArray
                 }
             })
-            return resDissState
+            return state
+
         case SAVE_REPLY:
             let resReplyState = []
             state.map(item => {
@@ -101,20 +72,6 @@ function blogs(state = [], action) {
                     resReplyState.push(item)
                 }
                 else {
-                    // let newItem = {
-                    //     id: item.id,
-                    //     title: item.title,
-                    //     text: item.text,
-                    //     htmlDom: item.htmlDom,
-                    //     user: item.user,
-                    //     avatarUrl: item.avatarUrl,
-                    //     date: item.date,
-                    //     tags: item.tags,
-                    //     likes: item.likes,
-                    //     replys: [...item.replys, { id: action.blogId, replayText: action.replayText, name: action.user, avatarUrl: action.avatarUrl }]
-                    // }
-
-                    //使用 OBject.assign()写法，改变对象属性
                     let newItem = Object.assign({}, item, { replys: [...item.replys, { id: action.id, blogId: action.blogId, replyText: action.replyText, user: action.user, avatarUrl: action.avatarUrl }] })
                     resReplyState.push(newItem)
                 }
