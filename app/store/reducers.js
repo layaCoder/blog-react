@@ -42,20 +42,12 @@ function blogs(state = [], action) {
             })
             return state
         case LIKE_BLOG:
-            let resState = []
-            // issue 是否有简便写法?
-            state.map(item => {
-                if (item.id !== action.blogId) {
-                    resState.push(item)
-                }
-                else {
-                    resState.push(
-                        { ...item, likes: [...item.likes, action.name] } // es6 扩展运算符写法
-                    )
+            state.forEach(item => {
+                if (item.id === action.blogId) {
+                    item.likes = [...item.likes, action.name]
                 }
             })
-            return resState
-        //TODO： [LIKE_BLOG] & [SAVE_REPLY] change code like this
+            return state
         case DISSLIKE_BLOG:
             state.forEach(item => {
                 if (item.id === action.blogId) {
@@ -64,7 +56,7 @@ function blogs(state = [], action) {
                 }
             })
             return state
-
+        // TODO: update code style like [like & disslike]
         case SAVE_REPLY:
             let resReplyState = []
             state.map(item => {
