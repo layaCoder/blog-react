@@ -56,19 +56,19 @@ function blogs(state = [], action) {
                 }
             })
             return state
-        // TODO: update code style like [like & disslike]
+        // TODO: Detail页面因为每次进入重新请求数据，所以redux dispath方法暂时没有启用
+        //       后续需要求改为 回复保存及更新显示，不需要f5刷新
         case SAVE_REPLY:
-            let resReplyState = []
-            state.map(item => {
-                if (item.id !== action.blogId) {
-                    resReplyState.push(item)
-                }
-                else {
-                    let newItem = Object.assign({}, item, { replys: [...item.replys, { id: action.id, blogId: action.blogId, replyText: action.replyText, user: action.user, avatarUrl: action.avatarUrl }] })
-                    resReplyState.push(newItem)
+            state.forEach(item => {
+                if (item.id === action.blogId) {
+                    console.log('111')
+                    let newItem = Object.assign({},
+                        item,
+                        { replys: [...item.replys, { id: action.id, blogId: action.blogId, replyText: action.replyText, user: action.user, avatarUrl: action.avatarUrl }] })
+                    item = newItem
                 }
             })
-            return resReplyState
+            return state
         default: return state
     }
 }
