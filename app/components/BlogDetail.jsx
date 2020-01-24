@@ -3,7 +3,6 @@ todo: hightlight.js 后续改进
 参考issuehttps://github.com/highlightjs/highlight.js/issues/925
 */
 
-
 import React, { Component } from 'react'
 import { Button, Row, Col, Icon, Divider, Comment, Tooltip, Avatar, Form, Input, message, Skeleton, Popover } from 'antd';
 import moment from 'moment';
@@ -14,23 +13,18 @@ import { saveReply } from '../store/actions'
 import { get_uuid } from '../utils/commUtils'
 import hljs from "highlight.js";
 import shareImg from '../assets/img/share.png'
-
 import QRCode from 'qrcode.react';
-
-
 require('../assets/styles/BlogDetail.scss')
 const TextArea = Input.TextArea;
-
 
 hljs.configure({
     classPrefix: 'hljs-',
     languages: ['CSS', 'HTML', 'XML', 'JavaScript', 'Stylus', 'TypeScript',]
 })
 
-
 class BlogDetail extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             blogId: '',
             date: '',
@@ -40,8 +34,10 @@ class BlogDetail extends Component {
             replys: [],
             isLoading: false,
             lodingHtmlDom: true,
+            url: APIS.singleBlogItem.devUrl + '?blogId=' + props.match.params.id
         }
     }
+
     //获取blgoDetail数据
     getDetailData = (apiUrl) => {
         axios.get(apiUrl).then(res => {
@@ -58,20 +54,16 @@ class BlogDetail extends Component {
 
     componentDidMount() {
         this.updateCodeSyntaxHighlighting()
-        let url = APIS.singleBlogItem.devUrl + '?blogId=' + this.props.match.params.id
-        this.getDetailData(url)
+        this.getDetailData(this.state.url)
     }
 
 
     /* 处理路由id参数改变component不更新的问题 */
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            let url = APIS.singleBlogItem.devUrl + '?blogId=' + nextProps.match.params.id
-            this.getDetailData(url)
+            this.getDetailData(this.state.url);
         }
     }
-
-
 
     componentDidUpdate() {
         this.updateCodeSyntaxHighlighting();
@@ -121,7 +113,8 @@ class BlogDetail extends Component {
             }
         }).then(res => {
             //添加到store中的BlogList
-            this.props.dispatch(saveReply(replyId, this.props.match.params.id, this.state.replyText, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl))
+            this.props.dispatch(saveReply(replyId, this.props.match.params.id, this.state.replyText, this.props.store.isLogin.userName, this.props.store.isLogin.avatarUrl));
+            this.getDetailData(this.state.url);
             this.setState({ replyText: '' });
         }).catch(err => {
             console.log(err)
@@ -148,7 +141,7 @@ class BlogDetail extends Component {
                                     </div>
                                 } trigger="click">
                                     {/* <span>-></span> */}
-                                   <img src={shareImg} style={{ width: '15px', height: '15px', cursor: 'pointer' }}/>
+                                    <img src={shareImg} style={{ width: '15px', height: '15px', cursor: 'pointer' }} />
                                 </Popover>
 
                             </Col>
@@ -239,4 +232,4 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(BlogDetail); <QRCode value="https://www.cnblogs.com/dreambin/" />
+export default connect(mapStateToProps)(BlogDetail);

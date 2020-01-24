@@ -61,7 +61,6 @@ function blogs(state = [], action) {
         case SAVE_REPLY:
             state.forEach(item => {
                 if (item.id === action.blogId) {
-                    console.log('111')
                     let newItem = Object.assign({},
                         item,
                         { replys: [...item.replys, { id: action.id, blogId: action.blogId, replyText: action.replyText, user: action.user, avatarUrl: action.avatarUrl }] })
