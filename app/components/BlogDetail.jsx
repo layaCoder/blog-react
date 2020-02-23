@@ -60,8 +60,10 @@ class BlogDetail extends Component {
 
     /* 处理路由id参数改变component不更新的问题 */
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps, 63);
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.getDetailData(this.state.url);
+            let nextUrl = APIS.singleBlogItem.devUrl + '?blogId=' + nextProps.match.params.id;
+            this.getDetailData(nextUrl);
         }
     }
 
