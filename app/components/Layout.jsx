@@ -297,7 +297,7 @@ class LayoutComponent extends Component {
                 <AsideMenu showAside={this.state.showAside} toggleAside={this.showAside} onClick={this.hideCover} />
                 <div className={this.state.showAside ? "mobile-aside-wrap" : ""} onClick={this.hideCover}>
                     <Layout className="layout">
-                        <Header>
+                        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                             <Row>
                                 <Col span={1}>
                                     {/* <Button type="primary" onClick={this.showAside} style={{ marginBottom: 16, width: "50px" }} ><Icon type='menu-unfold' /></Button> */}
