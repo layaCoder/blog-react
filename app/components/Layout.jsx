@@ -297,7 +297,7 @@ class LayoutComponent extends Component {
                 <AsideMenu showAside={this.state.showAside} toggleAside={this.showAside} onClick={this.hideCover} />
                 <div className={this.state.showAside ? "mobile-aside-wrap" : ""} onClick={this.hideCover}>
                     <Layout className="layout">
-                        <Header>
+                        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                             <Row>
                                 <Col span={1}>
                                     {/* <Button type="primary" onClick={this.showAside} style={{ marginBottom: 16, width: "50px" }} ><Icon type='menu-unfold' /></Button> */}
@@ -353,7 +353,7 @@ class LayoutComponent extends Component {
                         </Header>
                         {/* 进度条 */}
                         {this.state.ProgressPercent === 100 ? null : <Progress percent={this.state.ProgressPercent} status="active" showInfo={false} type="line" strokeWidth={5} style={{ marginTop: '-10px', marginBottom: '-5px' }} strokeColor="#63B8FF" />}
-                        <Row>
+                        <Row style={{ marginTop: '60px' }}>
                             <Col span={this.state.isPc ? 12 : 22} offset={this.state.isPc ? 3 : 1}>
                                 <Content>
                                     {/* <BreadcrumbCusstom /> */}
