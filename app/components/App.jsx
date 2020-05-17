@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BlogAll from './BlogAll';
 import Layout from './Layout';
+import NotFound from './parts/NotFound';
 import { connect } from 'react-redux'
 
 
@@ -30,6 +31,8 @@ class CRouter extends Component {
                                 {/* <Route path='/' component={Layout}  /> */}
                                 < Route exact path="/" render={() => <Redirect to={{ pathname: "/app/blogall" }} />} />
                                 <Route path='/BlogAll' component={BlogAll} />
+                                <Route path="/404" component={NotFound}></Route>
+                                <Redirect to ="/404"></Redirect>
                             </Switch>
                         )
                     }} />
