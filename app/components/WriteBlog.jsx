@@ -199,7 +199,8 @@ class WriteBlog extends Component {
             method: "post",
             url: postUrl,
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + user.token
             },
             data: {
                 title: this.state.title,
