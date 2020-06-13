@@ -307,9 +307,9 @@ class WriteBlog extends Component {
                     <Row className="row">
                         <Input addonBefore="Title:" value={this.state.title} onChange={this.titleChanged} placeholder='plz write your blog title' />
                     </Row>
-                    <Row className="row">
+                    <Row className="row" style={{zIndex:'0'}}>
                         <div>
-                            <div ref="editorMenu" style={{ backgroundColor: '#FAFAFA', border: 'solid 1px #d9d9d9', borderRadius: '5px 5px 0px 0px' }}></div>
+                            <div ref="editorMenu" style={{ backgroundColor: '#FAFAFA', border: 'solid 1px #d9d9d9', borderRadius: '5px 5px 0px 0px',flexWrap:'wrap'}}></div>
                         </div>
                         <div style={{ border: '#d9d9d9 solid 1px', borderTop: '0px', borderRadius: '0px 0px 5px 5px' }}>
                             <div ref='editorElem' style={{ textAlign: 'left', height: '400px', maxHeight: '500px' }} />

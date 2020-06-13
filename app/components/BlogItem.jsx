@@ -221,7 +221,7 @@ class BlogItem extends Component {
         console.log(this.state.replyText)
     }
 
-   handleLink = () => {
+    handleLink = () => {
         this.props.history.push({
             pathname: '/app/blogall/blogdetail/' + this.state.item.id,
             state: { type: this.props.type, htmlDom: this.state.item.htmlDom }
@@ -234,7 +234,7 @@ class BlogItem extends Component {
         // let win = window.open('/app/blogall/blogdetail/', '_blank');
         // win.focus();
 
-    } 
+    }
 
 
 
@@ -273,7 +273,7 @@ class BlogItem extends Component {
                                 content={(
                                     <div className="commentItem">
                                         {/* diyTags */}
-                                        {this.state.item.diyTags.map(item => {
+                                        {this.state.item.diyTags && this.state.item.diyTags.map(item => {
                                             return <div className='article-tag' >
                                                 <div className='tag-ele'>
                                                     {item}
@@ -288,7 +288,7 @@ class BlogItem extends Component {
                                         <div className="blogText">{this.state.item.text}</div>
                                         {/* tags */}
                                         <div className="blogitem-tags-bar">
-                                            {this.state.item.tags.map(item => {
+                                            {this.state.item.tags && this.state.item.tags.map(item => {
                                                 return <div key={item} style={{ marginRight: '5px', display: 'inline' }} onClick={this.initTagBlog.bind(this, item)}><BlogTag tag={item} /> </div>
                                             })}
                                         </div>
