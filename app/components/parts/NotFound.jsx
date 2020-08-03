@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import html from '../../assets/404/404'
 
 export default class NotFound extends Component {
     componentDidMount() {
     }
 
     render() {
+        const notFoundPage = html
         return (
             <div>
-             <h1>404 not found</h1>               
+             <div dangerouslySetInnerHTML={{ __html: notFoundPage }}></div>             
             </div>
         )
     }
