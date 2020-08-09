@@ -304,7 +304,7 @@ class WriteBlog extends Component {
                     <h2 style={{ textAlign: 'center' }}>Write Blog</h2>
                 </Row>
                 <div>
-                    <Row className="row">
+                    <Row className="row" style={{zIndex:'0'}}>
                         <Input addonBefore="Title:" value={this.state.title} onChange={this.titleChanged} placeholder='plz write your blog title' />
                     </Row>
                     <Row className="row" style={{zIndex:'0'}}>

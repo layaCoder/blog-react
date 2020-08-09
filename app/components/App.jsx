@@ -30,7 +30,7 @@ class CRouter extends Component {
                                 <Route path='/app' component={Layout} />
                                 {/* <Route path='/' component={Layout}  /> */}
                                 < Route exact path="/" render={() => <Redirect to={{ pathname: "/app/blogall" }} />} />
-                                <Route path='/BlogAll' component={BlogAll} />
+                                {/* <Route path='/BlogAll' component={BlogAll} /> */}
                                 <Route path="/404" component={NotFound}></Route>
                                 <Redirect to ="/404"></Redirect>
                             </Switch>

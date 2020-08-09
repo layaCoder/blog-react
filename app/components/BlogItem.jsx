@@ -302,7 +302,7 @@ class BlogItem extends Component {
                             />
                         </Col>
                         <Col span={this.state.hasImage === true ? "5" : "0"}>
-                            <div className="div">
+                            <div className="image">
                                 {this.state.hasImage === true ? <img src={this.state.firstImgUrl} /> : null}
                             </div>
                         </Col>
