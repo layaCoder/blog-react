@@ -41,7 +41,7 @@ class BlogItem extends Component {
         let imgStr = this.state.item.htmlDom
         if (imgStr.match(/<img src="(\S*)"/)) {
             this.setState({ hasImage: true })
-            this.setState({ firstImgUrl: this.state.item.htmlDom.match(/src=(\S*)"/)[1].replace("\"", '') }) //去掉双引号
+            this.setState({ firstImgUrl: this.state.item.htmlDom.match(/src=(\S*)"/)[1].replace("\"", '').replace(".jpg","-copy.jpg") }) //去掉双引号
         }
         if (this.props.location.pathname.includes('myblog')) {
             this.setState({ type: 'myblog' })
@@ -236,6 +236,10 @@ class BlogItem extends Component {
 
     }
 
+    imgNotFound=()=>{
+      let url = this.state.firstImgUrl.replace("-copy","")
+      this.setState({firstImgUrl:url})
+    }
 
 
     render() {
@@ -302,7 +306,7 @@ class BlogItem extends Component {
                             />
                         </Col>
                         <Col span={this.state.hasImage === true ? "5" : "0"}>
-                            <div className="image">
+                            <div className="image" onError={this.imgNotFound}>
                                 {this.state.hasImage === true ? <img src={this.state.firstImgUrl} /> : null}
                             </div>
                         </Col>
