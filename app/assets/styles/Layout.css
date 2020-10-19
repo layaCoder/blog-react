@@ -1,29 +1,35 @@
-.head-userName{
-    color: #ffffff !important
+.head-userName {
+  color: #ffffff !important;
 }
 
 /* layout遮罩层，pointer-evernts表示页面是否相应事件 */
-.mobile-aside-wrap{
-    position:fixed;
-    left:0%;
-    top:0;
-    opacity:.3;
-    width:100%;
-    height:100%;
-    background:#000;
-    z-index:998;
-    /* pointer-events: none; */
+.mobile-aside-wrap {
+  position: fixed;
+  left: 0%;
+  top: 0;
+  opacity: 0.3;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 998;
+  /* pointer-events: none; */
 }
-.backToTopDiv{
- position: fixed;
- right: 40px;
- bottom:30px;
+.backToTopDiv {
+  position: fixed;
+  right: 40px;
+  bottom: 30px;
+}
+
+.rightMenu {
+  position: fixed;
+  /* top: 8.5%; */
+  right: 8.4%;
 }
 
 /* 移动端字体放大 */
 /* 当屏幕小于或等于375px时，启用一下样式 */
 @media screen and (max-width: 375px) {
-    .backToTopDiv{
-              display: none;
-          }
-      }
+  .backToTopDiv {
+    display: none;
+  }
+}
