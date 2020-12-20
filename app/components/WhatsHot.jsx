@@ -31,15 +31,15 @@ class WhatsHot extends Component {
     render() {
         return (
             <div className='whats-hot-wrapper'>
-                <h2 className='hots-title'>what's hot</h2>
+                <h2 className='hots-title'>What's Hot</h2>
                 <ul>
                     {this.state.data.map(item => {
                         return <li>
-                            <div href='#' onClick={this.handleLink.bind(this,item)}>
-                             <i className='hots-tag'>#</i>
-                             <span>{item.title}</span>
+                            <div href='#' onClick={this.handleLink.bind(this, item)}>
+                                <i className='hots-tag'>#</i>
+                                <span>{item.title}</span>
                             </div>
-                           
+
                         </li>
                     })}
                 </ul>
