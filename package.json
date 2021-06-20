@@ -48,7 +48,7 @@
     "babel-runtime": "^6.26.0",
     "draft-js": "^0.10.5",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "highlight.js": "^9.15.6",
+    "highlight.js": "^10.4.1",
     "qrcode.react": "^0.9.3",
     "rc-tween-one": "^2.3.4",
     "react": "^16.6.3",
