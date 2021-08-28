@@ -1,15 +1,12 @@
-
-
-
-.ant-comment-actions{
-    padding-left: 0px;
-    margin: 0px;
-    margin-top: 0px !important;
+.ant-comment-actions {
+  padding-left: 0px;
+  margin: 0px;
+  margin-top: 0px !important;
 }
-#delBtn{
-    float: right;
-     display: none;
-    cursor: pointer;
+#delBtn {
+  float: right;
+  display: none;
+  cursor: pointer;
 }
 
 /*
@@ -17,167 +14,159 @@
 参考文档:https://blog.csdn.net/qingzhizhenhun/article/details/79639740
 */
 
-.wapper:hover #delBtn{display: inline;}
-
-
-.tags{
-    margin-right: 10px;
+.wapper:hover #delBtn {
+  display: inline;
 }
 
-.blogTitle{
-    margin:0px;
-    margin-bottom: 5px;
-    margin-right: 20px;
-    // color:#1890ff;
-    color:#666;
-    font-size: 1.3rem;
-    cursor: pointer;
+.tags {
+  margin-right: 10px;
 }
 
-.blogText{
-    font-size: 0.9rem;
-    color: #999;
-    margin-top:10px;
-    margin-bottom: 10px;
+.blogTitle {
+  margin: 0px;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  color: #666;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
-.ant-comment-content-detail{
-    color: #999;
-    font-size: 0.8rem;
+.blogText {
+  font-size: 0.9rem;
+  color: #999;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.delWarning{
-    font-size: 1rem;
-    color: #888;
+.ant-comment-content-detail {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.delWarning {
+  font-size: 1rem;
+  color: #888;
 }
 // 图片截取显示
 // 参考: https://blog.csdn.net/xd_yangxiaoromg/article/details/81030880
-.image{
-    width:100%;
-    height:0px;
-    margin-top: 10%;
-    padding-bottom:100%;
-    position:relative;
-    overflow:hidden;
+.image {
+  width: 100%;
+  height: 0px;
+  margin-top: 10%;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.image img{
-        width:100px;
-        height:100px;
-        position:absolute;
-        border-radius: 5px;
-        top:20px;
-        left: 20px;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        object-fit: cover;
+.image img {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border-radius: 5px;
+  top: 20px;
+  left: 20px;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  object-fit: cover;
 }
 
-.blogitem-tags-bar{
-    margin-bottom: 10px;
+.blogitem-tags-bar {
+  margin-bottom: 10px;
 }
 
-
-#sample{
-    width:100px;
-    height:100px;
-    overflow:hidden;
-    position: relative;
-    border-radius: 5px;
+#sample {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
 }
 // 裁剪图片：参考https://www.cnblogs.com/bushe/p/4518446.html
 
-.tag-wrap{
-    margin: 0;
-    padding:0;
-    position: relative;  //这句很重要，因为小三角是相对父元素#container来绝对定位的
-        width: 50px;
-        height: 20px;
-        border:1px solid lightblue;
-        // padding:5px 10px;
-        width: 10%;
-        // margin: 200px auto;
-          padding: 20px;
+.tag-wrap {
+  margin: 0;
+  padding: 0;
+  position: relative; //这句很重要，因为小三角是相对父元素#container来绝对定位的
+  width: 50px;
+  height: 20px;
+  border: 1px solid lightblue;
+  width: 10%;
+  padding: 20px;
 }
 
-
-
-
-.tag-ele{
-    position: relative;
-    padding-right: 5px;
-    color: #fff;
-    font-style: italic;
-    font-size: 0.8rem;
-    &:after{
-        content: '';
-        width: 1px;
-        height: 10px;
-        position: absolute;
-        display: block;
-        background: #fff;
-        right: 1px;
-        top: 6px;
+.tag-ele {
+  position: relative;
+  padding-right: 5px;
+  color: #fff;
+  font-style: italic;
+  font-size: 0.8rem;
+  &:after {
+    content: "";
+    width: 1px;
+    height: 10px;
+    position: absolute;
+    display: block;
+    background: #fff;
+    right: 1px;
+    top: 6px;
+  }
+  &:last-child {
+    padding-right: 0;
+    &:after {
+      content: none;
     }
-    &:last-child{
-        padding-right: 0;
-        &:after{
-            content: none;
-        }
-    }
+  }
 }
 
-
-.article-tag{
-    display:inline-block;
-    background: #85aaef;
-    padding: 0  10px 0 5px;
-    height: 24px;
-    font-size: 12px;
-    line-height: 24px;
-    color: #5a5353;
-    -webkit-border-radius: 2px;
-       -moz-border-radius: 2px;
-            border-radius: 2px;
-    position: relative;
-    margin-right: 20px;
-    &:before {
-        content:'';
-        width: 0px;
-        height: 0px;
-        border-top-width: 6px;
-        border-top-style: solid;
-        border-top-color:transparent;
-        border-left-width: 6px;
-        border-left-style: solid;
-        border-left-color: #85aaef;
-        border-bottom-width: 6px;
-        border-bottom-style: solid;
-        border-bottom-color:transparent;
-        // border-right-width: 6px;
-        // border-right-style: solid;
-        // border-right-color: #85aaef;
-        margin: 0px;
-        padding: 0px;
-        position: absolute;
-        right: -6px;
-        // left: -10px;
-        top: 6px;
-    }
-    
+.article-tag {
+  display: inline-block;
+  background: #85aaef;
+  padding: 0 10px 0 5px;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  color: #5a5353;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  position: relative;
+  margin-right: 20px;
+  &:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    border-top-width: 6px;
+    border-top-style: solid;
+    border-top-color: transparent;
+    border-left-width: 6px;
+    border-left-style: solid;
+    border-left-color: #85aaef;
+    border-bottom-width: 6px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    // border-right-width: 6px;
+    // border-right-style: solid;
+    // border-right-color: #85aaef;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    right: -6px;
+    // left: -10px;
+    top: 6px;
+  }
 }
 
 /* 移动端字体放大 */
 /* 当屏幕小于或等于375px时，启用一下样式 */
 @media screen and (max-width: 375px) {
-    .tag-ele{
-        font-size: 1.3rem;
-    }   
-    .blogTitle{
-       font-size: 1.8rem;
-    }
-    .blogText{
-        font-size: 1.4rem;
-    }
+  .tag-ele {
+    font-size: 1.3rem;
   }
+  .blogTitle {
+    font-size: 1.8rem;
+  }
+  .blogText {
+    font-size: 1.4rem;
+  }
+}
