@@ -9,11 +9,6 @@
   cursor: pointer;
 }
 
-/*
-父节点hover,子节点display （如果不是父子关系需要使用css预处理器，less/sass）
-参考文档:https://blog.csdn.net/qingzhizhenhun/article/details/79639740
-*/
-
 .wapper:hover #delBtn {
   display: inline;
 }
@@ -149,7 +144,6 @@
     padding: 0px;
     position: absolute;
     right: -6px;
-    // left: -10px;
     top: 6px;
   }
 }
