@@ -43,6 +43,7 @@
     "webpack-merge": "^4.1.5"
   },
   "dependencies": {
+    "@uiw/react-md-editor": "^3.17.2",
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -56,8 +57,7 @@
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "wangeditor": "^3.1.1"
+    "redux-thunk": "^2.3.0"
   },
   "proxy": {
     "/api": {

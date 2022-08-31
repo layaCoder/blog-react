@@ -438,7 +438,9 @@ class LayoutComponent extends Component {
                     style={{
                       background: "#fff",
                       margin: "45px 0px",
+                      marginBottom: "0px",
                       padding: "24px",
+                      paddingBottom: "0px",
                       minHeight: "280px",
                     }}
                   >
