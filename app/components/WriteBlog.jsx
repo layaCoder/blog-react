@@ -10,10 +10,8 @@ import { connect } from "react-redux";
 import { addBlog, userLogout } from "../store/actions";
 import { Row, Input, message, Button, Tag, Col, Icon } from "antd";
 import "antd/dist/antd.css";
-import emojiPack from "../api/emojiUrl";
 
 import * as untils from "../utils/commUtils.js";
-import E from "wangeditor";
 import { getLocalStorage } from "../utils/commUtils";
 import { TweenOneGroup } from "rc-tween-one";
 import MDEditor from "@uiw/react-md-editor";
@@ -22,6 +20,8 @@ import axios from "axios";
 import APIS from "../api/index";
 
 require("../assets/styles/WriteBlog.css");
+let showdown = require("showdown");
+let converter = new showdown.Converter();
 
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = [
@@ -71,11 +71,6 @@ class WriteBlog extends Component {
   }
 
   componentDidUpdate() {}
-  onEditorStateChange(data) {
-    this.setState({
-      editorState: data,
-    });
-  }
 
   titleChanged = (e) => {
     e.persist(); //解决 antd input 组件 value与state绑定取不到值的问题 ###important###
@@ -86,17 +81,19 @@ class WriteBlog extends Component {
 
   //提交博客
   handleSubmit() {
-    let markDownText = this.editor.txt.html();
+    const { markDownValue = "" } = this.state;
     //记录下原始文本，在blogAll列表中显示
     //todo:修改redux state结构 ，确定blog数据格式
     let user = JSON.parse(untils.getLocalStorage("user", 1000 * 60 * 60 * 24));
     console.log("userInfo", user.name, user.avatar);
-    if (untils.delHtmlTag(markDownText).length < 2 || !this.state.title) {
-      // 博客内容部分用长度判断，issue：为什么 !untils.deHtmlTag(markDownText)无法实现
-      message.warning("title or content can not be null");
-      return;
-    }
+    // if (untils.delHtmlTag(markDownText).length < 2 || !this.state.title) {
+    //   // 博客内容部分用长度判断，issue：为什么 !untils.deHtmlTag(markDownText)无法实现
+    //   message.warning("title or content can not be null");
+    //   return;
+    // }
     let postUrl = APIS.saveBlog.devUrl;
+    let htmlValue = converter.makeHtml(markDownValue);
+    console.log(htmlValue, 1000);
     axios({
       method: "post",
       url: postUrl,
@@ -106,8 +103,9 @@ class WriteBlog extends Component {
       },
       data: {
         title: this.state.title,
-        text: untils.delHtmlTag(markDownText),
-        htmlDom: markDownText,
+        markdownSource: htmlValue,
+        text: untils.delHtmlTag(htmlValue),
+        htmlDom: htmlValue,
         user: user.name,
         avatarUrl: user.avatar,
         tags: this.state.selectedTags,
@@ -121,8 +119,8 @@ class WriteBlog extends Component {
           addBlog(
             res.data.insertedId,
             this.state.title,
-            untils.delHtmlTag(markDownText),
-            markDownText,
+            untils.delHtmlTag(htmlValue),
+            htmlValue,
             user.name,
             user.avatar,
             this.state.selectedTags
@@ -132,7 +130,9 @@ class WriteBlog extends Component {
           title: "",
           selectedTags: [],
         });
-        this.editor.txt.html(""); //清空textArea
+        // this.editor.txt.html(""); //清空textArea
+        this.setState({ markDownValue: "" });
+
         message.success("blog saved", 3);
         //////////////////////////
       })

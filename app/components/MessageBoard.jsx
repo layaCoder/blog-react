@@ -5,7 +5,6 @@ import APIS from "../api/index";
 require("../assets/styles/MessageBoard.scss");
 import emojiPack from "../api/emojiUrl";
 import * as untils from "../utils/commUtils.js";
-import E from "wangeditor";
 
 import MsgBoardItem from "./parts/MsgBoardItem";
 
@@ -27,159 +26,13 @@ export default class Home extends Component {
     });
   };
 
-  componentDidMount() {
-    this.initEditor();
-    this.initMsgList();
-  }
-
-  initEditor() {
-    const toolBar = this.refs.editorMenu;
-    const elem = this.refs.editorElem;
-    const editor = new E(toolBar, elem);
-
-    this.editor = editor;
-    editor.customConfig.emotions = [
-      {
-        // tab 的标题
-        title: "emoji",
-        // type -> 'emoji' / 'image'
-        type: "emoji",
-        // content -> 数组
-        content: [
-          "😀",
-          "😁",
-          "😂",
-          "🤣",
-          "😃",
-          "😄",
-          "😅",
-          "😆",
-          "😉",
-          "😊",
-          "😋",
-          "😎",
-          "😍",
-          "😘",
-          "😗",
-          "",
-          "😚",
-          "🙂",
-          "🤗",
-          "🤔",
-          "😐",
-          "😑",
-          "😶",
-          "🙄",
-          "😏",
-          "😣",
-          "😥",
-          "😮",
-          "🤐",
-          "😯",
-          "😪",
-          "",
-          "😴",
-          "😌",
-          "😛",
-          "😜",
-          "😝",
-          "🤤",
-          "😒",
-          "🤓",
-          "😈",
-          "👿",
-          "👹",
-          "👺",
-          "💀",
-          "👻",
-          "👽",
-          "🤖",
-          "💩",
-          "😺",
-          "😸",
-          "😹",
-          "😻",
-          "😼",
-          "😽",
-          "🙀",
-          "😿",
-          "😾",
-        ],
-      },
-      //从api地址加载表情包
-      emojiPack,
-    ];
-
-    editor.customConfig.zIndex = 100;
-
-    editor.customConfig.menus = [
-      "bold", // 粗体
-      "italic", // 斜体
-      "underline", // 下划线
-      "strikeThrough", // 删除线
-      "foreColor", // 文字颜色
-      "emoticon", // 表情
-    ];
-    editor.customConfig.lang = {
-      设置标题: "Title",
-      字号: "Size",
-      文字颜色: "Color",
-      设置列表: "List",
-      有序列表: "",
-      无序列表: "",
-      对齐方式: "Align",
-      靠左: "",
-      居中: "",
-      靠右: "",
-      正文: "p",
-      链接文字: "link text",
-      链接: "link",
-      上传图片: "Upload",
-      网络图片: "Web",
-      图片link: "image url",
-      插入视频: "Video",
-      格式如: "format",
-      上传: "Upload",
-      创建: "init",
-    };
-    editor.create();
-  }
+  componentDidMount() {}
 
   inputAuthor = (e) => {
     this.setState({ author: e.target.value });
   };
 
-  handleSubmit = () => {
-    if (
-      !this.state.author ||
-      untils.delHtmlTag(this.editor.txt.html()).length < 2
-    ) {
-      alert("author or content can not be null!!!");
-      return;
-    }
-
-    /* 获取文本编辑器value */
-    let htmlStr = this.editor.txt.html();
-    let postUrl = APIS.saveBoardMsg.devUrl;
-    let role = this.state.author === "laya" ? 0 : 1;
-    let avatarUrl;
-    axios({
-      method: "post",
-      url: postUrl,
-      headers: {
-        "Content-type": "application/json",
-      },
-      data: {
-        author: this.state.author,
-        content: htmlStr,
-        role: role,
-        avatarUrl: avatarUrl,
-      },
-    }).then((res) => {
-      this.editor.txt.html(""); //清空编辑器
-      this.initMsgList();
-    });
-  };
+  handleSubmit = () => {};
 
   render() {
     return (
