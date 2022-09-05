@@ -1,14 +1,13 @@
-/*第二版
-//使用 wangeEditor 控件
-// wangEidtor GitHub:https://github.com/wangfupeng1988/wangEditor
-// wangEditor使用参考：https://blog.csdn.net/Loya0813/article/details/84391944
+/* 第三版
+// 使用 uiwjs/react-md-editor 控件
+// GitHub:https://github.com/uiwjs/react-md-editor
 // nodejs接收图片参考:https://blog.csdn.net/zhongshijun521/article/details/68950873
 */
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addBlog, userLogout } from "../store/actions";
-import { Row, Input, message, Button, Tag, Col, Icon } from "antd";
+import { Row, Input, message, Button, Tag, Icon, Upload } from "antd";
 import "antd/dist/antd.css";
 
 import * as untils from "../utils/commUtils.js";
@@ -81,19 +80,18 @@ class WriteBlog extends Component {
 
   //提交博客
   handleSubmit() {
-    const { markDownValue = "" } = this.state;
+    const { markDownValue = "", title } = this.state;
     //记录下原始文本，在blogAll列表中显示
     //todo:修改redux state结构 ，确定blog数据格式
     let user = JSON.parse(untils.getLocalStorage("user", 1000 * 60 * 60 * 24));
     console.log("userInfo", user.name, user.avatar);
-    // if (untils.delHtmlTag(markDownText).length < 2 || !this.state.title) {
-    //   // 博客内容部分用长度判断，issue：为什么 !untils.deHtmlTag(markDownText)无法实现
-    //   message.warning("title or content can not be null");
-    //   return;
-    // }
+    if (!markDownValue || !title) {
+      message.warning("title or content can not be null");
+      return;
+    }
     let postUrl = APIS.saveBlog.devUrl;
     let htmlValue = converter.makeHtml(markDownValue);
-    console.log(htmlValue, 1000);
+
     axios({
       method: "post",
       url: postUrl,
@@ -220,6 +218,61 @@ class WriteBlog extends Component {
                 onChange={this.setMarkDownValue}
               />
             </div>
+          </div>
+          <div>
+            <Upload
+              onChange={(info) => {
+                if (info.file.status !== "uploading") {
+                  console.log(info.file, info.fileList);
+                }
+                if (info.file.status === "done") {
+                  message.success(
+                    `${info.file.name} file uploaded successfully`
+                  );
+                } else if (info.file.status === "error") {
+                  message.error(`${info.file.name} file upload failed.`);
+                }
+              }}
+              beforeUpload={() => {
+                // 限制 jpeg格式
+                const isJPG = file.type === "image/jpeg";
+                if (!isJPG) {
+                  message.error("You can only upload JPG file!");
+                }
+                // 限制图片大小
+                const isLt2M = file.size / 1024 / 1024 < 5;
+                if (!isLt2M) {
+                  message.error("Image must smaller than 5MB!");
+                }
+
+                return isJPG && isLt2M;
+              }}
+              customRequest={(info) => {
+                const formData = new window.FormData();
+                formData.append("file", info.file, "cover.jpg");
+                console.log("custom request running");
+                console.log(info, 2433);
+                instanceAxios({
+                  method: "post",
+                  url: APIS.saveBlogImage.devUrl,
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+                  data: formData,
+                }).then((res) => {
+                  console.log(res.data[0], 25777);
+                  if (res.data[0]) {
+                  } else {
+                    console.log(res.data);
+                  }
+                });
+              }}
+              showUploadList={false}
+            >
+              <Button>
+                <Icon type="upload" /> Click to Upload
+              </Button>
+            </Upload>
           </div>
           <div className="wb-categories-wrapper">
             <strong>Categories:</strong>
