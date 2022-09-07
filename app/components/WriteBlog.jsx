@@ -13,10 +13,11 @@ import "antd/dist/antd.css";
 import * as untils from "../utils/commUtils.js";
 import { getLocalStorage } from "../utils/commUtils";
 import { TweenOneGroup } from "rc-tween-one";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import axios from "axios";
 import APIS from "../api/index";
+import { getToolBarConfig } from "./WriteBlog/editorConfig";
 
 require("../assets/styles/WriteBlog.css");
 let showdown = require("showdown");
@@ -216,6 +217,14 @@ class WriteBlog extends Component {
                 height={400}
                 value={markDownValue}
                 onChange={this.setMarkDownValue}
+                preview="live"
+                commands={getToolBarConfig()}
+                extraCommands={[
+                  commands.codeLive,
+                  commands.codeEdit,
+                  commands.codePreview,
+                  commands.fullscreen,
+                ]}
               />
             </div>
           </div>
