@@ -1,5 +1,5 @@
 import { commands } from "@uiw/react-md-editor";
-import { message, Button, Upload } from "antd";
+import { message, Button, Upload, notification } from "antd";
 
 import axios from "axios";
 import APIS from "../../api/index";
@@ -8,6 +8,26 @@ import APIS from "../../api/index";
 const instanceAxios = axios.create({
   withCredentials: true,
 });
+
+const openNotification = (imgPath) => {
+  const key = `open${Date.now()}`;
+  const btnClick = function () {
+    // to hide notification box
+    notification.close(key);
+  };
+  const btn = (
+    <Button type="primary" size="small" onClick={btnClick}>
+      Confirm
+    </Button>
+  );
+  notification.open({
+    message: "Upload Image successed!",
+    description: imgPath,
+    btn,
+    key,
+    onClose: close,
+  });
+};
 
 export const getToolBarConfig = () => {
   return [
@@ -76,7 +96,7 @@ export const getToolBarConfig = () => {
                 // 限制 jpeg格式
                 const isJPG = file.type === "image/jpeg";
                 // const isPNG = file.type === "image/png";
-                if (!isJPG || !isPNG) {
+                if (!isJPG) {
                   message.error("You can only upload JPG file!");
                 }
                 // 限制图片大小
@@ -89,11 +109,7 @@ export const getToolBarConfig = () => {
               }}
               customRequest={(info) => {
                 const formData = new window.FormData();
-                formData.append(
-                  "file",
-                  info.file,
-                  isJPG ? "cover.jpg" : "cover.png"
-                );
+                formData.append("file", info.file, "cover.jpg");
                 instanceAxios({
                   method: "post",
                   url: APIS.saveBlogImage.devUrl,
@@ -105,6 +121,7 @@ export const getToolBarConfig = () => {
                   .then((res) => {
                     console.log(res.data[0], 25777);
                     if (res.data[0]) {
+                      openNotification(res.data[0].imageUrl);
                     } else {
                       console.log(res.data);
                     }
