@@ -54,6 +54,7 @@
     "rc-tween-one": "^2.3.4",
     "react": "^16.6.3",
     "react-avatar-editor": "^11.0.4",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
