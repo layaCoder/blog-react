@@ -228,61 +228,7 @@ class WriteBlog extends Component {
               />
             </div>
           </div>
-          <div>
-            <Upload
-              onChange={(info) => {
-                if (info.file.status !== "uploading") {
-                  console.log(info.file, info.fileList);
-                }
-                if (info.file.status === "done") {
-                  message.success(
-                    `${info.file.name} file uploaded successfully`
-                  );
-                } else if (info.file.status === "error") {
-                  message.error(`${info.file.name} file upload failed.`);
-                }
-              }}
-              beforeUpload={() => {
-                // 限制 jpeg格式
-                const isJPG = file.type === "image/jpeg";
-                if (!isJPG) {
-                  message.error("You can only upload JPG file!");
-                }
-                // 限制图片大小
-                const isLt2M = file.size / 1024 / 1024 < 5;
-                if (!isLt2M) {
-                  message.error("Image must smaller than 5MB!");
-                }
 
-                return isJPG && isLt2M;
-              }}
-              customRequest={(info) => {
-                const formData = new window.FormData();
-                formData.append("file", info.file, "cover.jpg");
-                console.log("custom request running");
-                console.log(info, 2433);
-                instanceAxios({
-                  method: "post",
-                  url: APIS.saveBlogImage.devUrl,
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                  },
-                  data: formData,
-                }).then((res) => {
-                  console.log(res.data[0], 25777);
-                  if (res.data[0]) {
-                  } else {
-                    console.log(res.data);
-                  }
-                });
-              }}
-              showUploadList={false}
-            >
-              <Button>
-                <Icon type="upload" /> Click to Upload
-              </Button>
-            </Upload>
-          </div>
           <div className="wb-categories-wrapper">
             <strong>Categories:</strong>
             {tagsFromServer.map((tag) => (

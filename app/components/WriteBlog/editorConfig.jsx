@@ -1,5 +1,6 @@
 import { commands } from "@uiw/react-md-editor";
 import { message, Button, Upload, notification } from "antd";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import axios from "axios";
 import APIS from "../../api/index";
@@ -16,9 +17,16 @@ const openNotification = (imgPath) => {
     notification.close(key);
   };
   const btn = (
-    <Button type="primary" size="small" onClick={btnClick}>
-      Confirm
-    </Button>
+    <CopyToClipboard
+      text={imgPath}
+      onCopy={() => {
+        message.success("copy to clipboard successed");
+      }}
+    >
+      <Button type="primary" size="small" onClick={btnClick}>
+        Copy URL
+      </Button>
+    </CopyToClipboard>
   );
   notification.open({
     message: "Upload Image successed!",
@@ -95,9 +103,10 @@ export const getToolBarConfig = () => {
               beforeUpload={(file) => {
                 // 限制 jpeg格式
                 const isJPG = file.type === "image/jpeg";
+                const isPNG = file.type === "image/png";
                 // const isPNG = file.type === "image/png";
-                if (!isJPG) {
-                  message.error("You can only upload JPG file!");
+                if (!isJPG && !isPNG) {
+                  message.error("You can only upload JPG or PNG file!");
                 }
                 // 限制图片大小
                 const isLt2M = file.size / 1024 / 1024 < 5;
@@ -105,11 +114,16 @@ export const getToolBarConfig = () => {
                   message.error("Image must smaller than 5MB!");
                 }
 
-                return isJPG && isLt2M;
+                return (isJPG || isPNG) && isLt2M;
               }}
               customRequest={(info) => {
                 const formData = new window.FormData();
-                formData.append("file", info.file, "cover.jpg");
+                formData.append(
+                  "file",
+                  info.file,
+                  // isJPG ? "cover.jpg" : isPNG ? "cover.png" : "unknow"
+                  info.name
+                );
                 instanceAxios({
                   method: "post",
                   url: APIS.saveBlogImage.devUrl,
