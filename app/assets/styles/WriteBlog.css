@@ -15,5 +15,33 @@
 }
 
 .saveBtn{
-float: right
+   
+}
+
+.wb-title-wrapper{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.wb-markdown-wrapper{
+
+}
+
+.wb-categories-wrapper{
+    margin-top: 20px;
+}
+
+.wb-tags-wrapper{
+    margin-top: 15px;
+}
+
+.wb-contaier{
+    height: 100%;
+}
+
+.wb-save-btn-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-bottom: 25px;
 }
