@@ -66,10 +66,7 @@ module.exports = {
                         loader: "postcss-loader",
                         options: {
                             plugins: [
-                                require('autoprefixer')({
-                                    browsers: ['last 5 version']
-                                }),
-
+                                require('autoprefixer')
                             ]
                         }
                     }
@@ -84,9 +81,7 @@ module.exports = {
                         loader: "postcss-loader",//自动加前缀
                         options: {
                             plugins: [
-                                require('autoprefixer')({
-                                    browsers: ['last 5 version']
-                                })
+                                require('autoprefixer')
                             ]
                         }
                     },
@@ -105,13 +100,10 @@ module.exports = {
                         loader: "postcss-loader",
                         options: {
                             plugins: [
-                                require('autoprefixer')({
-                                    browsers: ['last 5 version']
-                                })
+                                require('autoprefixer')
                             ]
                         }
                     },
-
                 ]
             },
             // {

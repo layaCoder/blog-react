@@ -42,11 +42,11 @@ class BreadcrumbCustom extends Component {
         });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         //首次加载的时候调用，形成面包屑
         this.getPath();
     }
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
         //任何子页面发生改变，均可调用，完成路径切分以及形成面包屑
         this.getPath();
     }
