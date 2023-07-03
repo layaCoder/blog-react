@@ -17,8 +17,7 @@ export async function getData(url, data) {
 export async function postData(url, data) {
     try {
         let res = await axios.post(url, qs.stringify(data))
-        console.log(res, 2444)
-        if (!!res.data) return res
+        if (res?.data) return res
         else throw new Error(res.msg)
     } catch (err) {
         console.warn(err)
